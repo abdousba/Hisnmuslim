@@ -196,6 +196,35 @@
         #night-mode-button:hover {
             background-color: #f7fafc;
         }
+        /* أنماط جديدة للكلمات الشائعة */
+        .popular-searches {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .popular-search-tag {
+            padding: 0.5rem 1rem;
+            border-radius: 1.5rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: transform 0.2s, opacity 0.2s;
+            color: white;
+        }
+        .popular-search-tag:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+        .popular-search-tag:nth-child(1) { background-color: #3b82f6; }
+        .popular-search-tag:nth-child(2) { background-color: #10b981; }
+        .popular-search-tag:nth-child(3) { background-color: #f59e0b; }
+        .popular-search-tag:nth-child(4) { background-color: #ef4444; }
+        .popular-search-tag:nth-child(5) { background-color: #8b5cf6; }
+        .popular-search-tag:nth-child(6) { background-color: #ec4899; }
+        .dark .popular-search-tag {
+            color: white;
+        }
     </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900">
@@ -206,6 +235,19 @@
     </header>
 
     <main class="container mx-auto px-4 py-8">
+        <!-- إضافة قسم الكلمات الشائعة -->
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2 text-center arabic-text">الكلمات الأكثر بحثاً</h3>
+            <div class="popular-searches">
+                <div class="popular-search-tag" onclick="filterAzkar('الصباح')">أذكار الصباح</div>
+                <div class="popular-search-tag" onclick="filterAzkar('المساء')">أذكار المساء</div>
+                <div class="popular-search-tag" onclick="filterAzkar('النوم')">أذكار النوم</div>
+                <div class="popular-search-tag" onclick="filterAzkar('الاستيقاظ')">دعاء الاستيقاظ</div>
+                <div class="popular-search-tag" onclick="filterAzkar('الخوف')">دعاء الخوف</div>
+                <div class="popular-search-tag" onclick="filterAzkar('الكرب')">دعاء الكرب</div>
+            </div>
+        </div>
+        
         <div class="search-container">
             <input type="text" id="search" placeholder="ابحث في الأذكار..." class="search-input">
             <button id="search-button" class="search-button" aria-label="بحث">
@@ -272,7 +314,7 @@
             { title: "دعاء من أصابته مصيبة", content: "إنا لله وإنا إليه راجعون، اللهم أجرني في مصيبتي وأخلف لي خيراً منها", category: "أدعية متفرقة" },
             { title: "دعاء الاستخارة", content: "اللهم إني أستخيرك بعلمك، وأستقدرك بقدرتك، وأسألك من فضلك العظيم، فإنك تقدر ولا أقدر، وتعلم ولا أعلم، وأنت علام الغيوب...", category: "أدعية متفرقة" },
              { title: "الدعاء عند الفرح", content: "الحمد لله الذي بنعمته تتم الصالحات", category: "أدعية متفرقة" },
-            { title: "ما يقوله من أتاه أمر يسره أو يكرهه", content: "الحمد لله على كل حال", category: "أدعية متفرقة" },
+            { title: "ما يقوله من أتاه أمر يسره أو يكرهه", content: "الحمد لله على ��ل حال", category: "أدعية متفرقة" },
             { title: "دعاء الطعام", content: "بسم الله", category: "أدعية الطعام والشراب" },
             { title: "الدعاء بعد الطعام", content: "الحمد لله الذي أطعمني هذا ورزقنيه من غير حول مني ولا قوة", category: "أدعية الطعام والشراب" },
             { title: "دعاء الضيف لصاحب الطعام", content: "اللهم بارك لهم فيما رزقتهم، واغفر لهم وارحمهم", category: "أدعية الطعام والشراب" },
@@ -399,6 +441,7 @@
         }
 
         function filterAzkar(searchTerm) {
+            searchInput.value = searchTerm; // تعبئة مربع البحث بالكلمة المحددة
             const filteredAzkar = azkarList.filter(zekr => {
                 return zekr.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                        zekr.content.toLowerCase().includes(searchTerm.toLowerCase());
