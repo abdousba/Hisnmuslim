@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حصن المسلم</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Amiri', serif; /* الخط العربي الأساسي */
+            font-family: 'Open Sans', sans-serif; /* الخط اللاتيني الثانوي */
+        }
+        .arabic-text {
+            font-family: 'Amiri', serif;
+            line-height: 1.7; /* تحسين تباعد الأسطر للنص العربي */
+        }
+        .latin-text {
+            font-family: 'Open Sans', sans-serif;
+        }
+        /* تحسين التباعد الرأسي للعناوين والفقرات */
+        h1, h2, h3, h4, h5, h6 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-weight: bold;
+        }
+        p {
+            margin-bottom: 1rem;
+        }
+        .search-input {
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            display: block;
+            margin-bottom: 1.5rem;
+            font-family: 'Open Sans', sans-serif; /* استخدام الخط اللاتيني للبحث */
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: #3b82f6; /* لون التركيز الأزرق */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); /* ظل خفيف */
+        }
+        .copy-button, .share-button {
+            background-color: #e2e8f0; /* لون خلفية الأزرار */
+            color: #4a5568; /* لون النص */
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem; /* نصف قطر الحدود */
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease; /* انتقال اللون */
+            margin-left: 0.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem; /* مسافة بين الأيقونة والنص */
+        }
+        .copy-button:hover, .share-button:hover {
+            background-color: #3b82f6; /* لون الخلفية عند التحHover */
+            color: white; /* لون النص عند التحHover */
+        }
+        .icon {
+            width: 1rem; /* حجم الأيقونة */
+            height: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900">
+    <header class="bg-white dark:bg-gray-800 shadow-md py-4">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl font-bold text-gray-800 dark:text-white text-center arabic-text">حصن المسلم</h1>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <input type="text" id="search" placeholder="ابحث في الأذكار..." class="search-input">
+        <div id="results" class="mt-6">
+            </div>
+        <section id="azkar-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </section>
+    </main>
+
+    <footer class="bg-white dark:bg-gray-800 py-4 mt-8">
+        <div class="container mx-auto px-4 text-center text-gray-600 dark:text-gray-400">
+            <p class="arabic-text">نسخة إلكترونية من كتاب حصن المسلم. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script>
+       const azkarList = [
+            { title: "دعاء الاستيقاظ", content: "الحمد لله الذي أحيانا بعد ما أماتنا وإليه النشور" },
+            { title: "دعاء لبس الثوب", content: "اللهم إني أسألك خيره وخير ما هو له، وأعوذ بك من شره وشر ما هو له" },
+            { title: "دعاء دخول الخلاء", content: "بسم الله، اللهم إني أعوذ بك من الخبث والخبائث" },
+            { title: "دعاء الخروج من الخلاء", content: "غفرانك" },
+            { title: "دعاء قبل الوضوء", content: "بسم الله" },
+            { title: "دعاء بعد الوضوء", content: "أشهد أن لا إله إلا الله وحده لا شريك له، وأشهد أن محمداً عبده ورسوله، اللهم اجعلني من التوابين واجعلني من المتطهرين" },
+            { title: "دعاء الذهاب إلى المسجد", content: "اللهم اجعل في قلبي نوراً، وفي لساني نوراً، واجعل في سمعي نوراً، واجعل في بصري نوراً، واجعل من خلفي نوراً، ومن أمامي نوراً، واجعل من فوقي نوراً، ومن تحتي نوراً، اللهم أعطني نوراً" },
+            { title: "دعاء دخول المسجد", content: "أعوذ بالله العظيم وبوجهه الكريم وسلطانه القديم من الشيطان الرجيم، بسم الله والصلاة والسلام على رسول الله، اللهم افتح لي أبواب رحمتك" },
+            { title: "دعاء الخروج من المسجد", content: "بسم الله والصلاة والسلام على رسول الله، اللهم إني أسألك من فضلك" },
+            { title: "أذكار الصباح", content: "أصبحنا وأصبح الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير، رب أسألك خير ما في هذا اليوم وخير ما بعده، وأعوذ بك من شر ما في هذا اليوم وشر ما بعده، رب أعوذ بك من الكسل وسوء الكبر، رب أعوذ بك من عذاب في النار وعذاب في القبر" },
+            { title: "أذكار المساء", content: "أمسينا وأمسى الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير، رب أسألك خير ما في هذه الليلة وخير ما بعدها، وأعوذ بك من شر ما في هذه الليلة وشر ما بعدها، رب أعوذ بك من الكسل وسوء الكبر، رب أعوذ بك من عذاب في النار وعذاب في القبر" },
+            { title: "دعاء قبل النوم", content: "باسمك ربي وضعت جنبي وبك أرفعه، إن أمسكت نفسي فارحمها، وإن أرسلتها فاحفظها بما تحفظ به عبادك الصالحين" },
+             { title: "الدعاء إذا تقلب ليلاً", content: "لا إله إلا الله الواحد القهار، رب السماوات والأرض وما بينهما العزيز الغفار" },
+            { title: "دعاء القنوت", content: "اللهم اهدني فيمن هديت، وعافني فيمن عافيت، وتولني فيمن توليت، وبارك لي فيما أعطيت، وقني شر ما قضيت، فإنك تقضي ولا يقضى عليك، إنه لا يذل من واليت، ولا يعز من عاديت، تباركت ربنا وتعاليت" },
+            { title: "دعاء السفر", content: "الله أكبر، الله أكبر، الله أكبر، سبحان الذي سخر لنا هذا وما كنا له مقرنين، وإنا إلى ربنا لمنقلبون، اللهم إنا نسألك في سفرنا هذا البر والتقوى، ومن العمل ما ترضى، اللهم هون علينا سفرنا هذا واطو عنا بعده، اللهم أنت الصاحب في السفر، والخليفة في الأهل، اللهم إني أعوذ بك من وعثاء السفر، وكآبة المنظر، وسوء المنقلب في المال والأهل" },
+            { title: "دعاء دخول المنزل", content: "بسم الله ولجنا، وبسم الله خرجنا، وعلى الله ربنا توكلنا" },
+            { title: "دعاء الخروج من المنزل", content: "بسم الله توكلت على الله، لا حول ولا قوة إلا بالله" },
+            { title: "دعاء الركوب", content: "بسم الله، سبحان الذي سخر لنا هذا وما كنا له مقرنين، وإنا إلى ربنا لمنقلبون" },
+             { title: "دعاء دخول القرية أو البلدة", content: "اللهم بارك لنا فيها، اللهم ارزقنا جناها، وحببنا إلى أهلها، وحبب صالحي أهلها إلينا" },
+            { title: "دعاء السوق", content: "لا إله إلا الله وحده لا شريك له، له الملك وله الحمد، يحيي ويميت وهو حي لا يموت، بيده الخير كله، وهو على كل شيء قدير" },
+            { title: "دعاء للمريض", content: "بسم الله، اللهم اشف عبدك وابن أمتك" },
+            { title: "دعاء العزاء", content: "إنا لله وإنا إليه راجعون، اللهم أجرني في مصيبتي وأخلف لي خيراً منها" },
+            { title: "الدعاء عند المصيبة", content: "إنا لله وإنا إليه راجعون، اللهم أجرني في مصيبتي وأخلف لي خيراً منها" },
+            { title: "دعاء الريح", content: "اللهم إني أسألك خيرها، وخير ما فيها، وخير ما أرسلت به، وأعوذ بك من شرها، وشر ما فيها، وشر ما أرسلت به" },
+            { title: "دعاء المطر", content: "اللهم صيباً نافعاً" },
+            { title: "دعاء الرعد", content: "سبحان الذي يسبح الرعد بحمده والملائكة من خيفته" },
+            { title: "دعاء رؤية الهلال", content: "الله أكبر، اللهم أهله علينا بالأمن والإيمان، والسلامة والإسلام، والتوفيق لما تحب وترضى، ربنا وربك الله" },
+            { title: "دعاء الفزع", content: "أعوذ بكلمات الله التامات من غضبه وعقابه وشر عباده ومن همزات الشياطين وأن يحضرون" },
+            { title: "دعاء الكرب", content: "لا إله إلا الله العظيم الحليم، لا إله إلا الله رب العرش العظيم، لا إله إلا الله رب السماوات ورب الأرض ورب العرش الكريم" },
+            { title: "دعاء الهم والحزن", content: "اللهم إني عبدك ابن عبدك ابن أمتك، ناصيتي بيدك، ماض في حكمك، عدل في قضاؤك، أسألك بكل اسم هو لك سميت به نفسك، أو أنزلته في كتابك، أو علمته أحداً من خلقك، أو استأثرت به في علم الغيب عندك، أن تجعل القرآن ربيع قلبي، ونور صدري، وجلاء حزني، وذهاب همي" },
+            { title: "دعاء قضاء الدين", content: "اللهم اكفني بحلالك عن حرامك، وأغنني بفضلك عمن سواك" },
+            { title: "دعاء الوسوسة في الصلاة والقراءة", content: "أعوذ بالله من الشيطان الرجيم" },
+            { title: "دعاء من أصابته مصيبة", content: "إنا لله وإنا إليه راجعون، اللهم أجرني في مصيبتي وأخلف لي خيراً منها" },
+            { title: "دعاء الاستخارة", content: "اللهم إني أستخيرك بعلمك، وأستقدرك بقدرتك، وأسألك من فضلك العظيم، فإنك تقدر ولا أقدر، وتعلم ولا أعلم، وأنت علام الغيوب..." },
+             { title: "الدعاء عند الفرح", content: "الحمد لله الذي بنعمته تتم الصالحات" },
+            { title: "ما يقوله من أتاه أمر يسره أو يكرهه", content: "الحمد لله على كل حال" },
+            { title: "دعاء الطعام", content: "بسم الله" },
+            { title: "الدعاء بعد الطعام", content: "الحمد لله الذي أطعمني هذا ورزقنيه من غير حول مني ولا قوة" },
+             { title: "دعاء الضيف لصاحب الطعام", content: "اللهم بارك لهم فيما رزقتهم، واغفر لهم وارحمهم" },
+            { title: "الدعاء لمن سقاه أو أراد ذلك", content: "اللهم أطعم من أطعمني، واسق من سقاني" },
+            { title: "دعاء العطاس", content: "الحمد لله" },
+            { title: "تشميت العاطس", content: "يرحمك الله" },
+            { title: "دعاء المتزوج", content: "بارك الله لكما وبارك عليكما وجمع بينكما في خير" },
+            { title: "دعاء المولود", content: "بارك الله لك في الموهوب لك، وشكرت الواهب، وبلغ أشده، ورزقت بره" },
+            { title: "ما يقوله من رآى مبتلى", content: "الحمد لله الذي عافاني مما ابتلاك به، وفضلني على كثير ممن خلق تفضيلاً" },
+            { title: "دعاء الغضب", content: "أعوذ بالله من الشيطان الرجيم" },
+            { title: "الدعاء عند إفطار الصائم", content: "ذهب الظمأ وابتلت العروق وثبت الأجر إن شاء الله" },
+             { title: "دعاء ليلة القدر", content: "اللهم إنك عفو تحب العفو فاعف عني" },
+        ];
+
+        function displayAzkar(azkar) {
+            const azkarListContainer = document.getElementById("azkar-list");
+            azkarListContainer.innerHTML = ""; // Clear previous content
+
+            azkar.forEach(zekr => {
+                const zekrDiv = document.createElement("div");
+                zekrDiv.classList.add("bg-white", "dark:bg-gray-700", "rounded-lg", "shadow-md", "p-4", "flex", "flex-col", "justify-between");
+
+                const titleElement = document.createElement("h2");
+                titleElement.classList.add("text-xl", "font-semibold", "text-gray-800", "dark:text-white", "mb-2", "arabic-text");
+                titleElement.textContent = zekr.title;
+
+                const contentElement = document.createElement("p");
+                contentElement.classList.add("text-gray-700", "dark:text-gray-300", "leading-relaxed", "arabic-text");
+                contentElement.textContent = zekr.content;
+
+                const buttonContainer = document.createElement("div");
+                buttonContainer.classList.add("flex", "justify-end", "mt-4");
+
+                const copyButton = document.createElement("button");
+                copyButton.classList.add("copy-button");
+                copyButton.textContent = "نسخ";
+                 const copyIcon = document.createElement("i");
+                copyIcon.classList.add("fas", "fa-copy", "icon");
+                copyButton.prepend(copyIcon);
+
+
+                copyButton.addEventListener("click", () => {
+                    const textToCopy = `${zekr.title}\n${zekr.content}`;
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        alert("تم نسخ الذكر إلى الحافظة!"); // يمكن استبدالها بإشعار أفضل
+                    }).catch(err => {
+                        console.error('Failed to copy: ', err);
+                        alert("فشل نسخ الذكر!");
+                    });
+                });
+
+                const shareButton = document.createElement("button");
+                shareButton.classList.add("share-button");
+                shareButton.textContent = "مشاركة";
+                const shareIcon = document.createElement("i");
+                shareIcon.classList.add("fas", "fa-share", "icon");
+                shareButton.prepend(shareIcon);
+                shareButton.addEventListener("click", () => {
+                    if (navigator.share) {
+                        navigator.share({
+                            title: zekr.title,
+                            text: zekr.content,
+                        }).then(() => {
+                            console.log('Successful share');
+                        }).catch((error) => {
+                            console.log('Error sharing', error);
+                            alert("فشل مشاركة الذكر!");
+                        });
+                    } else {
+                        // Fallback for browsers that don't support the Web Share API
+                        const textToShare = `${zekr.title}\n${zekr.content}`;
+                        alert(`انسخ هذا النص وشاركه يدويًا:\n\n${textToShare}`);
+                    }
+                });
+
+                buttonContainer.appendChild(copyButton);
+                buttonContainer.appendChild(shareButton);
+
+                zekrDiv.appendChild(titleElement);
+                zekrDiv.appendChild(contentElement);
+                zekrDiv.appendChild(buttonContainer);
+
+                azkarListContainer.appendChild(zekrDiv);
+            });
+        }
+
+        function filterAzkar(searchTerm) {
+            const filteredAzkar = azkarList.filter(zekr => {
+                return zekr.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                       zekr.content.toLowerCase().includes(searchTerm.toLowerCase());
+            });
+            displayAzkar(filteredAzkar);
+        }
+
+        const searchInput = document.getElementById("search");
+        searchInput.addEventListener("input", (event) => {
+            filterAzkar(event.target.value);
+        });
+
+        // Initial display of all azkar
+        displayAzkar(azkarList);
+    </script>
+</body>
+</html>
