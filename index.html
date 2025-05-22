@@ -65,6 +65,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <style>
+    	
 
         /* Base font styles */
 
@@ -186,7 +187,7 @@
 
         .search-button:hover {
 
-            background-color: #f7fafc;
+            background-color: ##E8EBEC;
 
         }
 
@@ -194,9 +195,9 @@
 
         .copy-button, .share-button {
 
-            background-color: #e2e8f0;
+            background-color: #DBDBDB;
 
-            color: #4a5568;
+            color: #747474;
 
             padding: 0.5rem 1rem;
 
@@ -213,6 +214,8 @@
             align-items: center;
 
             gap: 0.5rem;
+            
+            font-size: 1rem;
 
         }
 
@@ -602,66 +605,6 @@
 
         }
 
-
-
-        /* Styles for Gharib Words (unfamiliar words) */
-
-        .gharib-word {
-
-            cursor: pointer;
-
-            text-decoration: underline dotted; /* Dotted underline to indicate clickability */
-
-            color: #3b82f6; /* Blue color for clickable words */
-
-        }
-
-        .dark .gharib-word {
-
-            color: #93c5fd; /* Lighter blue in dark mode */
-
-        }
-
-
-
-        /* Styles for the word explanation popup */
-
-        .word-explanation-popup {
-
-            display: none; /* Hidden by default */
-
-            position: absolute; /* Position relative to the clicked word */
-
-            background-color: #333;
-
-            color: white;
-
-            padding: 10px;
-
-            border-radius: 5px;
-
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-
-            z-index: 20; /* Above other content */
-
-            font-size: 0.9rem;
-
-            max-width: 200px;
-
-            text-align: center;
-
-            line-height: 1.4;
-
-            transform: translateX(-50%); /* Center horizontally relative to its left position */
-
-        }
-
-        .word-explanation-popup.dark {
-
-            background-color: #555;
-
-        }
-
     </style>
 
 </head>
@@ -672,7 +615,7 @@
 
         <div class="container mx-auto px-4">
 
-            <h1 class="text-3xl font-bold text-gray-800 dark:text-white text-center arabic-text">حصن المسلم</h1>
+            <h1 class="text-3xl font-bold text-gray-700 dark:text-white text-center arabic-text">﴿ حِصْنُ المُسْلِم ﴾</h1>
 
         </div>
 
@@ -683,8 +626,10 @@
     <main class="container mx-auto px-4 py-8">
 
         <div class="mb-6">
+        	<h3 class="text-lg font-semibold text-gray-600 dark:text-gray-300 mb-2 text-center arabic-text">﷽</h3>
+        	 <h3 class="text-lg font-semibold text-gray-600 dark:text-gray-300 mb-2 text-center arabic-text">أول خدمة جزائرية  لحصن المسلم متاح مجانا اونلاين</h3>
 
-            <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2 text-center arabic-text">الكلمات الأكثر بحثاً</h3>
+            <h4 class="text-1xl font-semibold text-gray-300 dark:text-light-gray-100 mb-2 text-center arabic-text">الكلمات الأكثر بحثاً</h4>
 
             <div class="popular-searches">
 
@@ -722,11 +667,13 @@
 
             </div>
 
-        <section id="azkar-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <section id="azkar-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-2xl">
 
-            <div class="col-span-full text-center text-gray-700 dark:text-gray-300 arabic-text p-8">
+       <div class="col-span-full text-center text-gray-200 dark:text-gray-300 arabic-text p-8 ">
+    </div>
 
                 <p>جاري تحميل الأذكار والأدعية...</p>
+                
 
                 <p>الرجاء الانتظار قليلاً.</p>
 
@@ -795,6 +742,64 @@
 
 
     <script>
+    	document.addEventListener('copy', function(e) {
+    // اللاحقة (النص الذي سيُضاف بعد النص المنسوخ)
+    // تم تحديث الرابط هنا
+    const suffix = ' 🔎✨ https://hisnmuslim.netlify.app/'; 
+
+    // الحصول على النص الذي قام المستخدم بنسخه
+    const selectedText = window.getSelection().toString();
+
+    // دمج النص الأصلي مع اللاحقة الجديدة
+    const newText = selectedText + suffix;
+
+    // منع عملية النسخ الافتراضية
+    e.preventDefault();
+
+    // وضع النص المعدّل في الحافظة
+    if (e.clipboardData) {
+        e.clipboardData.setData('text/plain', newText);
+    }
+});
+
+// هذا الجزء يخص زر المشاركة، إذا كان لديك واحد في صفحتك
+// تأكد من أن لديك زر في HTML يحمل الكلاس 'share-button'
+const shareButton = document.querySelector('.share-button');
+
+if (shareButton) {
+    shareButton.addEventListener('click', async () => {
+        // الرسالة التي ستظهر عند المشاركة عبر تطبيقات التواصل
+        // تم تحديث الرابط هنا
+        const textToShare = "نص للمشاركة من موقعي" + ' 🔎✨ https://hisnmuslim.netlify.app/'; 
+        const titleToShare = "حصن المسلم"; // يمكنك تغيير هذا العنوان
+        const urlToShare = "https://hisnmuslim.netlify.app/"; // رابط موقعك الفعلي
+
+        // التحقق مما إذا كان المتصفح يدعم Web Share API
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: titleToShare,
+                    text: textToShare,
+                    url: urlToShare,
+                });
+                console.log('تمت مشاركة المحتوى بنجاح');
+            } catch (error) {
+                console.error('حدث خطأ أثناء المشاركة:', error);
+            }
+        } else {
+            // حل بديل للمتصفحات التي لا تدعم Web Share API
+            // يمكنك تغيير رسالة التنبيه هذه
+            alert('واجهة برمجة تطبيقات المشاركة غير مدعومة في متصفحك. يرجى نسخ النص يدوياً: ' + textToShare);
+            
+            // محاولة نسخ النص إلى الحافظة كحل بديل
+            navigator.clipboard.writeText(textToShare).then(() => {
+                console.log('تم نسخ النص إلى الحافظة كحل بديل.');
+            }).catch(err => {
+                console.error('تعذر نسخ النص:', err);
+            });
+        }
+    });
+}
 
         // Array containing all Azkar (supplications) data
 
