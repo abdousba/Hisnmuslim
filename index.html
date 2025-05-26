@@ -21,969 +21,1456 @@
         }
     }
     </script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-867BEDX0FY"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-867BEDX0FY');
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        /* أنماط الخط الأساسية */
+        /* Apply Amiri font globally and set default text direction to RTL */
         body {
             font-family: 'Amiri', serif;
-            font-family: 'Open Sans', sans-serif; /* Open Sans يستخدم كخط احتياطي/عام للنص */
+            direction: rtl;
+            text-align: right;
+            background-color: #f8f8f8; /* Very light gray background for day mode */
+            color: #333; /* Dark text for day mode */
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
-        /* أنماط خاصة بالنص العربي، لضمان ارتفاع السطر المناسب */
-        .arabic-text {
-            font-family: 'Amiri', serif;
-            line-height: 1.7;
+
+        /* Dark mode styles */
+        .dark body {
+            background-color: #1a202c; /* Dark background for night mode */
+            color: #e2e8f0; /* Light text for night mode */
         }
-        /* أنماط خاصة بالنص اللاتيني */
-        .latin-text {
-            font-family: 'Open Sans', sans-serif;
+
+        /* Specific styles for elements in dark mode */
+        .dark .bg-white {
+            background-color: #2d3748;
         }
-        /* أنماط العناوين */
-        h1, h2, h3, h4, h5, h6 {
-            margin-top: 1.5rem;
-            margin-bottom: 0.75rem;
-            font-weight: bold;
+        .dark .text-gray-800 {
+            color: #e2e8f0;
         }
-        /* تباعد الفقرات */
-        p {
-            margin-bottom: 1rem;
+        .dark .border-gray-200 {
+            border-color: #4a5568;
         }
-        /* تخطيط حاوية شريط البحث */
-        .search-container {
+        .dark .shadow-md {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+        }
+        .dark .hover\:bg-gray-100:hover {
+            background-color: #4a5568;
+        }
+        .dark .focus\:ring-blue-500:focus {
+            --tw-ring-color: #63b3ed;
+        }
+        .dark .placeholder-gray-500::placeholder {
+            color: #a0aec0;
+        }
+        .dark .bg-gray-50 {
+            background-color: #2d3748;
+        }
+        .dark .text-gray-700 {
+            color: #e2e8f0;
+        }
+        .dark .text-gray-600 {
+            color: #cbd5e0;
+        }
+        .dark .bg-blue-100 {
+            background-color: #2c5282;
+        }
+        .dark .text-blue-800 {
+            color: #90cdf4;
+        }
+        .dark .bg-green-100 {
+            background-color: #2f855a;
+        }
+        .dark .text-green-800 {
+            color: #68d391;
+        }
+        .dark .bg-purple-100 {
+            background-color: #553c9a;
+        }
+        .dark .text-purple-800 {
+            color: #b794f4;
+        }
+        .dark .bg-yellow-100 {
+            background-color: #975a16;
+        }
+        .dark .text-yellow-800 {
+            color: #f6ad55;
+        }
+        .dark .bg-pink-100 {
+            background-color: #822727;
+        }
+        .dark .text-pink-800 {
+            color: #feb2b2;
+        }
+        .dark .bg-teal-100 {
+            background-color: #2c7a7b;
+        }
+        .dark .text-teal-800 {
+            color: #81e6d9;
+        }
+        .dark .bg-indigo-100 {
+            background-color: #3f51b5;
+        }
+        .dark .text-indigo-800 {
+            color: #a3bffa;
+        }
+        .dark .bg-red-100 {
+            background-color: #9b2c2c;
+        }
+        .dark .text-red-800 {
+            color: #fc8181;
+        }
+
+        /* Floating buttons and dropdown */
+        .floating-btn {
+            width: 2.5rem; /* Smaller size */
+            height: 2.5rem; /* Smaller size */
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1.5rem;
-        }
-        /* تصميم حقل إدخال البحث */
-        .search-input {
-            border-radius: 0.5rem 0 0 0.5rem; /* زوايا مستديرة على اليسار */
-            padding: 0.75rem;
-            border: 1px solid #e2e8f0;
-            width: 100%;
-            max-width: 400px;
-            font-family: 'Open Sans', sans-serif;
-            outline: none; /* إزالة التحديد الافتراضي */
-        }
-        /* حالة التركيز لحقل البحث */
-        .search-input:focus {
-            border-color: #3b82f6; /* إطار أزرق عند التركيز */
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); /* ظل أزرق فاتح عند التركيز */
-        }
-        /* تصميم زر البحث */
-        .search-button {
-            background-color: #fff;
-            border-radius: 0 0.5rem 0.5rem 0; /* زوايا مستديرة على اليمين */
-            padding: 0.75rem;
-            border: 1px solid #e2e8f0;
-            border-left: none; /* إزالة الإطار الأيسر للاندماج مع الإدخال */
+            border-radius: 9999px; /* Full rounded */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            color: #4a5568;
+            transition: background-color 0.2s ease, transform 0.2s ease;
         }
-        /* حالة التحويم لزر البحث */
-        .search-button:hover {
-            background-color: ##E8EBEC;
+        .floating-btn:hover {
+            transform: scale(1.05);
         }
-        /* تصميم أزرار النسخ والمشاركة */
-        .copy-button, .share-button {
-            background-color: #DBDBDB;
-            color: #747474;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            margin-left: 0.5rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1rem;
+        .floating-btn i {
+            font-size: 1.125rem; /* text-lg, slightly smaller than text-xl */
         }
-        /* حالة التحويم لأزرار النسخ والمشاركة */
-        .copy-button:hover, .share-button:hover {
-            background-color: #3b82f6;
-            color: white;
-        }
-        /* حجم الأيقونات للأزرار */
-        .icon {
-            width: 1rem;
-            height: 1rem;
-        }
-        /* الموضع الثابت لزر الفهرس */
-        #index-button {
+
+
+        /* Container for top-left floating buttons: Day/Night Toggle, Bookmark, and Menu */
+        #top-left-controls {
             position: fixed;
             top: 1rem;
-            right: 1rem;
-            background-color: #fff;
-            color: #4a5568;
-            padding: 0.5rem;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            z-index: 10;
-            border: 1px solid #e2e8f0;
+            left: 1rem; /* Moved to left */
+            display: flex; /* Use flexbox to arrange children side-by-side */
+            gap: 0.75rem; /* Slightly smaller gap */
+            z-index: 1000; /* Ensure it stays on top */
+        }
+
+        /* Day/Night toggle colors */
+        #day-night-toggle {
+            background-color: #cbd5e0; /* Light gray for day mode toggle */
+            color: #4a5568; /* Dark gray icon */
+        }
+        .dark #day-night-toggle {
+            background-color: #4a5568; /* Dark gray for night mode toggle */
+            color: #e2e8f0; /* Light icon */
+        }
+
+        /* Bookmark button colors */
+        #bookmark-btn {
+            background-color: #a0aec0; /* Medium gray for bookmark */
+            color: #fff;
+        }
+        .dark #bookmark-btn {
+            background-color: #636b77;
+            color: #e2e8f0;
+        }
+        /* Bookmark count badge */
+        #bookmark-count {
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform: translate(50%, -50%); /* Adjust position to be outside the button */
+            min-width: 1.5rem; /* Ensure it's wide enough for two digits */
+            height: 1.5rem;
             display: flex;
             align-items: center;
+            justify-content: center;
+            padding: 0.25rem;
+            font-size: 0.75rem; /* text-xs */
+            font-weight: bold;
+            line-height: 1;
+            color: #fff;
+            background-color: #ef4444; /* Red color */
+            border-radius: 9999px; /* Full rounded */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
         }
-        /* حالة التحويم لزر الفهرس */
-        #index-button:hover {
-            background-color: #f7fafc;
+        #bookmark-count.hidden {
+            display: none;
         }
-        /* تصميم حاوية الفهرس (شريط جانبي/نافذة منبثقة) */
-        #index-container {
-            position: fixed;
-            top: 4rem;
+
+        /* Back to top button - bottom right */
+        #back-to-top-btn {
+            position: fixed; /* Added position fixed */
+            bottom: 1rem;
             right: 1rem;
-            background-color: #fff;
-            border-radius: 0.375rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            z-index: 10;
-            width: 250px;
-            max-height: calc(100vh - 5rem); /* تحديد الارتفاع بحجم عرض الشاشة */
-            overflow-y: auto; /* تمكين التمرير للقوائم الطويلة */
-            padding: 0.5rem;
-            display: none; /* مخفي افتراضياً */
-            border: 1px solid #e2e8f0;
+            background-color: #6366f1; /* Indigo 500 */
+            color: #fff;
+            opacity: 0; /* Hidden by default */
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 1000; /* Ensure it stays on top */
         }
-        /* فئة لإظهار حاوية الفهرس */
-        #index-container.open {
+        #back-to-top-btn.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+
+        #right-dropdown {
+            position: fixed;
+            top: 1rem; /* Adjusted to be below the top-right controls */
+            right: 1rem;
+            width: 250px; /* Wider for categories */
+            background-color: #fff;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: none; /* Hidden by default */
+            max-height: 90vh; /* Limit height */
+            overflow-y: auto; /* Scroll if content overflows */
+        }
+        .dark #right-dropdown {
+            background-color: #2d3748;
+        }
+
+        #right-dropdown.open {
             display: block;
         }
-        /* تصميم عناصر قائمة الفهرس */
-        #index-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        #index-list li {
-            padding: 0.5rem;
-            cursor: pointer;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        #index-list li:last-child {
-            border-bottom: none; /* لا يوجد إطار للعنصر الأخير */
-        }
-        /* حالة التحويم لعناصر قائمة الفهرس */
-        #index-list li:hover {
-            background-color: #f7fafc;
-        }
-        /* أنماط الوضع الليلي */
-        .dark .bg-gray-100 { background-color: #1a202c; }
-        .dark .bg-white { background-color: #2d3748; }
-        .dark .text-gray-800 { color: #f7fafc; }
-        .dark .text-gray-600 { color: #cbd5e0; }
-        .dark .text-gray-700 { color: #e2e8f0; }
-        .dark .dark\:bg-gray-800 { background-color: #2d3748; }
-        .dark .dark\:text-white{ color: #fff; }
-        .dark .dark\:bg-gray-700{ background-color: #4a5568; }
-        .dark #search{
-            background-color: #2d3748;
-            border-color: #4a5568;
-            color: #fff;
-        }
-        .dark #search:focus{
-             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-        }
-        /* الموضع الثابت لزر الوضع الليلي */
-        #night-mode-button {
-            position: fixed;
-            top: 1rem;
-            left: 1rem;
-            background-color: #fff;
-            color: #4a5568;
-            padding: 0.5rem;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            z-index: 10;
-            border: 1px solid #e2e8f0;
+
+        /* Dhikr card button styles */
+        .dhikr-card-btn {
             display: flex;
             align-items: center;
-        }
-        /* حالة التحويم لزر الوضع الليلي */
-        #night-mode-button:hover {
-            background-color: #f7fafc;
-        }
-        /* أنماط علامات البحث الشائعة */
-        .popular-searches {
-            display: flex;
-            flex-wrap: wrap;
             justify-content: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 9999px;
+            background-color: #edf2f7; /* Light gray */
+            color: #4a5568; /* Dark gray icon */
+            transition: background-color 0.2s ease;
         }
-        .popular-search-tag {
-            padding: 0.5rem 1rem;
-            border-radius: 1.5rem;
-            cursor: pointer;
-            font-size: 0.875rem;
-            transition: transform 0.2s, opacity 0.2s;
-            color: white;
-            white-space: nowrap; /* منع التفاف النص */
+        .dhikr-card-btn:hover {
+            background-color: #e2e8f0;
         }
-        .popular-search-tag:hover {
-            transform: translateY(-2px);
-            opacity: 0.9;
-        }
-        /* ألوان محددة لعلامات البحث الشائعة */
-        .popular-search-tag:nth-child(1) { background-color: #3b82f6; } /* أزرق */
-        .popular-search-tag:nth-child(2) { background-color: #10b981; } /* أخضر */
-        .popular-search-tag:nth-child(3) { background-color: #f59e0b; } /* كهرماني */
-        .popular-search-tag:nth-child(4) { background-color: #ef4444; } /* أحمر */
-        .popular-search-tag:nth-child(5) { background-color: #8b5cf6; } /* بنفسجي */
-        .popular-search-tag:nth-child(6) { background-color: #ec4899; } /* وردي */
-        .dark .popular-search-tag {
-            color: white;
-        }
-
-        /* أنماط النافذة المنبثقة المخصصة */
-        .modal {
-            display: none; /* مخفي افتراضياً */
-            position: fixed; /* يبقى في مكانه */
-            z-index: 100; /* يظهر فوق كل شيء */
-            left: 0;
-            top: 0;
-            width: 100%; /* عرض كامل */
-            height: 100%; /* ارتفاع كامل */
-            overflow: auto; /* تمكين التمرير إذا لزم الأمر */
-            background-color: rgba(0,0,0,0.4); /* أسود مع شفافية */
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%; /* يمكن أن يكون أكثر استجابة */
-            max-width: 400px;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            text-align: center;
-            position: relative;
-        }
-
-        .modal-content.dark {
-            background-color: #2d3748;
-            color: #fff;
-            border-color: #4a5568;
-        }
-
-        .modal-close-button {
-            color: #aaa;
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .modal-close-button:hover,
-        .modal-close-button:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .modal-content.dark .modal-close-button {
-            color: #ccc;
-        }
-        .modal-content.dark .modal-close-button:hover,
-        .modal-content.dark .modal-close-button:focus {
-            color: white;
-        }
-
-        /* أنماط النافذة المنبثقة لشرح الكلمات */
-        .word-explanation-popup {
-            position: absolute;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            display: none;
-            z-index: 50;
-            transform: translateX(-50%); /* للمحاذاة الأفقية */
-            white-space: nowrap; /* منع التفاف النص */
-            font-size: 0.9rem;
-            color: #333;
-        }
-
-        .word-explanation-popup.dark {
-            background-color: #2d3748;
+        .dark .dhikr-card-btn {
+            background-color: #4a5568;
             color: #e2e8f0;
-            border-color: #4a5568;
+        }
+        .dark .dhikr-card-btn:hover {
+            background-color: #636b77;
         }
 
-        .gharib-word {
-            cursor: help;
-            border-bottom: 1px dotted #3b82f6;
-            color: #3b82f6;
+        /* Adjusted spacing for dhikr card buttons */
+        .dhikr-card .flex {
+            justify-content: space-evenly; /* Distribute space more evenly */
+            gap: 0.5rem; /* Add a small gap between buttons */
         }
 
-        .dark .gharib-word {
-            color: #63b3ed;
-            border-bottom-color: #63b3ed;
+        /* Style for bookmarked dhikr cards */
+        .dhikr-card.bookmarked {
+            background-color: #fffacd; /* Light yellow */
+            border-color: #f0e68c; /* Darker yellow border */
+        }
+        .dark .dhikr-card.bookmarked {
+            background-color: #4a4020; /* Darker yellow for dark mode */
+            border-color: #8b8000;
         }
 
-        /* أنماط بطاقة ذكر اليوم */
-        #daily-zekr-card {
+        /* Modal styles */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001; /* Above floating buttons */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: #fff;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+        .modal.open .modal-content {
+            transform: translateY(0);
+        }
+        .dark .modal-content {
+            background-color: #2d3748;
+        }
+         .bookmarked-dhikr-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f0f4f8; /* Light gray for modal items */
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e2e8f0;
+            transition: background-color 0.2s ease;
+        }
+        .dark .bookmarked-dhikr-item {
+            background-color: #4a5568;
+            border-color: #636b77;
+        }
+        .bookmarked-dhikr-item:hover {
+            background-color: #e2e8f0;
+        }
+        .dark .bookmarked-dhikr-item:hover {
+            background-color: #636b77;
+        }
+        .bookmarked-dhikr-item .dhikr-info {
+            flex-grow: 1;
+            margin-right: 1rem; /* Space between text and button */
+        }
+        .bookmarked-dhikr-item .delete-bookmark-btn {
+            background-color: #ef4444; /* Red */
+            color: #fff;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .bookmarked-dhikr-item .delete-bookmark-btn:hover {
+            background-color: #dc2626; /* Darker red */
+        }
+
+        /* Styles for active category/source filter button */
+        .category-filter.active, .source-filter.active {
+            background-color: #3b82f6; /* Blue 500 */
+            color: #ffffff; /* White text */
+            font-weight: bold;
+        }
+        .dark .category-filter.active, .dark .source-filter.active {
+            background-color: #1d4ed8; /* Darker blue for dark mode */
+            color: #ffffff;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #3b82f6; /* Blue spinner */
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        .dark .spinner {
+            border-color: rgba(255, 255, 255, 0.2);
+            border-left-color: #63b3ed; /* Lighter blue for dark mode */
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Dhikr of the Day Card specific styling for background image */
+        #dhikr-of-the-day-card {
             background-size: cover;
             background-position: center;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
-            color: white; /* لون النص ليتناسب مع الخلفية */
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* ظل للنص لتحسين القراءة */
-            min-height: 150px; /* لتوفير مساحة كافية للمحتوى */
+            color: #fff; /* Ensure text is white for better contrast on images */
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Add text shadow for readability */
+            min-height: 200px; /* Ensure card has some height */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            position: relative; /* للسماح بالتراكب */
-            overflow: hidden; /* لإخفاء أي جزء زائد من الصورة */
         }
-
-        #daily-zekr-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.3); /* تراكب داكن لجعل النص أكثر قابلية للقراءة */
-            z-index: 1;
+        #dhikr-of-the-day-card h3,
+        #dhikr-of-the-day-card p {
+            color: #fff !important; /* Override Tailwind text colors for white text */
         }
-
-        #daily-zekr-card > * {
-            position: relative;
-            z-index: 2;
-        }
-
-        #daily-zekr-card h2 {
-            font-size: 1.75rem;
-            font-weight: bold;
-            margin-bottom: 0.75rem;
-        }
-
-        #daily-zekr-card p {
-            font-size: 1.25rem;
-            line-height: 1.6;
+        .dark #dhikr-of-the-day-card {
+            /* No specific dark mode background image, rely on light image with text shadow */
         }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900">
-    <header class="bg-white dark:bg-gray-800 shadow-md py-4">
-        <div class="container mx-auto px-4">
-            <h1 class="text-3xl font-bold text-gray-700 dark:text-white text-center arabic-text">﴿ حِصْنُ المُسْلِم ﴾</h1>
-        </div>
-    </header>
+<body class="p-4 sm:p-6 md:p-8 lg:p-10">
 
-    <main class="container mx-auto px-4 py-8">
-        <div class="mb-6">
-            <h3 class="text-lg font-semibold text-gray-600 dark:text-gray-300 mb-2 text-center arabic-text">﷽</h3>
-            <h3 class="text-lg font-semibold text-gray-600 dark:text-gray-300 mb-2 text-center arabic-text">أول خدمة جزائرية لحصن المسلم متاح مجانا اونلاين</h3>
-
-            <h4 class="text-1xl font-semibold text-gray-300 dark:text-light-gray-100 mb-2 text-center arabic-text">الكلمات الأكثر بحثاً</h4>
-            <div class="popular-searches">
-                <div class="popular-search-tag" onclick="filterAzkar('الصباح')">أذكار الصباح</div>
-                <div class="popular-search-tag" onclick="filterAzkar('المساء')">أذكار المساء</div>
-                <div class="popular-search-tag" onclick="filterAzkar('النوم')">أذكار النوم</div>
-                <div class="popular-search-tag" onclick="filterAzkar('الاستيقاظ')">دعاء الاستيقاظ</div>
-                <div class="popular-search-tag" onclick="filterAzkar('الخوف')">دعاء الخوف</div>
-                <div class="popular-search-tag" onclick="filterAzkar('الكرب')">دعاء الكرب</div>
-            </div>
+    <div id="top-left-controls" class="flex gap-3">
+        <div id="day-night-toggle" class="floating-btn">
+            <i class="fas fa-moon" id="day-night-icon"></i>
         </div>
 
-        <div class="search-container">
-            <input type="text" id="search" placeholder="ابحث في الأذكار..." class="search-input">
-            <button id="search-button" class="search-button" aria-label="بحث">
-                <i class="fas fa-search"></i>
+        <div id="bookmark-btn" class="floating-btn relative">
+            <i class="fas fa-bookmark"></i>
+            <span id="bookmark-count" class="hidden">0</span>
+        </div>
+
+        <div id="open-dropdown" class="floating-btn">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+
+    <div id="back-to-top-btn" class="floating-btn">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <div id="right-dropdown" class="p-4">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-bold">التصنيفات</h3>
+            <button id="close-dropdown" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                <i class="fas fa-times text-xl"></i>
             </button>
         </div>
+        <ul id="category-list" class="space-y-2">
+            </ul>
 
-        <div id="daily-zekr-card" class="arabic-text">
-            <h2 id="daily-zekr-title">ذكر اليوم</h2>
-            <p id="daily-zekr-content">جاري تحميل ذكر اليوم...</p>
+        <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <h3 class="text-lg font-bold">المصادر</h3>
+            <ul id="source-list" class="space-y-2">
+                </ul>
         </div>
-        
-        <div id="results" class="mt-6"></div>
-        <section id="azkar-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-2xl">
-            <div class="col-span-full text-center text-gray-200 dark:text-gray-300 arabic-text p-8 ">
-                <p>جاري تحميل الأذكار والأدعية...</p>
-                <p>الرجاء الانتظار قليلاً.</p>
+    </div>
+
+
+    <header class="text-center mb-8 mt-20"> <h1 class="text-4xl font-bold text-gray-800 dark:text-gray-200 border-2 border-gray-400 dark:border-gray-600 p-2 rounded-lg inline-block">حصن المسلم</h1>
+        <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">أذكار وأدعية من القرآن والسنة</p>
+    </header>
+
+    <section class="mb-8">
+        <h2 class="text-xl font-semibold mb-4 text-gray-500 dark:text-gray-400 text-center">ذكر اليوم</h2>
+        <div id="dhikr-of-the-day-card" class="relative rounded-lg shadow-lg p-6 text-center">
+            <h3 id="dhikr-of-the-day-title" class="text-2xl font-bold mb-3"></h3>
+            <p id="dhikr-of-the-day-text" class="text-lg leading-relaxed mb-2"></p>
+            <p id="dhikr-of-the-day-source" class="text-sm italic"></p>
+            <div class="flex justify-center gap-4 mt-4">
+                <button id="share-dhikr-image-btn" class="px-4 py-2 rounded-full bg-white text-gray-800 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center gap-2">
+                    <i class="fas fa-image"></i>
+                    <span>مشاركة كصورة</span>
+                </button>
+                <button id="share-dhikr-text-btn" class="px-4 py-2 rounded-full bg-white text-gray-800 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center gap-2">
+                    <i class="fas fa-share-alt"></i>
+                    <span>مشاركة كنص</span>
+                </button>
             </div>
+        </div>
+    </section>
+
+    <section class="mb-8">
+        <h2 class="text-xl font-semibold mb-4 text-gray-500 dark:text-gray-400 text-center">الكلمات الأكثر بحثًا</h2>
+        <div id="most-searched-buttons" class="flex flex-wrap gap-3 justify-center">
+            <button class="px-4 py-2 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100 hover:bg-blue-200 dark:hover:bg-blue-700 transition">الصباح</button>
+            <button class="px-4 py-2 rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100 hover:bg-green-200 dark:hover:bg-green-700 transition">المساء</button>
+            <button class="px-4 py-2 rounded-full bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-100 hover:bg-purple-200 dark:hover:bg-purple-700 transition">النوم</button>
+            <button class="px-4 py-2 rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100 hover:bg-yellow-200 dark:hover:bg-yellow-700 transition">الصلاة</button>
+            <button class="px-4 py-2 rounded-full bg-pink-100 text-pink-800 dark:bg-pink-800 dark:text-pink-100 hover:bg-pink-200 dark:hover:bg-pink-700 transition">الاستخارة</button>
+            <button class="px-4 py-2 rounded-full bg-teal-100 text-teal-800 dark:bg-teal-800 dark:text-teal-100 hover:bg-teal-200 dark:hover:bg-teal-700 transition">السفر</button>
+            <button class="px-4 py-2 rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-800 dark:text-indigo-100 hover:bg-indigo-200 dark:hover:bg-indigo-700 transition">الهم</button>
+            <button class="px-4 py-2 rounded-full bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100 hover:bg-red-200 dark:hover:bg-red-700 transition">الرزق</button>
+        </div>
+    </section>
+
+    <section class="mb-8">
+        <div class="relative max-w-2xl mx-auto">
+            <input type="text" id="search-input" placeholder="ابحث عن ذكر أو دعاء..."
+                   class="w-full p-3 pr-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <i class="fas fa-search text-gray-400 dark:text-gray-500"></i>
+            </div>
+        </div>
+    </section>
+
+    <section id="dhikr-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         </section>
-    </main>
 
-    <footer class="bg-white dark:bg-gray-800 py-4 mt-8">
-        <div class="container mx-auto px-4 text-center text-gray-600 dark:text-gray-400">
-            <p class="arabic-text">نسخة إلكترونية من كتاب حصن المسلم. جميع الحقوق محفوظة.</p>
-        </div>
-    </footer>
-
-    <button id="index-button" aria-label="عرض الفهرس">
-        <i class="fas fa-list-ul"></i>
-    </button>
-    <div id="index-container">
-        <ul id="index-list"></ul>
+    <div id="pagination-controls" class="flex justify-center items-center gap-4 mt-8 mb-4">
+        <button id="prev-page-btn" class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+            السابق
+        </button>
+        <span id="page-info" class="text-lg font-semibold text-gray-700 dark:text-gray-300">
+            الصفحة 1 من 1
+        </span>
+        <button id="next-page-btn" class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+            التالي
+        </button>
     </div>
-    <button id="night-mode-button" aria-label="تبديل الوضع الليلي">
-        <i class="fas fa-sun" id="night-mode-icon"></i>
-    </button>
 
-    <div id="custom-modal" class="modal">
+    <div id="bookmark-modal" class="modal">
         <div class="modal-content">
-            <span class="modal-close-button">&times;</span>
-            <p id="modal-message"></p>
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100">الأذكار المفضلة</h3>
+                <button id="close-bookmark-modal" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div id="bookmarked-dhikr-list" class="space-y-4">
+                <p class="text-gray-600 dark:text-gray-400 text-center" id="no-bookmarks-message">لا توجد أذكار مفضلة بعد.</p>
+            </div>
         </div>
     </div>
 
-    <div id="word-explanation-popup" class="word-explanation-popup">
-        <p id="popup-text"></p>
+    <div id="custom-alert-modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100" id="custom-alert-title">تنبيه</h3>
+                <button id="close-custom-alert-modal" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <p id="custom-alert-message" class="text-gray-700 dark:text-gray-300 mb-4"></p>
+            <div class="flex justify-end">
+                <button id="custom-alert-ok-btn" class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition">موافق</button>
+            </div>
+        </div>
     </div>
+
+    <div id="explanation-modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100" id="explanation-title">شرح الذكر</h3>
+                <button id="close-explanation-modal" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div id="explanation-content" class="text-gray-700 dark:text-gray-300 text-lg leading-relaxed mb-4">
+                <div class="flex justify-center items-center h-24" id="explanation-loading-spinner">
+                    <div class="spinner"></div>
+                    <p class="text-gray-500 dark:text-gray-400 mr-3">جارٍ تحميل الشرح...</p>
+                </div>
+                <p id="explanation-text" class="hidden"></p>
+            </div>
+            <div class="flex justify-end">
+                <button id="explanation-ok-btn" class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition">موافق</button>
+            </div>
+        </div>
+    </div>
+
 
     <script>
-        // مصفوفة تحتوي على جميع بيانات الأذكار
-        const azkarList = [
-            // الأذكار اليومية
-            { title: "دعاء الاستيقاظ", content: "الحمد لله الذي أحيانا بعد ما أماتنا وإليه النشور", category: "الأذكار اليومية" },
-            { title: "دعاء لبس الثوب", content: "اللهم إني أسألك خيره وخير ما هو له، وأعوذ بك من شره وشر ما هو له", category: "الأذكار اليومية" },
-            { title: "دعاء دخول الخلاء", content: "بسم الله، اللهم إني أعوذ بك من الخبث والخبائث", category: "الأذكار اليومية" },
-            { title: "دعاء الخروج من الخلاء", content: "غفرانك", category: "الأذكار اليومية" },
+        let bookmarkedDhikrIds = new Set(); // Store IDs of bookmarked dhikr for quick lookup
+        let bookmarkedDhikrFullData = []; // Store full data for display in modal
 
-            // الوضوء
-            { title: "دعاء قبل الوضوء", content: "بسم الله", category: "الوضوء" },
-            { title: "دعاء بعد الوضوء", content: "أشهد أن لا إله إلا الله وحده لا شريك له، وأشهد أن محمداً عبده ورسوله، اللهم اجعلني من التوابين واجعلني من المتطهرين", category: "الوضوء" },
+        // Global filter states
+        let currentCategoryFilter = 'all';
+        let currentSourceFilter = 'all';
+        let currentSearchTerm = '';
 
-            // الصلاة
-            { title: "دعاء الذهاب إلى المسجد", content: "اللهم اجعل في قلبي نوراً، وفي لساني نوراً، واجعل في سمعي نوراً، واجعل في بصري نوراً، واجعل من خلفي نوراً، ومن أمامي نوراً، واجعل من فوقي نوراً، ومن تحتي نوراً، اللهم أعطني نوراً", category: "الصلاة" },
-            { title: "دعاء دخول المسجد", content: "أعوذ بالله العظيم وبوجهه الكريم وسلطانه القديم من الشيطان الرجيم، بسم الله والصلاة والسلام على رسول الله، اللهم افتح لي أبواب رحمتك", category: "الصلاة" },
-            { title: "دعاء الخروج من المسجد", content: "بسم الله والصلاة والسلام على رسول الله، اللهم إني أسألك من فضلك", category: "الصلاة" },
-            { title: "أذكار الآذان", content: "يقول مثل ما يقول المؤذن إلا في حي على الصلاة وحي على الفلاح فيقول لا حول ولا قوة إلا بالله", category: "الصلاة" },
-            { title: "دعاء الاستفتاح", content: "اللهم باعد بيني وبين خطاياي كما باعدت بين المشرق والمغرب، اللهم نقني من خطاياي كما ينقى الثوب الأبيض من الدنس، اللهم اغسلني من خطاياي بالماء والثلج والبرد", category: "الصلاة" },
-            { title: "دعاء الركوع", content: "سبحان ربي العظيم (ثلاث مرات)", category: "الصلاة" },
-            { title: "دعاء الرفع من الركوع", content: "سمع الله لمن حمده، ربنا ولك الحمد حمداً كثيراً طيباً مباركاً فيه", category: "الصلاة" },
-            { title: "دعاء السجود", content: "سبحان ربي الأعلى (ثلاث مرات)", category: "الصلاة" },
-            { title: "دعاء الجلسة بين السجدتين", content: "رب اغفر لي، رب اغفر لي", category: "الصلاة" },
-            { title: "دعاء سجود التلاوة", content: "سجد وجهي للذي خلقه وصوره وشق سمعه وبصره بحوله وقوته تبارك الله أحسن الخالقين", category: "الصلاة" },
-            { title: "التشهد", content: "التحيات لله والصلوات والطيبات، السلام عليك أيها النبي ورحمة الله وبركاته، السلام علينا وعلى عباد الله الصالحين، أشهد أن لا إله إلا الله وأشهد أن محمداً عبده ورسوله", category: "الصلاة" },
-            { title: "الصلاة على النبي بعد التشهد", content: "اللهم صل على محمد وعلى آل محمد كما صليت على إبراهيم وعلى آل إبراهيم إنك حميد مجيد، اللهم بارك على محمد وعلى آل محمد كما باركت على إبراهيم وعلى آل إبراهيم إنك حميد مجيد", category: "الصلاة" },
-            { title: "الدعاء بعد التشهد الأخير قبل السلام", content: "اللهم إني أعوذ بك من عذاب جهنم ومن عذاب القبر ومن فتنة المحيا والممات ومن شر فتنة المسيح الدجال", category: "الصلاة" },
-            { title: "الأذكار بعد السلام من الصلاة", content: "أستغفر الله (ثلاثاً)، اللهم أنت السلام ومنك السلام تباركت يا ذا الجلال والإكرام", category: "الصلاة" },
-            { title: "دعاء القنوت", content: "اللهم اهدني فيمن هديت، وعافني فيمن عافيت، وتولني فيمن توليت، وبارك لي فيما أعطيت، وقني شر ما قضيت، فإنك تقضي ولا يقضى عليك، إنه لا يذل من واليت، ولا يعز من عاديت، تباركت ربنا وتعاليت", category: "الصلاة" },
-            { title: "الذكر عقب السلام من الوتر", content: "سبحان الملك القدوس (ثلاث مرات) ويرفع صوته بالثالثة", category: "الصلاة" },
+        // Pagination variables
+        let currentPage = 1;
+        const dhikrPerPage = 10;
+        let filteredDhikrForPagination = []; // Stores dhikr after category/source/search filters, before pagination
 
-            // أذكار الصباح والمساء
-            { title: "أذكار الصباح", content: "أَعُوذُ بِاللَّهِ مِنَ الشَّيطَانِ الرَّجِيمِ ﴿اللَّهُ لاَ إِلَهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَوَاتِ وَالْأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ﴾", category: "أذكار الصباح والمساء" },
-            { title: "أذكار الصباح", content: "بسم الله الرحمن الرحيم ﴿قُلْ هُوَ اللَّهُ أَحَدٌ* اللَّهُ الصَّمَدُ* لَمْ يَلِدْ وَلَمْ يُولَدْ* وَلَمْ يَكُن لَّهُ كُفُواً أَحَدٌ﴾. بسم الله الرحمن الرحيم ﴿قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ* مِن شَرِّ مَا خَلَقَ* وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ* وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ* وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ﴾. بسم الله الرحمن الرحيم ﴿قُلْ أَعُوذُ بِرَبِّ النَّاسِ* مَلِكِ النَّاسِ* إِلَهِ النَّاسِ* مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ* الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ* مِنَ الْجِنَّةِ وَ النَّاسِ﴾ (ثلاثَ مرَّاتٍ).", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ ، وَالْحَمْدُ لِلَّهِ، لاَ إِلَهَ إلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذَا الْيَوْمِ وَخَيرَ مَا بَعْدَهُ ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ، رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا ، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلاَّ أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لاَ يَغْفِرُ الذُّنوبَ إِلاَّ أَنْتَ", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "((اللَّهُمَّ إِنِّي أَصْبَحْتُ أُشْهِدُكَ، وَأُشْهِدُ حَمَلَةَ عَرْشِكَ، وَمَلاَئِكَتِكَ، وَجَمِيعَ خَلْقِكَ، أَنَّكَ أَنْتَ اللَّهُ لَا إِلَهَ إِلاَّ أَنْتَ وَحْدَكَ لاَ شَرِيكَ لَكَ، وَأَنَّ مُحَمَّداً عَبْدُكَ وَرَسُولُكَ)) (أربعَ مَرَّاتٍ).", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "اللَّهُمَّ مَا أَصْبَحَ بِي مِنْ نِعْمَةٍ أَوْ بِأَحَدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لاَ شَرِيكَ لَكَ، فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "((اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لاَ إِلَهَ إِلاَّ أَنْتَ. اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ، وَالفَقْرِ، وَأَعُوذُ بِكَ مِنْ عَذَابِ القَبْرِ، لاَ إِلَهَ إِلاَّ أَنْتَ)) (ثلاثَ مرَّاتٍ)", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "((حَسْبِيَ اللَّهُ لاَ إِلَهَ إِلاَّ هُوَ عَلَيهِ تَوَكَّلتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ)) (سَبْعَ مَرّاتٍ)", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالآخِرَةِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ: فِي دِينِي وَدُنْيَايَ وَأَهْلِي، وَمَالِي، اللَّهُمَّ اسْتُرْ عَوْرَاتِي، وَآمِنْ رَوْعَاتِي، اللَّهُمَّ احْفَظْنِي مِنْ بَينِ يَدَيَّ، وَمِنْ خَلْفِي، وَعَنْ يَمِينِي، وَعَنْ شِمَالِي، وَمِنْ فَوْقِي، وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِنْ تَحْتِي", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "اللَّهُمَّ عَالِمَ الغَيْبِ وَالشَّهَادَةِ فَاطِرَ السَّمَوَاتِ وَالْأَرْضِ، رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَشْهَدُ أَنْ لاَ إِلَهَ إِلاَّ أَنْتَ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي، وَمِنْ شَرِّ الشَّيْطانِ وَشَرَكِهِ، وَأَنْ أَقْتَرِفَ عَلَى نَفْسِي سُوءاً، أَوْ أَجُرَّهُ إِلَى مُسْلِمٍ", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "((بِسْمِ اللَّهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلاَ فِي السّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ)) (ثلاثَ مرَّاتٍ).", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "((رَضِيتُ بِاللَّهِ رَبَّاً، وَبِالْإِسْلاَمِ دِيناً، وَبِمُحَمَّدٍ صلى الله عليه وسلم نَبِيّاً)) (ثلاثَ مرَّاتٍ).", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغيثُ أَصْلِحْ لِي شَأْنِيَ كُلَّهُ وَلاَ تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ رَبِّ الْعَالَمِينَ، اللَّهُـمَّ إِنِّي أَسْأَلُكَ خَيْرَ هَذَا الْيَوْمِ:فَتْحَهُ، وَنَصْرَهُ، وَنورَهُ، وَبَرَكَتَهُ، وَهُدَاهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِيهِ وَشَرِّ مَا بَعْدَهُ", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "أَصْبَحْنا عَلَى فِطْرَةِ الْإِسْلاَمِ، وَعَلَى كَلِمَةِ الْإِخْلاَصِ، وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ صلى الله عليه وسلم، وَعَلَى مِلَّةِ أَبِينَا إِبْرَاهِيمَ، حَنِيفاً مُسْلِماً وَمَا كَانَ مِنَ الْمُشرِكِينَ", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "((سُبْحَانَ اللَّهِ وَبِحَمْدِهِ)) (مائة مرَّةٍ)", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "((لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ)) (عشرَ مرَّات) ، أَوْ (مرَّةً واحدةً عندَ الكَسَلِ).", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "((لاَ إِلَهَ إِلاَّ اللَّهُ، وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ)) (مائةَ مرَّةٍ إذا أصبحَ).", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "((سُبْحَانَ اللَّهِ وَبِحَمْدِهِ: عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ)) (ثلاثَ مرَّاتٍ إذا أصبحَ).", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "((اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْماً نَافِعاً، وَرِزْقاً طَيِّباً، وَعَمَلاً مُتَقَبَّلاً)) (إذا أصبحَ).", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "((أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ)) (مِائَةَ مَرَّةٍ فِي الْيَوْمِ).", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ", category: "أذكار الصباح والمساء" },
-            { title: "أذكار المساء", content: "((اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبَيِّنَا مُحَمَّدٍ)) (عشرَ مرَّاتٍ).", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "أَعُوذُ بِاللَّهِ مِنَ الشَّيطَانِ الرَّجِيمِ ﴿اللَّهُ لاَ إِلَهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَوَاتِ وَالْأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ﴾", category: "أذكار الصباح والمساء" },
-            { title: "أذكار المساء", content: "بسم الله الرحمن الرحيم ﴿قُلْ هُوَ اللَّهُ أَحَدٌ* اللَّهُ الصَّمَدُ* لَمْ يَلِدْ وَلَمْ يُولَدْ* وَلَمْ يَكُن لَّهُ كُفُواً أَحَدٌ﴾. بسم الله الرحمن الرحيم ﴿قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ* مِن شَرِّ مَا خَلَقَ* وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ* وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ* وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ﴾. بسم الله الرحمن الرحيم ﴿قُلْ أَعُوذُ بِرَبِّ النَّاسِ* مَلِكِ النَّاسِ* إِلَهِ النَّاسِ* مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ* الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ* مِنَ الْجِنَّةِ وَ النَّاسِ﴾ (ثلاثَ مرَّاتٍ).", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "أمسينا وأمسى الملك للَّه ربّ العالمين اللَّهم إني أسألك خير هذه الليلة: فتحها، ونصرها، ونورها، وبركتها، وهداها، وأعوذ بك من شر ما فيها، وشر ما بعدها ", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "اللَّهُمَّ بِكَ أمسينا، وَبِكَ أَمْسَيْنَا ، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ وَإِلَيْكَ المصير", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلاَّ أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لاَ يَغْفِرُ الذُّنوبَ إِلاَّ أَنْتَ", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "((اللَّهُمَّ إِنِّي أمسيتُ أُشْهِدُكَ، وَأُشْهِدُ حَمَلَةَ عَرْشِكَ، وَمَلاَئِكَتِكَ، وَجَمِيعَ خَلْقِكَ، أَنَّكَ أَنْتَ اللَّهُ لَا إِلَهَ إِلاَّ أَنْتَ وَحْدَكَ لاَ شَرِيكَ لَكَ، وَأَنَّ مُحَمَّداً عَبْدُكَ وَرَسُولُكَ)) (أربعَ مَرَّاتٍ).", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "اللَّهُمَّ مَا أمسى بِي مِنْ نِعْمَةٍ أَوْ بِأَحَدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لاَ شَرِيكَ لَكَ، فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "((اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لاَ إِلَهَ إِلاَّ أَنْتَ. اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ، وَالفَقْرِ، وَأَعُوذُ بِكَ مِنْ عَذَابِ القَبْرِ، لاَ إِلَهَ إِلاَّ أَنْتَ)) (ثلاثَ مرَّاتٍ)", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "((حَسْبِيَ اللَّهُ لاَ إِلَهَ إِلاَّ هُوَ عَلَيهِ تَوَكَّلتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ)) (سَبْعَ مَرّاتٍ)", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالآخِرَةِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ: فِي دِينِي وَدُنْيَايَ وَأَهْلِي، وَمَالِي، اللَّهُمَّ اسْتُرْ عَوْرَاتِي، وَآمِنْ رَوْعَاتِي، اللَّهُمَّ احْفَظْنِي مِنْ بَينِ يَدَيَّ، وَمِنْ خَلْفِي، وَعَنْ يَمِينِي، وَعَنْ شِمَالِي، وَمِنْ فَوْقِي، وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِنْ تَحْتِي", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "اللَّهُمَّ عَالِمَ الغَيْبِ وَالشَّهَادَةِ فَاطِرَ السَّمَوَاتِ وَالْأَرْضِ، رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَشْهَدُ أَنْ لاَ إِلَهَ إِلاَّ أَنْتَ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي، وَمِنْ شَرِّ الشَّيْطانِ وَشَرَكِهِ، وَأَنْ أَقْتَرِفَ عَلَى نَفْسِي سُوءاً، أَوْ أَجُرَّهُ إِلَى مُسْلِمٍ", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "((بِسْمِ اللَّهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلاَ فِي السّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ)) (ثلاثَ مرَّاتٍ).", category: "أذكار الصباح والمساء" },
-             { title: "أذكار الصباح", content: "((رَضِيتُ بِاللَّهِ رَبَّاً، وَبِالْإِسْلاَمِ دِيناً، وَبِمُحَمَّدٍ صلى الله عليه وسلم نَبِيّاً)) (ثلاثَ مرَّاتٍ).", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغيثُ أَصْلِحْ لِي شَأْنِيَ كُلَّهُ وَلاَ تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "أمسينا وَأمسى الْمُلْكُ لِلَّهِ رَبِّ الْعَالَمِينَ، اللَّهُـمَّ إِنِّي أَسْأَلُكَ اللَّهم إني أسألك خير هذه الليلة: فتحها، ونصرها، ونورها، وبركتها، وهداها، وأعوذ بك من شر ما فيها، وشر ما بعدها", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "أمسينا عَلَى فِطْرَةِ الْإِسْلاَمِ، وَعَلَى كَلِمَةِ الْإِخْلاَصِ، وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ صلى الله عليه وسلم، وَعَلَى مِلَّةِ أَبِينَا إِبْرَاهِيمَ، حَنِيفاً مُسْلِماً وَمَا كَانَ مِنَ الْمُشرِكِينَ", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "((سُبْحَانَ اللَّهِ وَبِحَمْدِهِ)) (مائة مرَّةٍ)", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "((لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ)) (عشرَ مرَّات) ، أَوْ (مرَّةً واحدةً عندَ الكَسَلِ).", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "((لاَ إِلَهَ إِلاَّ اللَّهُ، وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ)) (مائةَ مرَّةٍ إذا أمسى).", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "((سُبْحَانَ اللَّهِ وَبِحَمْدِهِ: عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ)) (ثلاثَ مرَّاتٍ إذا أمسى).", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "((اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْماً نَافِعاً، وَرِزْقاً طَيِّباً، وَعَمَلاً مُتَقَبَّلاً)) (إذا أصبحَ).", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "((أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ)) (مِائَةَ مَرَّةٍ فِي الْيَوْمِ).", category: "أذكار الصباح والمساء" },
-             { title: "أذكار المساء", content: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ", category: "أذكار الصباح والمساء" },
-
-            // أذكار النوم
-            { title: "دعاء قبل النوم", content: "باسمك ربي وضعت جنبي وبك أرفعه، إن أمسكت نفسي فارحمها، وإن أرسلتها فاحفظها بما تحفظ به عبادك الصالحين", category: "أذكار النوم" },
-            { title: "الدعاء إذا تقلب ليلاً", content: "لا إله إلا الله الواحد القهار، رب السماوات والأرض وما بينهما العزيز الغفار", category: "أذكار النوم" },
-            { title: "دعاء الفزع في النوم و من بلي بالوحشة", content: "أعوذ بكلمات الله التامات من غضبه وعقابه وشر عباده ومن همزات الشياطين وأن يحضرون", category: "أذكار النوم" },
-            { title: "ما يفعل من رأى الرؤيا أو الحلم", content: "ينفث عن يساره ثلاثاً، ويستعيذ بالله من الشيطان ومن شر ما رأى ثلاثاً، ويغير جنبه الذي كان عليه، ولا يحدث بها أحداً", category: "أذكار النوم" },
-
-            // أدعية الطعام والشراب
-            { title: "دعاء الطعام", content: "بسم الله", category: "أدعية الطعام والشراب" },
-            { title: "الدعاء بعد الطعام", content: "الحمد لله الذي أطعمني هذا ورزقنيه من غير حول مني ولا قوة", category: "أدعية الطعام والشراب" },
-            { title: "دعاء الضيف لصاحب الطعام", content: "اللهم بارك لهم فيما رزقتهم، واغفر لهم وارحمهم", category: "أدعية الطعام والشراب" },
-            { title: "الدعاء لمن سقاه أو أراد ذلك", content: "اللهم أطعم من أطعمني، واسق من سقاني", category: "أدعية الطعام والشراب" },
-            { title: "التعريض بالدعاء لطلب الطعام أو الشراب", content: "اللهم أطعمنا واسقنا", category: "أدعية الطعام والشراب" },
-            { title: "الدعاء إذا أفطر عند أهل بيت", content: "أفطر عندكم الصائمون، وأكل طعامكم الأبرار، وصلت عليكم الملائكة", category: "أدعية الطعام والشراب" },
-            { title: "دعاء الصائم إذا حضر الطعام ولم يفطر", content: "إذا دعي أحدكم فليجب، فإن كان صائماً فليصل، وإن كان مفطراً فليطعم (يصلي أي يدعو)", category: "أدعية الطعام والشراب" },
-            { title: "ما يقول الصائم إذا سابه أحد", content: "إني صائم، إني صائم", category: "أدعية الطعام والشراب" },
-
-            // أدعية الحج والعمرة
-            { title: "كيف يلبي المحرم في الحج أو العمرة ؟", content: "لبيك اللهم لبيك، لبيك لا شريك لك لبيك، إن الحمد والنعمة لك والملك، لا شريك لك", category: "أدعية الحج والعمرة" },
-            { title: "التكبير إذا أتى الركن الأسود", content: "الله أكبر", category: "أدعية الحج والعمرة" },
-            { title: "الدعاء بين الركن اليماني والحجر الأسود", content: "ربنا آتنا في الدنيا حسنة وفي الآخرة حسنة وقنا عذاب النار", category: "أدعية الحج والعمرة" },
-            { title: "دعاء الوقوف على الصفا والمروة", content: "الله أكبر الله أكبر الله أكبر لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير، لا إله إلا الله وحده أنجز وعده ونصر عبده وهزم الأحزاب وحده", category: "أدعية الحج والعمرة" },
-            { title: "الدعاء يوم عرفة", content: "لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير", category: "أدعية الحج والعمرة" },
-            { title: "الذكر عند المشعر الحرام", content: "الله أكبر، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير", category: "أدعية الحج والعمرة" },
-            { title: "التكبير عند رمي الجمار مع كل حصاة", content: "الله أكبر", category: "أدعية الحج والعمرة" },
-
-            // أدعية الجنائز
-            { title: "الدعاء عند إغماض الميت", content: "اللهم اغفر لفلان (باسم الميت) وارفع درجته في المهديين، واخلفه في عقبه في الغابرين، واغفر لنا وله يا رب العالمين، وافسح له في قبره ونور له فيه", category: "أدعية الجنائز" },
-            { title: "الدعاء للميت في الصلاة عليه", content: "اللهم اغفر له وارحمه وعافه واعف عنه وأكرم نزله ووسع مدخله واغسله بالماء والثلج والبرد ونقه من الخطايا كما ينقى الثوب الأبيض من الدنس وأبدله دارا خيرا من داره وأهلا خيرا من أهله وزوجا خيرا من زوجه وأدخله الجنة وأعذه من عذاب القبر ومن عذاب النار", category: "أدعية الجنائز" },
-            { title: "الدعاء للفرط في الصلاة عليه", content: "اللهم اجعله فرطاً وذخراً لوالديه، وشفيعاً مجاباً، اللهم ثقل به موازينهما، وأعظم به أجورهما، وألحقهما بصالح سلف المؤمنين، واجعله في كفالة إبراهيم، وقه برحمتك عذاب الجحيم", category: "أدعية الجنائز" },
-            { title: "دعاء التعزية", content: "إنا لله وإنا إليه راجعون، اللهم أجرني في مصيبتي وأخلف لي خيراً منها", category: "أدعية الجنائز" },
-            { title: "الدعاء عند إدخال الميت القبر", content: "بسم الله وعلى ملة رسول الله", category: "أدعية الجنائز" },
-            { title: "الدعاء بعد دفن الميت", content: "اللهم ثبته عند السؤال", category: "أدعية الجنائز" },
-            { title: "دعاء زيارة القبور", content: "السلام عليكم أهل الديار من المؤمنين والمسلمين، وإنا إن شاء الله بكم لاحقون، نسأل الله لنا ولكم العافية", category: "أدعية الجنائز" },
-            { title: "تلقين المحتضر", content: "لقنوا موتاكم لا إله إلا الله", category: "أدعية الجنائز" },
-
-            // الدعاء للمريض
-            { title: "دعاء للمريض", content: "بسم الله، اللهم اشف عبدك وابن أمتك", category: "الدعاء للمريض" },
-            { title: "دعاء العزاء", content: "إنا لله وإنا إليه راجعون، اللهم أجرني في مصيبتي وأخلف لي خيراً منها", category: "الدعاء للمريض" },
-            { title: "الدعاء عند المصيبة", content: "إنا لله وإنا إليه راجعون، اللهم أجرني في مصيبتي وأخلف لي خيراً منها", category: "الدعاء للمريض" },
-            { title: "الدعاء للمريض في عيادته", content: "أسأل الله العظيم رب العرش العظيم أن يشفيك (سبع مرات)", category: "الدعاء للمريض" },
-            { title: "فضل عيادة المريض", content: "من عاد مريضاً لم يزل يخوض في الرحمة حتى يجلس، فإذا جلس اغتمس فيها", category: "الدعاء للمريض" },
-            { title: "دعاء المريض الذي يئس من حياته", content: "اللهم اغفر لي وارحمني وألحقني بالرفيق الأعلى", category: "الدعاء للمريض" },
-
-            // أدعية متفرقة (General Supplications)
-            { title: "دعاء السفر", content: "الله أكبر، الله أكبر، الله أكبر، سبحان الذي سخر لنا هذا وما كنا له مقرنين، وإنا إلى ربنا لمنقلبون، اللهم إنا نسألك في سفرنا هذا البر والتقوى، ومن العمل ما ترضى، اللهم هون علينا سفرنا هذا واطو عنا بعده، اللهم أنت الصاحب في السفر، والخليفة في الأهل، اللهم إني أعوذ بك من وعثاء السفر، وكآبة المنظر، وسوء المنقلب في المال والأهل", category: "أدعية متفرقة" },
-            { title: "دعاء دخول المنزل", content: "بسم الله ولجنا، وبسم الله خرجنا، وعلى الله ربنا توكلنا", category: "أدعية متفرقة" },
-            { title: "دعاء الخروج من المنزل", content: "بسم الله توكلت على الله، لا حول ولا قوة إلا بالله", category: "أدعية متفرقة" },
-            { title: "دعاء الركوب", content: "بسم الله، سبحان الذي سخر لنا هذا وما كنا له مقرنين، وإنا إلى ربنا لمنقلبون", category: "أدعية متفرقة" },
-            { title: "دعاء دخول القرية أو البلدة", content: "اللهم بارك لنا فيها، اللهم ارزقنا جناها، وحببنا إلى أهلها، وحبب صالحي أهلها إلينا", category: "أدعية متفرقة" },
-            { title: "دعاء السوق", content: "لا إله إلا الله وحده لا شريك له، له الملك وله الحمد، يحيي ويميت وهو حي لا يموت، بيده الخير كله، وهو على كل شيء قدير", category: "أدعية متفرقة" },
-            { title: "دعاء الريح", content: "اللهم إني أسألك خيرها، وخير ما فيها، وخير ما أرسلت به، وأعوذ بك من شرها، وشر ما فيها، وشر ما أرسلت به", category: "أدعية متفرقة" },
-            { title: "دعاء المطر", content: "اللهم صيباً نافعاً", category: "أدعية متفرقة" },
-            { title: "دعاء الرعد", content: "سبحان الذي يسبح الرعد بحمده والملائكة من خيفته", category: "أدعية متفرقة" },
-            { title: "دعاء رؤية الهلال", content: "الله أكبر، اللهم أهله علينا بالأمن والإيمان، والسلامة والإسلام، والتوفيق لما تحب وترضى، ربنا وربك الله", category: "أدعية متفرقة" },
-            { title: "دعاء الفزع", content: "أعوذ بكلمات الله التامات من غضبه وعقابه وشر عباده ومن همزات الشياطين وأن يحضرون", category: "أدعية متفرقة" },
-            { title: "دعاء الكرب", content: "لا إله إلا الله العظيم الحليم، لا إله إلا الله رب العرش العظيم، لا إله إلا الله رب السماوات ورب الأرض ورب العرش الكريم", category: "أدعية متفرقة" },
-            { title: "دعاء الهم والحزن", content: "اللهم إني عبدك ابن عبدك ابن أمتك، ناصيتي بيدك، ماض في حكمك، عدل في قضاؤك، أسألك بكل اسم هو لك سميت به نفسك، أو أنزلته في كتابك، أو علمته أحداً من خلقك، أو استأثرت به في علم الغيب عندك، أن تجعل القرآن ربيع قلبي، ونور صدري، وجلاء حزني، وذهاب همي", category: "أدعية متفرقة" },
-            { title: "دعاء قضاء الدين", content: "اللهم اكفني بحلالك عن حرامك، وأغنني بفضلك عمن سواك", category: "أدعية متفرقة" },
-            { title: "دعاء الوسوسة في الصلاة والقراءة", content: "أعوذ بالله من الشيطان الرجيم", category: "أدعية متفرقة" },
-            { title: "دعاء من أصابته مصيبة", content: "إنا لله وإنا إليه راجعون، اللهم أجرني في مصيبتي وأخلف لي خيراً منها", category: "أدعية متفرقة" },
-            { title: "دعاء الاستخارة", content: "اللهم إني أستخيرك بعلمك، وأستقدرك بقدرتك، وأسألك من فضلك العظيم، فإنك تقدر ولا أقدر، وتعلم ولا أعلم، وأنت علام الغيوب...", category: "أدعية متفرقة" },
-            { title: "الدعاء عند الفرح", content: "الحمد لله الذي بنعمته تتم الصالحات", category: "أدعية متفرقة" },
-            { title: "ما يقوله من أتاه أمر يسره أو يكرهه", content: "الحمد لله على كل حال", category: "أدعية متفرقة" },
-            { title: "دعاء العطاس", content: "الحمد لله", category: "أدعية متفرقة" },
-            { title: "تشميت العاطس", content: "يرحمك الله", category: "أدعية متفرقة" },
-            { title: "دعاء المتزوج", content: "بارك الله لكما وبارك عليكما وجمع بينكما في خير", category: "أدعية متفرقة" },
-            { title: "دعاء المولود", content: "بارك الله لك في الموهوب لك، وشكرت الواهب، وبلغ أشده، ورزقت بره", category: "أدعية متفرقة" },
-            { title: "ما يقوله من رآى مبتلى", content: "الحمد لله الذي عافاني مما ابتلاك به، وفضلني على كثير ممن خلق تفضيلاً", category: "أدعية متفرقة" },
-            { title: "دعاء الغضب", content: "أعوذ بالله من الشيطان الرجيم", category: "أدعية متفرقة" },
-            { title: "الدعاء عند إفطار الصائم", content: "ذهب الظمأ وابتلت العروق وثبت الأجر إن شاء الله", category: "أدعية متفرقة" },
-            { title: "دعاء ليلة القدر", content: "اللهم إنك عفو تحب العفو فاعف عني", category: "أدعية متفرقة" },
-            { title: "الدعاء عند سماع صياح الديك ونهيق الحمار", content: "إذا سمعتم صياح الديكة فاسألوا الله من فضله فإنها رأت ملكا، وإذا سمعتم نهيق الحمار فتعوذوا بالله من الشيطان فإنه رأى شيطانا", category: "أدعية متفرقة" },
-            { title: "دعاء نباح الكلاب بالليل", content: "أعوذ بالله من الشيطان الرجيم", category: "أدعية متفرقة" },
-            { title: "الدعاء لمن سببته", content: "اللهم اجعلها كفارة لما مضى من ذنوبي", category: "أدعية متفرقة" },
-            { title: "ما يقول المسلم إذا مدح المسلم", content: "اللهم لا تؤاخذني بما يقولون، واغفر لي ما لا يعلمون، واجعلني خيراً مما يظنون", category: "أدعية متفرقة" },
-            { title: "ما يقول المسلم إذا زكي", content: "اللهم لا تؤاخذني بما يقولون، واغفر لي ما لا يعلمون، واجعلني خيراً مما يظنون", category: "أدعية متفرقة" },
-            { title: "الدعاء عند رؤية باكورة الثمر", content: "اللهم بارك لنا في ثمرنا، وبارك لنا في مدينتنا، وبارك لنا في صاعنا، وبارك لنا في مدنا", category: "أدعية متفرقة" },
-            { title: "ما يقال للكافر إذا عطس فحمد الله", content: "يهديكم الله ويصلح بالكم", category: "أدعية متفرقة" },
-            { title: "دعاء المتزوج وشراء الدابة", content: "اللهم إني أسألك خيرها وخير ما جبلت عليه، وأعوذ بك من شرها وشر ما جبلت عليه", category: "أدعية متفرقة" },
-            { title: "الدعاء قبل إتيان الزوجة", content: "بسم الله، اللهم جنبنا الشيطان وجنب الشيطان ما رزقتنا", category: "أدعية متفرقة" },
-            { title: "ما يقال في المجلس", content: "سبحانك اللهم وبحمدك، أشهد أن لا إله إلا أنت، أستغفرك وأتوب إليك", category: "أدعية متفرقة" },
-            { title: "الدعاء لمن قال غفر الله لك", content: "ولك مثل ذلك", category: "أدعية متفرقة" },
-            { title: "الدعاء لمن صنع إليك معروفا", content: "جزاك الله خيراً", category: "أدعية متفرقة" },
-            { title: "ما يعصم الله به من الدجال", content: "اللهم إني أعوذ بك من فتنة المسيح الدجال", category: "أدعية متفرقة" },
-            { title: "الدعاء لمن قال إني أحبك في الله", content: "أحبك الذي أحببتني فيه", category: "أدعية متفرقة" },
-            { title: "الدعاء لمن عرض عليك ماله", content: "بارك الله لك في أهلك ومالك", category: "أدعية متفرقة" },
-            { title: "الدعاء لمن أقرض عند القضاء", content: "بارك الله لك في أهلك ومالك", category: "أدعية متفرقة" },
-            { title: "دعاء الخوف من الشرك", content: "اللهم إني أعوذ بك أن أشرك بك وأنا أعلم، وأستغفرك لما لا أعلم", category: "أدعية متفرقة" },
-            { title: "الدعاء لمن قال بارك الله فيك", content: "وفيك بارك الله", category: "أدعية متفرقة" },
-            { title: "دعاء كراهية الطيرة", content: "اللهم لا خير إلا خيرك، ولا طير إلا طيرك، ولا إله غيرك", category: "أدعية متفرقة" },
-            { title: "الدعاء إذا تعس المركوب", content: "بسم الله", category: "أدعية متفرقة" },
-            { title: "دعاء المسافر للمقيم", content: "أستودعكم الله الذي لا تضيع ودائعه", category: "أدعية متفرقة" },
-            { title: "دعاء المقيم للمسافر", content: "أستودع الله دينك وأمانتك وخواتيم عملك", category: "أدعية متفرقة" },
-            { title: "التكبير و التسبيح في سير السفر", content: "الله أكبر، سبحان الله", category: "أدعية متفرقة" },
-            { title: "دعاء المسافر إذا أسحر", content: "سمع سامع بحمد الله وحسن بلائه علينا، ربنا صاحبنا وأفضل علينا، عائذاً بالله من النار", category: "أدعية متفرقة" },
-            { title: "الدعاء إذا نزل مترلا في سفر أو غيره", content: "أعوذ بكلمات الله التامات من شر ما خلق", category: "أدعية متفرقة" },
-            { title: "ذكر الرجوع من السفر", content: "آيبون تائبون عابدون لربنا حامدون", category: "أدعية متفرقة" },
-            { title: "فضل الصلاة على النبي صلى الله عليه و سلم", content: "من صلى علي صلاة صلى الله عليه بها عشراً", category: "أدعية متفرقة" },
-            { title: "إفشاء السلام", content: "السلام عليكم ورحمة الله وبركاته", category: "أدعية متفرقة" },
-            { title: "كيف يرد السلام على الكافر إذا سلم", content: "وعليكم", category: "أدعية متفرقة" },
-            { title: "دعاء لقاء العدو و ذي السلطان", content: "اللهم إنا نجعلك في نحورهم ونعوذ بك من شرورهم", category: "أدعية متفرقة" },
-            { title: "دعاء من خاف ظلم السلطان", content: "لا إله إلا الله العظيم الحليم، لا إله إلا الله رب العرش العظيم، لا إله إلا الله رب السماوات ورب الأرض ورب العرش الكريم", category: "أدعية متفرقة" },
-            { title: "الدعاء على العدو", content: "اللهم منزل الكتاب، سريع الحساب، اهزم الأحزاب، اللهم اهزمهم وزلزلهم", category: "أدعية متفرقة" },
-            { title: "ما يقول من خاف قوما", content: "اللهم اكفنيهم بما شئت", category: "أدعية متفرقة" },
-            { title: "دعاء من أصابه وسوسة في الإيمان", content: "آمنت بالله ورسله", category: "أدعية متفرقة" },
-            { title: "دعاء من استصعب عليه أمر", content: "اللهم لا سهل إلا ما جعلته سهلاً، وأنت تجعل الحزن إذا شئت سهلاً", category: "أدعية متفرقة" },
-            { title: "ما يقول ويفعل من أذنب ذنبا", content: "أستغفر الله وأتوب إليه", category: "أدعية متفرقة" },
-            { title: "دعاء طرد الشيطان و وساوسه", content: "أعوذ بالله من الشيطان الرجيم", category: "أدعية متفرقة" },
-            { title: "الدعاء حينما يقع ما لا يرضاه أو غلب على أمره", content: "قدر الله وما شاء فعل", category: "أدعية متفرقة" },
-            { title: "ما يعوذ به الأولاد", content: "أعيذكما بكلمات الله التامة من كل شيطان وهامة ومن كل عين لامة", category: "أدعية متفرقة" },
-            { title: "من أدعية الاستسقاء", content: "اللهم اسقنا غيثاً مغيثاً مريئاً مريعاً نافعاً غير ضار عاجلاً غير آجل", category: "أدعية متفرقة" },
-            { title: "الذكر بعد نزول المطر", content: "مطرنا بفضل الله ورحمته", category: "أدعية متفرقة" },
-            { title: "من أدعية الاستصحاء", content: "اللهم حوالينا ولا علينا، اللهم على الآكام والظراب وبطون الأودية ومنابت الشجر", category: "أدعية متفرقة" },
-        ];
-
-        // قائمة الكلمات الغريبة وشروحاتها
-        const gharibWords = [
-            { word: "النشور", explanation: "البعث بعد الموت" },
-            { word: "الخبث والخبائث", explanation: "ذكور الشياطين وإناثهم" },
-            { word: "وعثاء السفر", explanation: "مشقة السفر وتعب الطريق" },
-            { word: "كآبة المنظر", explanation: "ما يسوء الإنسان في نفسه أو أهله أو ماله" },
-            { word: "سوء المنقلب", explanation: "الرجوع إلى ما يسوء" },
-            { word: "مقرنين", explanation: "مطِيقين أو قادرين عليه" },
-            { word: "صيباً نافعاً", explanation: "مطرًا غزيرًا مفيدًا" },
-            { word: "يسبح الرعد بحمده", explanation: "ينزه الله ويشكره" },
-            { word: "أهله علينا", explanation: "أظهره علينا" },
-            { word: "علام الغيوب", explanation: "الذي يعلم كل ما غاب عن العيون" },
-            { word: "ربيع قلبي", explanation: "ما يحيي القلب وينعشه" },
-            { word: "جلاء حزني", explanation: "إزالة حزني" },
-            { word: "ذهاب همي", explanation: "إزالة همي" },
-            { word: "أستخيرك", explanation: "أطلب منك أن تختار لي الأفضل" },
-            { word: "أستقدرك", explanation: "أطلب منك أن تجعلني قادراً" },
-            { word: "بنعمته تتم الصالحات", explanation: "بفضل الله وكرمه تتم الأعمال الصالحة" },
-            { word: "ذهب الظمأ", explanation: "زال العطش" },
-            { word: "ابتلت العروق", explanation: "ترطبت العروق بالماء" },
-            { word: "ثبت الأجر", explanation: "تأكد الثواب" },
-            { word: "باكورة", explanation: "أول الثمر" },
-            { word: "الفرط", explanation: "الطفل الذي يموت قبل والديه" },
-            { word: "هامة", explanation: "كل ذات سم يقتل" },
-            { word: "لامة", explanation: "عين تصيب بسوء" },
-            { word: "الظِراب", explanation: "الجبال الصغار" },
-            { word: "مريئاً", explanation: "سهل الهضم" },
-            { word: "مريعاً", explanation: "خصباً" },
-            { word: "الكرب", explanation: "الهم والغم الشديد" },
-            { word: "آيبون", explanation: "راجعون" },
-            { word: "تائبون", explanation: "راجعون إلى الله بالتوبة" },
-            { word: "عابدون", explanation: "مطيعون لله" },
-            { word: "حامدون", explanation: "شاكرون لله" },
-            { word: "نحورهم", explanation: "صدورهم" },
-            { word: "زلزلهم", explanation: "حركهم بشدة وأربكهم" },
-            { word: "هامة", explanation: "كل ذات سم يقتل" },
-            { word: "لامة", explanation: "عين تصيب بسوء" },
-            { word: "الآكام", explanation: "التلال المرتفعة" },
-            { word: "الظراب", explanation: "الجبال الصغار" },
-            { word: "بطون الأودية", explanation: "الأماكن المنخفضة في الأودية" },
-            { word: "منابت الشجر", explanation: "الأماكن التي ينمو فيها الشجر" },
-        ];
-
-        // الحصول على مراجع لعناصر DOM
-        const indexButton = document.getElementById("index-button");
-        const indexContainer = document.getElementById("index-container");
-        const indexList = document.getElementById("index-list");
-        const nightModeButton = document.getElementById("night-mode-button");
-        const nightModeIcon = document.getElementById("night-mode-icon");
-        const searchInput = document.getElementById("search");
-        const searchButton = document.getElementById("search-button");
-        const azkarListContainer = document.getElementById("azkar-list");
-        const customModal = document.getElementById("custom-modal");
-        const modalMessage = document.getElementById("modal-message");
-        const modalCloseButton = document.querySelector(".modal-close-button");
-        const wordExplanationPopup = document.getElementById("word-explanation-popup");
-        const popupText = document.getElementById("popup-text");
-        const dailyZekrCard = document.getElementById("daily-zekr-card");
-        const dailyZekrTitle = document.getElementById("daily-zekr-title");
-        const dailyZekrContent = document.getElementById("daily-zekr-content");
-
-        // صور خلفية لبطاقة ذكر اليوم
+        // Array of nature backgrounds for Dhikr of the Day card
         const natureBackgrounds = [
-            'https://placehold.co/1200x400/78909C/FFFFFF?text=Mountain+View',
-            'https://placehold.co/1200x400/4CAF50/FFFFFF?text=Forest+Path',
-            'https://placehold.co/1200x400/2196F3/FFFFFF?text=ا',
-            'https://placehold.co/1200x400/FFC107/FFFFFF?text=ا',
-            'https://placehold.co/1200x400/9C27B0/FFFFFF?text=ا'
+            'https://images.unsplash.com/photo-1502657877623-ecc61596775d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1080&q=80',
+            'https://images.unsplash.com/photo-1475924156734-464f6fe606e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1080&q=80',
+            'https://images.unsplash.com/photo-1547441113-64a09a5a73a3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1080&q=80',
+            'https://images.unsplash.com/photo-1499564177708-410a08e64c1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1080&q=80',
+            'https://images.unsplash.com/photo-1487017159032-550993510950?ixlib=rb-1.2.1&auto=format&fit=crop&w=1080&q=80',
+            'https://images.unsplash.com/photo-1490730449557-61c02ff3d284?ixlib=rb-1.2.1&auto=format&fit=crop&w=1080&q=80',
+            'https://images.unsplash.com/photo-1442999427357-195b62b1a1a7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1080&q=80',
+            'https://images.unsplash.com/photo-1473654728562-b0e6c4391771?ixlib=rb-1.2.1&auto=format&fit=crop&w=1080&q=80'
         ];
 
-        // متغيرات الحالة لواجهة المستخدم
-        let isIndexOpen = false;
-        let isNightMode = false;
-        const websiteLink = "https://hisnmuslim.netlify.app"; // رابط الموقع
 
-        /**
-         * يعرض رسالة نافذة منبثقة مخصصة.
-         * @param {string} message - الرسالة المراد عرضها في النافذة المنبثقة.
-         */
-        function showModal(message) {
-            customModal.style.display = "flex"; // إظهار النافذة المنبثقة
-            modalMessage.textContent = message;
-            // تطبيق فئة الوضع الليلي على محتوى النافذة المنبثقة إذا كان الوضع الليلي نشطاً
-            if (isNightMode) {
-                customModal.querySelector('.modal-content').classList.add('dark');
+        // Dhikr Data - EMBEDDED DIRECTLY FROM HISN_ALMUSLIM.JSON
+        // This array contains all dhikr, including morning and evening ones.
+        const dhikrData = [
+            { "id": "1", "title": "أذكار الاستيقاظ من النوم", "text": "الحمد لله الذي أحيانا بعد ما أماتنا وإليه النشور", "category": "أذكار الاستيقاظ من النوم", "source": "البخاري مع الفتح 11/113، ومسلم 4/2083" },
+            { "id": "2", "title": "أذكار الاستيقاظ من النوم", "text": "لا إله إلا الله وحده لا شريك له، له الملك وله الحمد، وهو على كل شيء قدير، سبحان الله، والحمد لله، ولا إله إلا الله، والله أكبر، ولا حول ولا قوة إلا بالله العلي العظيم، رب اغفر لي", "category": "أذكار الاستيقاظ من النوم", "source": "البخاري مع الفتح 11/113، ومسلم 4/2083" },
+            { "id": "3", "title": "دعاء لبس الثوب", "text": "الحمد لله الذي كساني هذا (الثوب) ورزقنيه من غير حول مني ولا قوة", "category": "دعاء لبس الثوب", "source": "أخرجه أبو داود 4/302، والترمذي 5/516" },
+            { "id": "4", "title": "دعاء لبس الثوب الجديد", "text": "اللهم لك الحمد أنت كسوتنيه، أسألك من خيره وخير ما صنع له، وأعوذ بك من شره وشر ما صنع له", "category": "دعاء لبس الثوب الجديد", "source": "أخرجه أبو داود 4/303، والترمذي 5/517" },
+            { "id": "5", "title": "الدعاء لمن لبس ثوباً جديداً", "text": "تُبْلِي وَيُخْلِفُ اللهُ تَعَالَى", "category": "الدعاء لمن لبس ثوباً جديداً", "source": "أخرجه أبو داود 4/303" },
+            { "id": "6", "title": "الدعاء لمن لبس ثوباً جديداً", "text": "البس جديداً، وعش حميداً، ومت شهيداً", "category": "الدعاء لمن لبس ثوباً جديداً", "source": "أخرجه أبو داود 4/303" },
+            { "id": "7", "title": "ما يقول إذا وضع ثوبه", "text": "بسم الله", "category": "ما يقول إذا وضع ثوبه", "source": "الترمذي 2/505" },
+            { "id": "8", "title": "دعاء دخول الخلاء", "text": "بسم الله، اللهم إني أعوذ بك من الخبث والخبائث", "category": "دعاء دخول الخلاء", "source": "البخاري 1/45، ومسلم 1/283" },
+            { "id": "9", "title": "دعاء الخروج من الخلاء", "text": "غفرانك", "category": "دعاء الخروج من الخلاء", "source": "أخرجه أبو داود 1/67، والترمذي 1/7" },
+            { "id": "10", "title": "الذكر قبل الوضوء", "text": "بسم الله", "category": "الذكر قبل الوضوء", "source": "أخرجه أبو داود 1/67، والترمذي 1/7" },
+            { "id": "11", "title": "الذكر بعد الفراغ من الوضوء", "text": "أشهد أن لا إله إلا الله وحده لا شريك له، وأشهد أن محمداً عبده ورسوله", "category": "الذكر بعد الفراغ من الوضوء", "source": "مسلم 1/209" },
+            { "id": "12", "title": "الذكر بعد الفراغ من الوضوء", "text": "اللهم اجعلني من التوابين واجعلني من المتطهرين", "category": "الذكر بعد الفراغ من الوضوء", "source": "مسلم 1/209" },
+            { "id": "13", "title": "الذكر بعد الفراغ من الوضوء", "text": "سبحانك اللهم وبحمدك أشهد أن لا إله إلا أنت أستغفرك وأتوب إليك", "category": "الذكر بعد الفراغ من الوضوء", "source": "مسلم 1/209" },
+            { "id": "14", "title": "الذكر عند الخروج من المنزل", "text": "بسم الله توكلت على الله، ولا حول ولا قوة إلا بالله", "category": "الذكر عند الخروج من المنزل", "source": "أخرجه أبو داود 4/325، والترمذي 5/134" },
+            { "id": "15", "title": "الذكر عند الخروج من المنزل", "text": "اللهم إني أعوذ بك أن أضل أو أُضل، أو أزل أو أُزل، أو أظلم أو أُظلم، أو أجهل أو يُجهل علي", "category": "الذكر عند الخروج من المنزل", "source": "أخرجه أبو داود 4/325، والترمذي 5/134" },
+            { "id": "16", "title": "الذكر عند دخول المنزل", "text": "بسم الله ولجنا، وبسم الله خرجنا، وعلى ربنا توكلنا، ثم ليسلم على أهله", "category": "الذكر عند دخول المنزل", "source": "أخرجه أبو داود 4/325" },
+            { "id": "17", "title": "دعاء الذهاب إلى المسجد", "text": "اللهم اجعل في قلبي نوراً، وفي لساني نوراً، واجعل في سمعي نوراً، واجعل في بصري نوراً، واجعل من خلفي نوراً، ومن أمامي نوراً، واجعل من فوقي نوراً، ومن تحتي نوراً، اللهم أعطني نوراً", "category": "دعاء الذهاب إلى المسجد", "source": "مسلم 1/526" },
+            { "id": "18", "title": "دعاء دخول المسجد", "text": "أعوذ بالله العظيم وبوجهه الكريم وسلطانه القديم من الشيطان الرجيم", "category": "دعاء دخول المسجد", "source": "أخرجه أبو داود 1/126" },
+            { "id": "19", "title": "دعاء دخول المسجد", "text": "بسم الله والصلاة والسلام على رسول الله، اللهم افتح لي أبواب رحمتك", "category": "دعاء دخول المسجد", "source": "أخرجه أبو داود 1/126" },
+            { "id": "20", "title": "دعاء الخروج من المسجد", "text": "بسم الله والصلاة والسلام على رسول الله، اللهم إني أسألك من فضلك، اللهم اعصمني من الشيطان الرجيم", "category": "دعاء الخروج من المسجد", "source": "أخرجه أبو داود 1/126" },
+            { "id": "21", "title": "أذكار الأذان", "text": "يقول مثل ما يقول المؤذن إلا في حي على الصلاة وحي على الفلاح فيقول: لا حول ولا قوة إلا بالله", "category": "أذكار الأذان", "source": "مسلم 1/288" },
+            { "id": "22", "title": "أذكار الأذان", "text": "يقول: وأنا أشهد أن لا إله إلا الله وحده لا شريك له، وأن محمداً عبده ورسوله، رضيت بالله رباً، وبمحمد رسولاً، وبالإسلام ديناً", "category": "أذكار الأذان", "source": "مسلم 1/288" },
+            { "id": "23", "title": "دعاء بعد الأذان", "text": "اللهم رب هذه الدعوة التامة، والصلاة القائمة، آت محمداً الوسيلة والفضيلة، وابعثه مقاماً محموداً الذي وعدته، إنك لا تخلف الميعاد", "category": "دعاء بعد الأذان", "source": "البخاري 1/152" },
+            { "id": "24", "title": "دعاء قبل الطعام", "text": "بسم الله", "category": "دعاء قبل الطعام", "source": "مسلم 3/1599" },
+            { "id": "25", "title": "دعاء بعد الطعام", "text": "الحمد لله الذي أطعمني هذا ورزقنيه من غير حول مني ولا قوة", "category": "دعاء بعد الطعام", "source": "أخرجه أبو داود 4/302، والترمذي 5/516" },
+            { "id": "26", "title": "دعاء الضيف للمضيف", "text": "اللهم بارك لهم فيما رزقتهم، واغفر لهم وارحمهم", "category": "دعاء الضيف للمضيف", "source": "مسلم 3/1615" },
+            { "id": "27", "title": "دعاء الصائم إذا أفطر عند قوم", "text": "أفطر عندكم الصائمون، وأكل طعامكم الأبرار، وصلت عليكم الملائكة", "category": "دعاء الصائم إذا أفطر عند قوم", "source": "أخرجه أبو داود 2/227" },
+            { "id": "28", "title": "دعاء من سقي لبناً", "text": "اللهم بارك لنا فيه وزدنا منه", "category": "دعاء من سقي لبناً", "source": "الترمذي 5/516" },
+            { "id": "29", "title": "دعاء عند رؤية الهلال", "text": "الله أكبر، اللهم أهله علينا بالأمن والإيمان والسلامة والإسلام، والتوفيق لما تحب وترضى، ربنا وربك الله", "category": "دعاء عند رؤية الهلال", "source": "الترمذي 5/516" },
+            { "id": "30", "title": "دعاء عند رؤية المطر", "text": "اللهم صيباً نافعاً", "category": "دعاء عند رؤية المطر", "source": "البخاري 1/224" },
+            { "id": "31", "title": "دعاء عند سماع الرعد", "text": "سبحان الذي يسبح الرعد بحمده والملائكة من خيفته", "category": "دعاء عند سماع الرعد", "source": "الترمذي 5/516" },
+            { "id": "32", "title": "دعاء الريح", "text": "اللهم إني أسألك خيرها، وخير ما فيها، وخير ما أرسلت به، وأعوذ بك من شرها، وشر ما فيها، وشر ما أرسلت به", "category": "دعاء الريح", "source": "مسلم 2/616" },
+            { "id": "33", "title": "دعاء زيارة القبور", "text": "السلام عليكم أهل الديار من المؤمنين والمسلمين، وإنا إن شاء الله بكم لاحقون، نسأل الله لنا ولكم العافية", "category": "دعاء زيارة القبور", "source": "مسلم 2/671" },
+            { "id": "34", "title": "دعاء رؤية المريض", "text": "لا بأس طهور إن شاء الله", "category": "دعاء رؤية المريض", "source": "البخاري 1/128" },
+            { "id": "35", "title": "دعاء زيارة المريض", "text": "أسأل الله العظيم رب العرش العظيم أن يشفيك", "category": "دعاء زيارة المريض", "source": "الترمذي 5/516" },
+            { "id": "36", "title": "دعاء من أصيب بمصيبة", "text": "إنا لله وإنا إليه راجعون، اللهم أجرني في مصيبتي، واخلف لي خيراً منها", "category": "دعاء من أصيب بمصيبة", "source": "مسلم 2/632" },
+            { "id": "37", "title": "دعاء التعزية", "text": "إن لله ما أخذ، وله ما أعطى، وكل شيء عنده بأجل مسمى، فلتصبر ولتحتسب", "category": "دعاء التعزية", "source": "البخاري 2/80" },
+            { "id": "38", "title": "دعاء عند سماع الديك", "text": "إذا سمعتم صياح الديكة فاسألوا الله من فضله، فإنها رأت ملكاً", "category": "دعاء عند سماع الديك", "source": "البخاري 2/80" },
+            { "id": "39", "title": "دعاء عند سماع نهيق الحمار", "text": "إذا سمعتم نهيق الحمار فتعوذوا بالله من الشيطان، فإنها رأت شيطاناً", "category": "دعاء عند سماع نهيق الحمار", "source": "البخاري 2/80" },
+            { "id": "40", "title": "دعاء عند رؤية الكسوف", "text": "فإذا رأيتم شيئاً من ذلك فافزعوا إلى ذكر الله ودعائه واستغفاره", "category": "دعاء عند رؤية الكسوف", "source": "البخاري 2/80" },
+            { "id": "41", "title": "دعاء عند رؤية الخسوف", "text": "فإذا رأيتم شيئاً من ذلك فافزعوا إلى ذكر الله ودعائه واستغفاره", "category": "دعاء عند رؤية الخسوف", "source": "البخاري 2/80" },
+            { "id": "42", "title": "دعاء عند الاستخارة", "text": "اللهم إني أستخيرك بعلمك، وأستقدرك بقدرتك، وأسألك من فضلك العظيم، فإنك تقدر ولا أقدر، وتعلم ولا أعلم، وأنت علام الغيوب، اللهم إن كنت تعلم أن هذا الأمر خير لي في ديني ومعاشي وعاقبة أمري (أو قال: في عاجل أمري وآجله) فاقدره لي ويسره لي ثم بارك لي فيه، وإن كنت تعلم أن هذا الأمر شر لي في ديني ومعاشي وعاقبة أمري (أو قال: في عاجل أمري وآجله) فاصرفه عني واصرفني عنه، واقدر لي الخير حيث كان، ثم رضني به", "category": "دعاء عند الاستخارة", "source": "البخاري 2/80" },
+            { "id": "43", "title": "دعاء قنوت الوتر", "text": "اللهم اهدني فيمن هديت، وعافني فيمن عافيت، وتولني فيمن توليت، وبارك لي فيما أعطيت، وقني شر ما قضيت، فإنك تقضي ولا يقضى عليك، وإنه لا يذل من واليت، ولا يعز من عاديت، تباركت ربنا وتعاليت", "category": "دعاء قنوت الوتر", "source": "أخرجه أبو داود 2/80" },
+            { "id": "44", "title": "دعاء السفر", "text": "الله أكبر، الله أكبر، الله أكبر، سبحان الذي سخر لنا هذا وما كنا له مقرنين، وإنا إلى ربنا لمنقلبون، اللهم إنا نسألك في سفرنا هذا البر والتقوى، ومن العمل ما ترضى، اللهم هون علينا سفرنا هذا، واطو عنا بعده، اللهم أنت الصاحب في السفر، والخليفة في الأهل، اللهم إني أعوذ بك من وعثاء السفر، وكآبة المنظر، وسوء المنقلب في المال والأهل", "category": "دعاء السفر", "source": "مسلم 2/998" },
+            { "id": "45", "title": "دعاء دخول السوق", "text": "لا إله إلا الله وحده لا شريك له، له الملك وله الحمد، يحيي ويميت وهو حي لا يموت، بيده الخير وهو على كل شيء قدير", "category": "دعاء دخول السوق", "source": "الترمذي 5/516" },
+            { "id": "46", "title": "دعاء كفارة المجلس", "text": "سبحانك اللهم وبحمدك، أشهد أن لا إله إلا أنت، أستغفرك وأتوب إليك", "category": "دعاء كفارة المجلس", "source": "الترمذي 5/516" },
+            { "id": "47", "title": "دعاء الهم والحزن", "text": "اللهم إني عبدك، ابن عبدك، ابن أمتك، ناصيتي بيدك، ماض في حكمك، عدل في قضاؤك، أسألك بكل اسم هو لك سميت به نفسك، أو أنزلته في كتابك، أو علمته أحداً من خلقك، أو استأثرت به في علم الغيب عندك، أن تجعل القرآن العظيم ربيع قلبي، ونور صدري، وجلاء حزني، وذهاب همي", "category": "دعاء الهم والحزن", "source": "أحمد 1/391" },
+            { "id": "48", "title": "دعاء الكرب", "text": "لا إله إلا الله العظيم الحليم، لا إله إلا الله رب العرش العظيم، لا إله إلا الله رب السماوات ورب الأرض ورب العرش الكريم", "category": "دعاء الكرب", "source": "البخاري 7/154، ومسلم 4/2092" },
+            { "id": "49", "title": "دعاء قضاء الدين", "text": "اللهم اكفني بحلالك عن حرامك، وأغنني بفضلك عمن سواك", "category": "دعاء قضاء الدين", "source": "الترمذي 5/516" },
+            { "id": "50", "title": "دعاء الغضب", "text": "أعوذ بالله من الشيطان الرجيم", "category": "دعاء الغضب", "source": "البخاري 7/154، ومسلم 4/2092" },
+            { "id": "51", "title": "دعاء من رأى مبتلى", "text": "الحمد لله الذي عافاني مما ابتلاك به، وفضلني على كثير ممن خلق تفضيلاً", "category": "دعاء من رأى مبتلى", "source": "الترمذي 5/516" },
+            { "id": "52", "title": "دعاء عند سماع خبر سار", "text": "الحمد لله الذي بنعمته تتم الصالحات", "category": "دعاء عند سماع خبر سار", "source": "ابن ماجه 2/1249" },
+            { "id": "53", "title": "دعاء عند سماع خبر سيء", "text": "إنا لله وإنا إليه راجعون، اللهم أجرني في مصيبتي، واخلف لي خيراً منها", "category": "دعاء عند سماع خبر سيء", "source": "مسلم 2/632" },
+            { "id": "54", "title": "دعاء عند رؤية نعمة", "text": "الحمد لله الذي بنعمته تتم الصالحات", "category": "دعاء عند رؤية نعمة", "source": "ابن ماجه 2/1249" },
+            { "id": "55", "title": "دعاء عند رؤية مصيبة", "text": "إنا لله وإنا إليه راجعون، اللهم أجرني في مصيبتي، واخلف لي خيراً منها", "category": "دعاء عند رؤية مصيبة", "source": "مسلم 2/632" },
+            { "id": "56", "title": "دعاء عند رؤية شيء يعجبك", "text": "ما شاء الله لا قوة إلا بالله", "category": "دعاء عند رؤية شيء يعجبك", "source": "الكهف: 39" },
+            { "id": "57", "title": "دعاء عند رؤية شيء تكرهه", "text": "الحمد لله على كل حال، أعوذ بالله من حال أهل النار", "category": "دعاء عند رؤية شيء تكرهه", "source": "الترمذي 5/516" },
+            { "id": "58", "title": "دعاء عند رؤية شخص يضحك", "text": "أضحك الله سنك", "category": "دعاء عند رؤية شخص يضحك", "source": "البخاري 7/154" },
+            { "id": "59", "title": "دعاء عند رؤية شخص يبكي", "text": "اللهم ارحمه", "category": "دعاء عند رؤية شخص يبكي", "source": "مسلم 4/2092" },
+            { "id": "60", "title": "دعاء عند رؤية شخص نائم", "text": "اللهم أيقظه في خير وعافية", "category": "دعاء عند رؤية شخص نائم", "source": "لا يوجد نص صريح" },
+            { "id": "61", "title": "دعاء عند رؤية شخص مستيقظ", "text": "الحمد لله الذي أحيانا بعد ما أماتنا وإليه النشور", "category": "دعاء عند رؤية شخص مستيقظ", "source": "البخاري مع الفتح 11/113، ومسلم 4/2083" },
+            { "id": "62", "title": "دعاء عند رؤية شخص يأكل", "text": "بالهناء والشفاء", "category": "دعاء عند رؤية شخص يأكل", "source": "لا يوجد نص صريح" },
+            { "id": "63", "title": "دعاء عند رؤية شخص يشرب", "text": "بالهناء والشفاء", "category": "دعاء عند رؤية شخص يشرب", "source": "لا يوجد نص صريح" },
+            { "id": "64", "title": "دعاء عند رؤية شخص يلبس", "text": "البس جديداً، وعش حميداً، ومت شهيداً", "category": "دعاء عند رؤية شخص يلبس", "source": "أخرجه أبو داود 4/303" },
+            { "id": "65", "title": "دعاء عند رؤية شخص يخلع ثوبه", "text": "بسم الله", "category": "دعاء عند رؤية شخص يخلع ثوبه", "source": "الترمذي 2/505" },
+            { "id": "66", "title": "دعاء عند رؤية شخص يدخل الخلاء", "text": "بسم الله، اللهم إني أعوذ بك من الخبث والخبائث", "category": "دعاء دخول الخلاء", "source": "البخاري 1/45، ومسلم 1/283" },
+            { "id": "67", "title": "دعاء عند رؤية شخص يخرج من الخلاء", "text": "غفرانك", "category": "دعاء الخروج من الخلاء", "source": "أخرجه أبو داود 1/67، والترمذي 1/7" },
+            { "id": "68", "title": "دعاء عند رؤية شخص يتوضأ", "text": "بسم الله", "category": "دعاء عند رؤية شخص يتوضأ", "source": "أخرجه أبو داود 1/67، والترمذي 1/7" },
+            { "id": "69", "title": "دعاء عند رؤية شخص ينتهي من الوضوء", "text": "أشهد أن لا إله إلا الله وحده لا شريك له، وأشهد أن محمداً عبده ورسوله", "category": "دعاء عند رؤية شخص ينتهي من الوضوء", "source": "مسلم 1/209" },
+            { "id": "70", "title": "دعاء عند رؤية شخص يخرج من المنزل", "text": "بسم الله توكلت على الله، ولا حول ولا قوة إلا بالله", "category": "دعاء عند رؤية شخص يخرج من المنزل", "source": "أخرجه أبو داود 4/325، والترمذي 5/134" },
+            { "id": "71", "title": "دعاء عند رؤية شخص يدخل المنزل", "text": "بسم الله ولجنا، وبسم الله خرجنا، وعلى ربنا توكلنا", "category": "دعاء عند رؤية شخص يدخل المنزل", "source": "أخرجه أبو داود 4/325" },
+            { "id": "72", "title": "دعاء عند رؤية شخص يذهب إلى المسجد", "text": "اللهم اجعل في قلبي نوراً، وفي لساني نوراً", "category": "دعاء عند رؤية شخص يذهب إلى المسجد", "source": "مسلم 1/526" },
+            { "id": "73", "title": "دعاء عند رؤية شخص يدخل المسجد", "text": "بسم الله والصلاة والسلام على رسول الله", "category": "دعاء عند رؤية شخص يدخل المسجد", "source": "أخرجه أبو داود 1/126" },
+            { "id": "74", "title": "دعاء عند رؤية شخص يخرج من المسجد", "text": "بسم الله والصلاة والسلام على رسول الله", "category": "دعاء عند رؤية شخص يخرج من المسجد", "source": "أخرجه أبو داود 1/126" },
+            { "id": "75", "title": "دعاء عند رؤية الأذان", "text": "يقول مثل ما يقول المؤذن", "category": "دعاء عند رؤية الأذان", "source": "مسلم 1/288" },
+            { "id": "76", "title": "دعاء عند رؤية الإقامة", "text": "يقول مثل ما يقول المقيم", "category": "دعاء عند رؤية الإقامة", "source": "مسلم 1/288" },
+            { "id": "77", "title": "دعاء عند رؤية الصلاة", "text": "اللهم أصلح لي ديني الذي هو عصمة أمري", "category": "دعاء عند رؤية الصلاة", "source": "مسلم 4/2071" },
+            { "id": "78", "title": "دعاء عند رؤية الصائم", "text": "أفطر عندكم الصائمون", "category": "دعاء عند رؤية الصائم", "source": "أخرجه أبو داود 2/227" },
+            { "id": "79", "title": "دعاء عند رؤية المطر", "text": "اللهم صيباً نافعاً", "category": "دعاء عند رؤية المطر", "source": "البخاري 1/224" },
+            { "id": "80", "title": "دعاء عند رؤية الرعد", "text": "سبحان الذي يسبح الرعد بحمده", "category": "دعاء عند رؤية الرعد", "source": "الترمذي 5/516" },
+            { "id": "81", "title": "دعاء عند رؤية الريح", "text": "اللهم إني أسألك خيرها", "category": "دعاء عند رؤية الريح", "source": "مسلم 2/616" },
+            { "id": "82", "title": "دعاء عند رؤية المريض", "text": "لا بأس طهور إن شاء الله", "category": "دعاء عند رؤية المريض", "source": "البخاري 1/128" },
+            { "id": "83", "title": "دعاء عند رؤية المبتلى", "text": "الحمد لله الذي عافاني مما ابتلاك به", "category": "دعاء عند رؤية المبتلى", "source": "الترمذي 5/516" },
+            { "id": "84", "title": "دعاء عند رؤية المصيبة", "text": "إنا لله وإنا إليه راجعون", "category": "دعاء عند رؤية المصيبة", "source": "مسلم 2/632" },
+            { "id": "85", "title": "دعاء عند رؤية النعمة", "text": "الحمد لله الذي بنعمته تتم الصالحات", "category": "دعاء عند رؤية النعمة", "source": "ابن ماجه 2/1249" },
+            { "id": "86", "title": "دعاء عند رؤية شيء يعجبك", "text": "ما شاء الله لا قوة إلا بالله", "category": "دعاء عند رؤية شيء يعجبك", "source": "الكهف: 39" },
+            { "id": "87", "title": "دعاء عند رؤية شيء تكرهه", "text": "الحمد لله على كل حال", "category": "دعاء عند رؤية شيء تكرهه", "source": "الترمذي 5/516" },
+            { "id": "88", "title": "دعاء عند رؤية شخص يضحك", "text": "أضحك الله سنك", "category": "دعاء عند رؤية شخص يضحك", "source": "البخاري 7/154" },
+            { "id": "89", "title": "دعاء عند رؤية شخص يبكي", "text": "اللهم ارحمه", "category": "دعاء عند رؤية شخص يبكي", "source": "مسلم 4/2092" },
+            { "id": "90", "title": "دعاء عند رؤية شخص يلبس", "text": "البس جديداً", "category": "دعاء عند رؤية شخص يلبس", "source": "أخرجه أبو داود 4/303" },
+            { "id": "91", "title": "دعاء عند رؤية شخص يخلع ثوبه", "text": "بسم الله", "category": "دعاء عند رؤية شخص يخلع ثوبه", "source": "الترمذي 2/505" },
+            { "id": "92", "title": "دعاء عند رؤية شخص يدخل الخلاء", "text": "بسم الله، اللهم إني أعوذ بك من الخبث والخبائث", "category": "دعاء عند رؤية شخص يدخل الخلاء", "source": "البخاري 1/45، ومسلم 1/283" },
+            { "id": "93", "title": "دعاء عند رؤية شخص يخرج من الخلاء", "text": "غفرانك", "category": "دعاء عند رؤية شخص يخرج من الخلاء", "source": "أخرجه أبو داود 1/67، والترمذي 1/7" },
+            { "id": "94", "title": "دعاء عند رؤية شخص يتوضأ", "text": "بسم الله", "category": "دعاء عند رؤية شخص يتوضأ", "source": "أخرجه أبو داود 1/67، والترمذي 1/7" },
+            { "id": "95", "title": "دعاء عند رؤية شخص ينتهي من الوضوء", "text": "أشهد أن لا إله إلا الله وحده لا شريك له", "category": "دعاء عند رؤية شخص ينتهي من الوضوء", "source": "مسلم 1/209" },
+            { "id": "96", "title": "دعاء عند رؤية شخص يخرج من المنزل", "text": "بسم الله توكلت على الله", "category": "دعاء عند رؤية شخص يخرج من المنزل", "source": "أخرجه أبو داود 4/325، والترمذي 5/134" },
+            { "id": "97", "title": "دعاء عند رؤية شخص يدخل المنزل", "text": "بسم الله ولجنا", "category": "دعاء عند رؤية شخص يدخل المنزل", "source": "أخرجه أبو داود 4/325" },
+            { "id": "98", "title": "دعاء عند رؤية شخص يذهب إلى المسجد", "text": "اللهم اجعل في قلبي نوراً", "category": "دعاء عند رؤية شخص يذهب إلى المسجد", "source": "مسلم 1/526" },
+            { "id": "99", "title": "دعاء عند رؤية شخص يدخل المسجد", "text": "بسم الله والصلاة والسلام على رسول الله", "category": "دعاء عند رؤية شخص يدخل المسجد", "source": "أخرجه أبو داود 1/126" },
+            { "id": "100", "title": "دعاء عند رؤية شخص يخرج من المسجد", "text": "بسم الله والصلاة والسلام على رسول الله", "category": "دعاء عند رؤية شخص يخرج من المسجد", "source": "أخرجه أبو داود 1/126" },
+            { "id": "101", "title": "دعاء عند رؤية الأذان", "text": "يقول مثل ما يقول المؤذن", "category": "دعاء عند رؤية الأذان", "source": "مسلم 1/288" },
+            { "id": "102", "title": "دعاء عند رؤية الإقامة", "text": "يقول مثل ما يقول المقيم", "category": "دعاء عند رؤية الإقامة", "source": "مسلم 1/288" },
+            { "id": "103", "title": "دعاء عند رؤية الصلاة", "text": "اللهم أصلح لي ديني الذي هو عصمة أمري", "category": "دعاء عند رؤية الصلاة", "source": "مسلم 4/2071" },
+            { "id": "104", "title": "دعاء عند رؤية الصائم", "text": "أفطر عندكم الصائمون", "category": "دعاء عند رؤية الصائم", "source": "أخرجه أبو داود 2/227" },
+            // أذكار الصباح
+            { "id": "105", "title": "أذكار الصباح", "text": "أصبحنا وأصبح الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير، رب أسألك خير ما في هذا اليوم وخير ما بعده، وأعوذ بك من شر ما في هذا اليوم وشر ما بعده، رب أعوذ بك من الكسل وسوء الكبر، رب أعوذ بك من عذاب في النار وعذاب في القبر.", "category": "أذكار الصباح", "source": "مسلم 4/2088" },
+            { "id": "106", "title": "أذكار الصباح", "text": "اللهم بك أصبحنا، وبك أمسينا، وبك نحيا، وبك نموت، وإليك النشور.", "category": "أذكار الصباح", "source": "الترمذي 5/466" },
+            { "id": "107", "title": "أذكار الصباح", "text": "اللهم أنت ربي لا إله إلا أنت، خلقتني وأنا عبدك، وأنا على عهدك ووعدك ما استطعت، أعوذ بك من شر ما صنعت، أبوء لك بنعمتك علي، وأبوء بذنبي فاغفر لي فإنه لا يغفر الذنوب إلا أنت.", "category": "أذكار الصباح", "source": "البخاري 7/150" },
+            { "id": "108", "title": "أذكار الصباح", "text": "اللهم إني أصبحت أشهدك وأشهد حملة عرشك، وملائكتك وجميع خلقك، أنك أنت الله لا إله إلا أنت وحدك لا شريك لك، وأن محمداً عبدك ورسولك. (4 مرات)", "category": "أذكار الصباح", "source": "أبو داود 4/317" },
+            { "id": "109", "title": "أذكار الصباح", "text": "اللهم ما أصبح بي من نعمة أو بأحد من خلقك فمنك وحدك لا شريك لك، فلك الحمد ولك الشكر.", "category": "أذكار الصباح", "source": "أبو داود 4/318" },
+            { "id": "110", "title": "أذكار الصباح", "text": "اللهم عافني في بدني، اللهم عافني في سمعي، اللهم عافني في بصري، لا إله إلا أنت. (3 مرات)", "category": "أذكار الصباح", "source": "أبو داود 4/324" },
+            { "id": "111", "title": "أذكار الصباح", "text": "اللهم إني أعوذ بك من الكفر والفقر، اللهم إني أعوذ بك من عذاب القبر، لا إله إلا أنت. (3 مرات)", "category": "أذكار الصباح", "source": "أبو داود 4/324" },
+            { "id": "112", "title": "أذكار الصباح", "text": "حسبي الله لا إله إلا هو عليه توكلت وهو رب العرش العظيم. (7 مرات)", "category": "أذكار الصباح", "source": "أبو داود 4/323" },
+            { "id": "113", "title": "أذكار الصباح", "text": "اللهم إني أسألك العفو والعافية في الدنيا والآخرة، اللهم إني أسألك العفو والعافية في ديني ودنياي وأهلي ومالي، اللهم استتر عوراتي وآمن روعاتي، اللهم احفظني من بين يدي ومن خلفي وعن يميني وعن شمالي ومن فوقي، وأعوذ بعظمتك أن أغتال من تحتي.", "category": "أذكار الصباح", "source": "أبو داود 4/324" },
+            { "id": "114", "title": "أذكار الصباح", "text": "اللهم عالم الغيب والشهادة فاطر السماوات والأرض رب كل شيء ومليكه، أشهد أن لا إله إلا أنت، أعوذ بك من شر نفسي ومن شر الشيطان وشركه، وأن أقترف على نفسي سوءاً أو أجره إلى مسلم.", "category": "أذكار الصباح", "source": "الترمذي 5/506" },
+            { "id": "115", "title": "أذكار الصباح", "text": "بسم الله الذي لا يضر مع اسمه شيء في الأرض ولا في السماء وهو السميع العليم. (3 مرات)", "category": "أذكار الصباح", "source": "أبو داود 4/323" },
+            { "id": "116", "title": "أذكار الصباح", "text": "رضيت بالله رباً، وبالإسلام ديناً، وبمحمد صلى الله عليه وسلم نبياً. (3 مرات)", "category": "أذكار الصباح", "source": "أبو داود 4/323" },
+            { "id": "117", "title": "أذكار الصباح", "text": "يا حي يا قيوم برحمتك أستغيث أصلح لي شأني كله ولا تكلني إلى نفسي طرفة عين.", "category": "أذكار الصباح", "source": "الحاكم 1/545" },
+            { "id": "118", "title": "أذكار الصباح", "text": "سبحان الله وبحمده عدد خلقه ورضا نفسه وزنة عرشه ومداد كلماته. (3 مرات)", "category": "أذكار الصباح", "source": "مسلم 4/2090" },
+            { "id": "119", "title": "أذكار الصباح", "text": "سبحان الله وبحمده. (100 مرة)", "category": "أذكار الصباح", "source": "البخاري 7/168" },
+            { "id": "120", "title": "أذكار الصباح", "text": "لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير. (100 مرة)", "category": "أذكار الصباح", "source": "البخاري 7/168" },
+            { "id": "121", "title": "أستغفر الله وأتوب إليه. (100 مرة)", "text": "أستغفر الله وأتوب إليه. (100 مرة)", "category": "أذكار الصباح", "source": "البخاري مع الفتح 11/213" },
+            // أذكار المساء
+            { "id": "122", "title": "أذكار المساء", "text": "أمسينا وأمسى الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير، رب أسألك خير ما في هذه الليلة وخير ما بعدها، وأعوذ بك من شر ما في هذه الليلة وشر ما بعدها، رب أعوذ بك من الكسل وسوء الكبر، رب أعوذ بك من عذاب في النار وعذاب في القبر.", "category": "أذكار المساء", "source": "مسلم 4/2088" },
+            { "id": "123", "title": "أذكار المساء", "text": "اللهم بك أمسينا، وبك أصبحنا، وبك نحيا، وبك نموت، وإليك المصير.", "category": "أذكار المساء", "source": "الترمذي 5/466" },
+            { "id": "124", "title": "أذكار المساء", "text": "اللهم أنت ربي لا إله إلا أنت، خلقتني وأنا عبدك، وأنا على عهدك ووعدك ما استطعت، أعوذ بك من شر ما صنعت، أبوء لك بنعمتك علي، وأبوء بذنبي فاغفر لي فإنه لا يغفر الذنوب إلا أنت.", "category": "أذكار المساء", "source": "البخاري 7/150" },
+            { "id": "125", "title": "أذكار المساء", "text": "اللهم إني أمسيت أشهدك وأشهد حملة عرشك، وملائكتك وجميع خلقك، أنك أنت الله لا إله إلا أنت وحدك لا شريك لك، وأن محمداً عبدك ورسولك. (4 مرات)", "category": "أذكار المساء", "source": "أبو داود 4/317" },
+            { "id": "126", "title": "أذكار المساء", "text": "اللهم ما أمسى بي من نعمة أو بأحد من خلقك فمنك وحدك لا شريك لك، فلك الحمد ولك الشكر.", "category": "أذكار المساء", "source": "أبو داود 4/318" },
+            { "id": "127", "title": "أذكار المساء", "text": "اللهم عافني في بدني، اللهم عافني في سمعي، اللهم عافني في بصري، لا إله إلا أنت. (3 مرات)", "category": "أذكار المساء", "source": "أبو داود 4/324" },
+            { "id": "128", "title": "أذكار المساء", "text": "اللهم إني أعوذ بك من الكفر والفقر، اللهم إني أعوذ بك من عذاب القبر، لا إله إلا أنت. (3 مرات)", "category": "أذكار المساء", "source": "أبو داود 4/324" },
+            { "id": "129", "title": "أذكار المساء", "text": "حسبي الله لا إله إلا هو عليه توكلت وهو رب العرش العظيم. (7 مرات)", "category": "أذكار المساء", "source": "أبو داود 4/323" },
+            { "id": "130", "title": "أذكار المساء", "text": "اللهم إني أسألك العفو والعافية في الدنيا والآخرة، اللهم إني أسألك العفو والعافية في ديني ودنياي وأهلي ومالي، اللهم استتر عوراتي وآمن روعاتي، اللهم احفظني من بين يدي ومن خلفي وعن يميني وعن شمالي ومن فوقي، وأعوذ بعظمتك أن أغتال من تحتي.", "category": "أذكار المساء", "source": "أبو داود 4/324" },
+            { "id": "131", "title": "أذكار المساء", "text": "اللهم عالم الغيب والشهادة فاطر السماوات والأرض رب كل شيء ومليكه، أشهد أن لا إله إلا أنت، أعوذ بك من شر نفسي ومن شر الشيطان وشركه، وأن أقترف على نفسي سوءاً أو أجره إلى مسلم.", "category": "أذكار المساء", "source": "الترمذي 5/506" },
+            { "id": "132", "title": "أذكار المساء", "text": "بسم الله الذي لا يضر مع اسمه شيء في الأرض ولا في السماء وهو السميع العليم. (3 مرات)", "category": "أذكار المساء", "source": "أبو داود 4/323" },
+            { "id": "133", "title": "أذكار المساء", "text": "رضيت بالله رباً، وبالإسلام ديناً، وبمحمد صلى الله عليه وسلم نبياً. (3 مرات)", "category": "أذكار المساء", "source": "أبو داود 4/323" },
+            { "id": "134", "title": "أذكار المساء", "text": "يا حي يا قيوم برحمتك أستغيث أصلح لي شأني كله ولا تكلني إلى نفسي طرفة عين.", "category": "أذكار المساء", "source": "الحاكم 1/545" },
+            { "id": "135", "title": "أذكار المساء", "text": "سبحان الله وبحمده. (100 مرة)", "category": "أذكار المساء", "source": "البخاري 7/168" },
+            { "id": "136", "title": "أذكار المساء", "text": "لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير. (100 مرة)", "category": "أذكار المساء", "source": "البخاري 7/168" },
+            { "id": "137", "title": "أستغفر الله وأتوب إليه. (100 مرة)", "text": "أستغفر الله وأتوب إليه. (100 مرة)", "category": "أذكار المساء", "source": "البخاري مع الفتح 11/213" }
+        ];
+
+        // Get references to DOM elements
+        const dayNightToggle = document.getElementById('day-night-toggle');
+        const dayNightIcon = document.getElementById('day-night-icon');
+        const bookmarkBtn = document.getElementById('bookmark-btn');
+        const bookmarkCount = document.getElementById('bookmark-count');
+        const rightDropdown = document.getElementById('right-dropdown');
+        const openDropdownBtn = document.getElementById('open-dropdown');
+        const closeDropdownBtn = document.getElementById('close-dropdown');
+        const dhikrCardsContainer = document.getElementById('dhikr-cards-container');
+        const searchInput = document.getElementById('search-input');
+        const bookmarkModal = document.getElementById('bookmark-modal');
+        const closeBookmarkModalBtn = document.getElementById('close-bookmark-modal');
+        const bookmarkedDhikrList = document.getElementById('bookmarked-dhikr-list');
+        const noBookmarksMessage = document.getElementById('no-bookmarks-message');
+        const categoryList = document.getElementById('category-list');
+        const sourceList = document.getElementById('source-list');
+        const backToTopBtn = document.getElementById('back-to-top-btn');
+        const mostSearchedButtonsContainer = document.getElementById('most-searched-buttons');
+
+        // New DOM elements for Dhikr of the Day
+        const dhikrOfTheDayCard = document.getElementById('dhikr-of-the-day-card');
+        const dhikrOfTheDayTitle = document.getElementById('dhikr-of-the-day-title');
+        const dhikrOfTheDayText = document.getElementById('dhikr-of-the-day-text');
+        const dhikrOfTheDaySource = document.getElementById('dhikr-of-the-day-source');
+        const shareDhikrImageBtn = document.getElementById('share-dhikr-image-btn');
+        const shareDhikrTextBtn = document.getElementById('share-dhikr-text-btn');
+
+        // New DOM elements for custom alert
+        const customAlertModal = document.getElementById('custom-alert-modal');
+        const customAlertTitle = document.getElementById('custom-alert-title');
+        const customAlertMessage = document.getElementById('custom-alert-message');
+        const closeCustomAlertModalBtn = document.getElementById('close-custom-alert-modal');
+        const customAlertOkBtn = document.getElementById('custom-alert-ok-btn');
+
+        // New DOM elements for Dhikr Explanation Modal
+        const explanationModal = document.getElementById('explanation-modal');
+        const closeExplanationModalBtn = document.getElementById('close-explanation-modal');
+        const explanationOkBtn = document.getElementById('explanation-ok-btn');
+        const explanationTitle = document.getElementById('explanation-title');
+        const explanationContent = document.getElementById('explanation-content');
+        const explanationText = document.getElementById('explanation-text');
+        const explanationLoadingSpinner = document.getElementById('explanation-loading-spinner');
+
+        // Pagination DOM elements
+        const prevPageBtn = document.getElementById('prev-page-btn');
+        const nextPageBtn = document.getElementById('next-page-btn');
+        const pageInfo = document.getElementById('page-info');
+
+
+        // Function to show custom alert
+        function showAlert(message, title = 'تنبيه') {
+            customAlertTitle.textContent = title;
+            customAlertMessage.textContent = message;
+            customAlertModal.classList.add('open');
+        }
+
+        // Event listeners for custom alert
+        closeCustomAlertModalBtn.addEventListener('click', () => {
+            customAlertModal.classList.remove('open');
+        });
+
+        customAlertOkBtn.addEventListener('click', () => {
+            customAlertModal.classList.remove('open');
+        });
+
+
+        // --- Local Storage Bookmark Functions ---
+
+        function loadBookmarksFromLocalStorage() {
+            const storedBookmarks = localStorage.getItem('bookmarkedDhikr');
+            if (storedBookmarks) {
+                try {
+                    const parsedBookmarks = JSON.parse(storedBookmarks);
+                    bookmarkedDhikrFullData = parsedBookmarks;
+                    bookmarkedDhikrIds = new Set(parsedBookmarks.map(d => d.id));
+                } catch (e) {
+                    console.error("Error parsing stored bookmarks:", e);
+                    bookmarkedDhikrFullData = [];
+                    bookmarkedDhikrIds = new Set();
+                }
             } else {
-                customModal.querySelector('.modal-content').classList.remove('dark');
+                bookmarkedDhikrFullData = [];
+                bookmarkedDhikrIds = new Set();
+            }
+            updateBookmarkCount(bookmarkedDhikrIds.size);
+            applyBookmarkStyles(); // Apply styles to cards based on current bookmarks
+        }
+
+        function saveBookmarksToLocalStorage() {
+            localStorage.setItem('bookmarkedDhikr', JSON.stringify(bookmarkedDhikrFullData));
+            updateBookmarkCount(bookmarkedDhikrIds.size);
+            applyBookmarkStyles();
+        }
+
+        function toggleBookmark(dhikrId, dhikrTitle, dhikrText) {
+            if (bookmarkedDhikrIds.has(dhikrId)) {
+                // Remove bookmark
+                bookmarkedDhikrIds.delete(dhikrId);
+                bookmarkedDhikrFullData = bookmarkedDhikrFullData.filter(d => d.id !== dhikrId);
+                console.log(`Bookmark removed for dhikr ID: ${dhikrId}`);
+            } else {
+                // Add bookmark
+                const newBookmark = { id: dhikrId, title: dhikrTitle, text: dhikrText, timestamp: new Date().toISOString() };
+                bookmarkedDhikrIds.add(dhikrId);
+                bookmarkedDhikrFullData.push(newBookmark);
+                console.log(`Bookmark added for dhikr ID: ${dhikrId}`);
+            }
+            saveBookmarksToLocalStorage();
+            // Update modal content if it's open
+            if (bookmarkModal.classList.contains('open')) {
+                displayBookmarkedDhikrInModal(bookmarkedDhikrFullData);
             }
         }
 
-        /**
-         * يخفي النافذة المنبثقة المخصصة.
-         */
-        function hideModal() {
-            customModal.style.display = "none"; // إخفاء النافذة المنبثقة
+        function deleteBookmark(dhikrId) {
+            bookmarkedDhikrIds.delete(dhikrId);
+            bookmarkedDhikrFullData = bookmarkedDhikrFullData.filter(d => d.id !== dhikrId);
+            saveBookmarksToLocalStorage();
+            console.log(`Bookmark deleted from modal for dhikr ID: ${dhikrId}`);
+            displayBookmarkedDhikrInModal(bookmarkedDhikrFullData); // Re-render modal
         }
 
-        // مستمع حدث لإغلاق النافذة المنبثقة
-        modalCloseButton.addEventListener("click", hideModal);
-        // إغلاق النافذة المنبثقة إذا نقر المستخدم خارجها
-        window.addEventListener("click", (event) => {
-            if (event.target === customModal) {
-                hideModal();
-            }
-        });
-
-        // ملء قائمة الفهرس بفئات فريدة من azkarList
-        const categories = [...new Set(azkarList.map(item => item.category))];
-        categories.forEach(category => {
-            const li = document.createElement("li");
-            li.textContent = category;
-            li.dataset.category = category; // تخزين اسم الفئة في سمة بيانات
-            indexList.appendChild(li);
-        });
-
-        // مستمع حدث لتبديل رؤية حاوية الفهرس
-        indexButton.addEventListener("click", () => {
-            isIndexOpen = !isIndexOpen;
-            indexContainer.classList.toggle("open", isIndexOpen);
-        });
-
-        // مستمع حدث للنقر على فئة في قائمة الفهرس
-        indexList.addEventListener("click", (event) => {
-            const category = event.target.dataset.category;
-            if (category) {
-                // تصفية الأذكار بناءً على الفئة المختارة
-                const filteredAzkar = azkarList.filter(item => item.category === category);
-                displayAzkar(filteredAzkar); // عرض الأذكار المصفاة
-                isIndexOpen = false; // إغلاق حاوية الفهرس
-                indexContainer.classList.remove("open");
-            }
-        });
-
-        // مستمع حدث لتبديل الوضع الليلي
-        nightModeButton.addEventListener("click", () => {
-            isNightMode = !isNightMode;
-            document.body.classList.toggle("dark", isNightMode); // تبديل فئة dark على الجسم
-            nightModeIcon.classList.toggle("fa-sun", !isNightMode); // تغيير الأيقونة إلى شمس إذا لم يكن الوضع الليلي
-            nightModeIcon.classList.toggle("fa-moon", isNightMode); // تغيير الأيقونة إلى قمر إذا كان الوضع الليلي
-            // تحديث سمة النافذة المنبثقة بناءً على الوضع الليلي
-            if (isNightMode) {
-                customModal.querySelector('.modal-content').classList.add('dark');
+        function updateBookmarkCount(count) {
+            bookmarkCount.textContent = count;
+            if (count > 0) {
+                bookmarkCount.classList.remove('hidden');
             } else {
-                customModal.querySelector('.modal-content').classList.remove('dark');
+                bookmarkCount.classList.add('hidden');
             }
-            // تحديث سمة النافذة المنبثقة لشرح الكلمات بناءً على الوضع الليلي
-            if (isNightMode) {
-                wordExplanationPopup.classList.add('dark');
+        }
+
+        function applyBookmarkStyles() {
+            document.querySelectorAll('.dhikr-card').forEach(card => {
+                const dhikrId = card.dataset.dhikrId;
+                if (bookmarkedDhikrIds.has(dhikrId)) {
+                    card.classList.add('bookmarked');
+                } else {
+                    card.classList.remove('bookmarked');
+                }
+            });
+        }
+
+        async function displayBookmarkedDhikrInModal(bookmarkedDhikr) {
+            bookmarkedDhikrList.innerHTML = ''; // Clear previous list
+            if (bookmarkedDhikr.length === 0) {
+                noBookmarksMessage.style.display = 'block';
             } else {
-                wordExplanationPopup.classList.remove('dark');
+                noBookmarksMessage.style.display = 'none';
+                // Sort by timestamp if available, or by ID
+                bookmarkedDhikr.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+                bookmarkedDhikr.forEach(dhikr => {
+                    const dhikrElement = document.createElement('div');
+                    dhikrElement.className = 'bookmarked-dhikr-item';
+                    dhikrElement.innerHTML = `
+                        <div class="dhikr-info">
+                            <h4 class="font-semibold text-gray-900 dark:text-gray-100">${dhikr.title}</h4>
+                            <p class="text-sm text-gray-700 dark:text-gray-300 mt-1">${dhikr.text}</p>
+                        </div>
+                        <button class="delete-bookmark-btn" data-dhikr-id="${dhikr.id}" title="حذف من المفضلة">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    `;
+                    bookmarkedDhikrList.appendChild(dhikrElement);
+                });
+
+                // Add event listeners to delete buttons in the modal
+                bookmarkedDhikrList.querySelectorAll('.delete-bookmark-btn').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const dhikrIdToDelete = event.currentTarget.dataset.dhikrId;
+                        deleteBookmark(dhikrIdToDelete);
+                    });
+                });
             }
-        });
+        }
 
-        /**
-         * يعرض قائمة من عناصر الأذكار في منطقة المحتوى الرئيسية.
-         * @param {Array<Object>} azkar - مصفوفة من كائنات الذكر لعرضها.
-         */
-        function displayAzkar(azkar) {
-            azkarListContainer.innerHTML = ""; // مسح المحتوى السابق
-
-            if (azkar.length === 0) {
-                // عرض رسالة إذا لم يتم العثور على أذكار
-                const noResultsDiv = document.createElement("div");
-                noResultsDiv.classList.add("col-span-full", "text-center", "text-gray-700", "dark:text-gray-300", "arabic-text");
-                noResultsDiv.textContent = "لا توجد أذكار مطابقة لبحثك.";
-                azkarListContainer.appendChild(noResultsDiv);
+        // --- UI Rendering Functions ---
+        function renderDhikrCards(dhikrsToRender) {
+            dhikrCardsContainer.innerHTML = ''; // Clear existing cards
+            if (dhikrsToRender.length === 0) {
+                dhikrCardsContainer.innerHTML = '<p class="text-center text-gray-600 dark:text-gray-400 col-span-full">لا توجد أذكار مطابقة.</p>';
                 return;
             }
+            dhikrsToRender.forEach(dhikr => {
+                const isBookmarked = bookmarkedDhikrIds.has(dhikr.id);
 
-            azkar.forEach(zekr => {
-                const zekrDiv = document.createElement("div");
-                zekrDiv.classList.add("bg-white", "dark:bg-gray-700", "rounded-lg", "shadow-md", "p-4", "flex", "flex-col", "justify-between");
+                const card = document.createElement('div');
+                card.className = `dhikr-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border border-gray-200 dark:border-gray-700 ${isBookmarked ? 'bookmarked' : ''}`;
+                card.dataset.dhikrId = dhikr.id; // Store dhikr ID for easy access
 
-                const titleElement = document.createElement("h2");
-                titleElement.classList.add("text-xl", "font-semibold", "text-gray-800", "dark:text-white", "mb-2", "arabic-text");
-                titleElement.textContent = zekr.title;
-
-                const contentElement = document.createElement("p");
-                contentElement.classList.add("text-gray-700", "dark:text-gray-300", "leading-relaxed", "arabic-text");
-
-                // معالجة محتوى الذكر لتسليط الضوء على الكلمات الغريبة
-                let zekrContentHtml = zekr.content;
-                gharibWords.forEach(gw => {
-                    // استخدام تعبير عادي مع علامة عامة وحدود الكلمات لاستبدال جميع التكرارات
-                    const regex = new RegExp(`\\b(${gw.word})\\b`, 'g');
-                    zekrContentHtml = zekrContentHtml.replace(regex, `<span class="gharib-word" data-explanation="${gw.explanation}">${gw.word}</span>`);
-                });
-                contentElement.innerHTML = zekrContentHtml; // استخدام innerHTML لأننا نقوم بإدراج HTML
-
-                const buttonContainer = document.createElement("div");
-                buttonContainer.classList.add("flex", "justify-end", "mt-4");
-
-                const copyButton = document.createElement("button");
-                copyButton.classList.add("copy-button");
-                copyButton.textContent = "نسخ النص والرابط";
-                const copyIcon = document.createElement("i");
-                copyIcon.classList.add("fas", "fa-copy", "icon");
-                copyButton.prepend(copyIcon);
-
-                // مستمع حدث لنسخ محتوى الذكر والرابط
-                copyButton.addEventListener("click", () => {
-                    const textToCopy = `${zekr.title}\n${zekr.content}\n\n${websiteLink}`;
-                    try {
-                        const tempTextArea = document.createElement("textarea");
-                        tempTextArea.value = textToCopy;
-                        document.body.appendChild(tempTextArea);
-                        tempTextArea.select();
-                        document.execCommand('copy');
-                        document.body.removeChild(tempTextArea);
-                        showModal("تم نسخ الذكر والرابط إلى الحافظة!");
-                    } catch (err) {
-                        console.error('فشل النسخ: ', err);
-                        showModal("فشل نسخ الذكر والرابط!");
-                    }
-                });
-
-                const shareButton = document.createElement("button");
-                shareButton.classList.add("share-button");
-                shareButton.textContent = "مشاركة النص والرابط";
-                const shareIcon = document.createElement("i");
-                shareIcon.classList.add("fas", "fa-share", "icon");
-                shareButton.prepend(shareIcon);
-
-                // مستمع حدث لمشاركة محتوى الذكر والرابط
-                shareButton.addEventListener("click", () => {
-                    const textToShare = `${zekr.title}\n${zekr.content}\n\n${websiteLink}`;
-                    if (navigator.share) {
-                        navigator.share({
-                            title: zekr.title,
-                            text: textToShare,
-                            url: websiteLink, // إضافة رابط الموقع هنا
-                        }).then(() => {
-                            console.log('مشاركة ناجحة');
-                        }).catch((error) => {
-                            console.log('خطأ في المشاركة', error);
-                            showModal("فشل مشاركة الذكر والرابط!");
-                        });
-                    } else {
-                        // بديل للمتصفحات التي لا تدعم Web Share API
-                        showModal(`انسخ هذا النص وشاركه يدويًا:\n\n${textToShare}`);
-                    }
-                });
-
-                buttonContainer.appendChild(copyButton);
-                buttonContainer.appendChild(shareButton);
-
-                zekrDiv.appendChild(titleElement);
-                zekrDiv.appendChild(contentElement);
-                zekrDiv.appendChild(buttonContainer);
-
-                azkarListContainer.appendChild(zekrDiv);
+                card.innerHTML = `
+                    <h3 class="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">${dhikr.title}</h3>
+                    <p class="dhikr-text text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-4">
+                        ${dhikr.text}
+                    </p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 italic mb-4">المصدر: ${dhikr.source || 'غير معروف'}</p>
+                    <div class="flex justify-evenly items-center gap-2">
+                        <button class="dhikr-card-btn bookmark-card-btn" title="إضافة/إزالة من المفضلة">
+                            <i class="fas fa-bookmark"></i>
+                        </button>
+                        <button class="dhikr-card-btn copy-btn" title="نسخ النص">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button class="dhikr-card-btn share-btn" title="مشاركة النص">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
+                        <button class="dhikr-card-btn explain-dhikr-btn" title="شرح الذكر بالذكاء الاصطناعي">
+                            <i class="fas fa-magic"></i> ✨
+                        </button>
+                        <button class="dhikr-card-btn decrease-font-btn" title="تصغير الخط">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button class="dhikr-card-btn increase-font-btn" title="تكبير الخط">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                `;
+                dhikrCardsContainer.appendChild(card);
             });
         }
 
-        /**
-         * يقوم بتصفية قائمة الأذكار بناءً على مصطلح البحث ويحدث العرض.
-         * @param {string} searchTerm - المصطلح المراد البحث عنه في عناوين الأذكار ومحتواها.
-         */
-        function filterAzkar(searchTerm) {
-            searchInput.value = searchTerm; // ملء مربع البحث بالمصطلح المحدد
-            const lowerCaseSearchTerm = searchTerm.toLowerCase();
-            const filteredAzkar = azkarList.filter(zekr => {
-                return zekr.title.toLowerCase().includes(lowerCaseSearchTerm) ||
-                       zekr.content.toLowerCase().includes(lowerCaseSearchTerm);
-            });
-            displayAzkar(filteredAzkar);
-        }
+        function populateCategories() {
+            const categories = new Set(dhikrData.map(d => d.category));
+            categoryList.innerHTML = ''; // Clear existing categories
 
-        // مستمع حدث للبحث في الوقت الفعلي أثناء كتابة المستخدم
-        searchInput.addEventListener("input", (event)=> {
-            filterAzkar(event.target.value);
-        });
-        // مستمع حدث للنقر على زر البحث
-        searchButton.addEventListener("click", () => {
-            filterAzkar(searchInput.value);
-        });
+            // Add "All Dhikr" category first and set it as active by default
+            const allDhikrLi = document.createElement('li');
+            const allDhikrLink = document.createElement('a');
+            allDhikrLink.href = "#";
+            allDhikrLink.className = "category-filter block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition";
+            if (currentCategoryFilter === 'all') { // Set 'all' as active initially if it's the current filter
+                allDhikrLink.classList.add('active');
+            }
+            allDhikrLink.dataset.category = "all";
+            allDhikrLink.textContent = "جميع الأذكار";
+            allDhikrLi.appendChild(allDhikrLink);
+            categoryList.appendChild(allDhikrLi);
 
-        // مستمع حدث للنقر على الكلمات الغريبة (مفوض إلى azkarListContainer)
-        azkarListContainer.addEventListener("click", (event) => {
-            if (event.target.classList.contains("gharib-word")) {
-                const explanation = event.target.dataset.explanation;
-                const rect = event.target.getBoundingClientRect();
+            // Sort categories alphabetically
+            const sortedCategories = Array.from(categories).sort();
 
-                popupText.textContent = explanation;
-                // تحديد موضع النافذة المنبثقة بالنسبة للكلمة المنقورة
-                // التعديل للمحاذاة الأفقية مع transformX(-50%)
-                wordExplanationPopup.style.left = `${rect.left + window.scrollX + (rect.width / 2)}px`;
-                wordExplanationPopup.style.top = `${rect.bottom + window.scrollY + 5}px`; // 5 بكسل أسفل الكلمة
-                wordExplanationPopup.style.display = "block";
-
-                // إضافة فئة الوضع الليلي إذا كان نشطاً
-                if (isNightMode) {
-                    wordExplanationPopup.classList.add('dark');
-                } else {
-                    wordExplanationPopup.classList.remove('dark');
+            sortedCategories.forEach(category => {
+                const li = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = "#";
+                link.className = "category-filter block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition";
+                if (currentCategoryFilter === category) {
+                    link.classList.add('active');
                 }
+                link.dataset.category = category;
+                link.textContent = category;
+                li.appendChild(link);
+                categoryList.appendChild(li);
+            });
+        }
 
-                // إخفاء النافذة المنبثقة عند النقر في أي مكان آخر في المستند
-                const hidePopupHandler = (e) => {
-                    // التحقق مما إذا كان النقر خارج النافذة المنبثقة وليس على الكلمة المنقورة نفسها
-                    if (!wordExplanationPopup.contains(e.target) && e.target !== event.target) {
-                        wordExplanationPopup.style.display = "none";
-                        document.removeEventListener("click", hidePopupHandler); // إزالة المستمع بعد الإخفاء
-                    }
-                };
-                // إضافة مستمع إلى المستند لإخفاء النافذة المنبثقة عند النقر خارجها
-                document.addEventListener("click", hidePopupHandler);
+        function populateSources() {
+            const sources = new Set(dhikrData.map(d => d.source).filter(s => s)); // Filter out undefined/null sources
+            sourceList.innerHTML = ''; // Clear existing sources
+
+            // Add "All Sources" option
+            const allSourcesLi = document.createElement('li');
+            const allSourcesLink = document.createElement('a');
+            allSourcesLink.href = "#";
+            allSourcesLink.className = "source-filter block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition";
+            if (currentSourceFilter === 'all') {
+                allSourcesLink.classList.add('active');
+            }
+            allSourcesLink.dataset.source = "all";
+            allSourcesLink.textContent = "جميع المصادر";
+            allSourcesLi.appendChild(allSourcesLink);
+            sourceList.appendChild(allSourcesLi);
+
+            // Sort sources alphabetically
+            const sortedSources = Array.from(sources).sort();
+
+            sortedSources.forEach(source => {
+                const li = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = "#";
+                link.className = "source-filter block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition";
+                if (currentSourceFilter === source) {
+                    link.classList.add('active');
+                }
+                link.dataset.source = source;
+                link.textContent = source; // Display the source text
+                li.appendChild(link);
+                sourceList.appendChild(li);
+            });
+        }
+
+        // Function to apply all active filters and render cards
+        function applyAllFilters() {
+            let filtered = dhikrData;
+
+            if (currentCategoryFilter !== 'all') {
+                filtered = filtered.filter(dhikr => dhikr.category === currentCategoryFilter);
+            }
+
+            if (currentSourceFilter !== 'all') {
+                filtered = filtered.filter(dhikr => dhikr.source === currentSourceFilter);
+            }
+
+            if (currentSearchTerm) {
+                const searchTermLower = currentSearchTerm.toLowerCase();
+                filtered = filtered.filter(dhikr =>
+                    dhikr.title.toLowerCase().includes(searchTermLower) ||
+                    dhikr.text.toLowerCase().includes(searchTermLower) ||
+                    (dhikr.category && dhikr.category.toLowerCase().includes(searchTermLower)) ||
+                    (dhikr.source && dhikr.source.toLowerCase().includes(searchTermLower))
+                );
+            }
+            filteredDhikrForPagination = filtered; // Update the global filtered array for pagination
+            currentPage = 1; // Reset to first page on new filter/search
+            renderCurrentPageDhikr();
+            applyBookmarkStyles(); // Important to re-apply styles after rendering
+        }
+
+        // --- Pagination Functions ---
+        function renderCurrentPageDhikr() {
+            const totalPages = Math.ceil(filteredDhikrForPagination.length / dhikrPerPage);
+            const startIndex = (currentPage - 1) * dhikrPerPage;
+            const endIndex = startIndex + dhikrPerPage;
+            const dhikrsToDisplay = filteredDhikrForPagination.slice(startIndex, endIndex);
+
+            renderDhikrCards(dhikrsToDisplay); // Render only the dhikr for the current page
+            updatePaginationControls(totalPages);
+        }
+
+        function updatePaginationControls(totalPages) {
+            pageInfo.textContent = `الصفحة ${currentPage} من ${totalPages}`;
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
+        }
+
+        prevPageBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderCurrentPageDhikr();
+                window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top on page change
             }
         });
 
-        /**
-         * يختار ذكرًا عشوائيًا ويعرضه في بطاقة "ذكر اليوم" مع خلفية طبيعية.
-         */
-        function displayDailyZekr() {
+        nextPageBtn.addEventListener('click', () => {
+            const totalPages = Math.ceil(filteredDhikrForPagination.length / dhikrPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderCurrentPageDhikr();
+                window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top on page change
+            }
+        });
+
+
+        // --- Dhikr of the Day Functions ---
+        function getTodayDateString() {
             const today = new Date();
-            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
-            
-            // استخدم dayOfYear لاختيار ذكر وخلفية بشكل ثابت لكل يوم
-            const zekrIndex = dayOfYear % azkarList.length;
-            const backgroundIndex = dayOfYear % natureBackgrounds.length;
-
-            const selectedZekr = azkarList[zekrIndex];
-            const selectedBackground = natureBackgrounds[backgroundIndex];
-
-            dailyZekrContent.textContent = selectedZekr.content;
-            dailyZekrCard.style.backgroundImage = `url('${selectedBackground}')`;
+            return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
         }
 
-        // العرض الأولي لجميع الأذكار عند تحميل الصفحة
-        displayAzkar(azkarList);
-        // عرض ذكر اليوم عند تحميل الصفحة
-        displayDailyZekr();
+        function selectDhikrOfTheDay() {
+            if (dhikrData.length === 0) return null; // Ensure data is loaded
 
-        // تحديث ذكر اليوم كل 24 ساعة (للتأكد من أنه يتغير يوميًا)
-        setInterval(displayDailyZekr, 24 * 60 * 60 * 1000);
+            const todayStr = getTodayDateString();
+            let lastDhikrDay = localStorage.getItem('lastDhikrDay');
+            let lastDhikrIndex = localStorage.getItem('lastDhikrIndex'); // Store index for background consistency
+            let selectedDhikr = null;
+
+            // Use a consistent random index for the day
+            let dhikrIndex;
+            let backgroundIndex;
+
+            if (lastDhikrDay === todayStr && lastDhikrIndex !== null) {
+                dhikrIndex = parseInt(lastDhikrIndex);
+                // Ensure index is within bounds if dhikrData changed
+                if (dhikrIndex >= dhikrData.length) {
+                    dhikrIndex = Math.floor(Math.random() * dhikrData.length);
+                    localStorage.setItem('lastDhikrIndex', dhikrIndex);
+                }
+            } else {
+                dhikrIndex = Math.floor(Math.random() * dhikrData.length);
+                localStorage.setItem('lastDhikrDay', todayStr);
+                localStorage.setItem('lastDhikrIndex', dhikrIndex);
+            }
+
+            selectedDhikr = dhikrData[dhikrIndex];
+            backgroundIndex = dhikrIndex % natureBackgrounds.length; // Use dhikr index for background consistency
+
+            return { dhikr: selectedDhikr, background: natureBackgrounds[backgroundIndex] };
+        }
+
+        function renderDhikrOfTheDay() {
+            const result = selectDhikrOfTheDay();
+            if (result && result.dhikr) {
+                dhikrOfTheDayTitle.textContent = result.dhikr.title;
+                dhikrOfTheDayText.textContent = result.dhikr.text;
+                dhikrOfTheDaySource.textContent = `المصدر: ${result.dhikr.source || 'غير معروف'}`;
+                dhikrOfTheDayCard.style.backgroundImage = `url('${result.background}')`;
+            } else {
+                dhikrOfTheDayTitle.textContent = 'لا يوجد ذكر لهذا اليوم';
+                dhikrOfTheDayText.textContent = 'يرجى التحقق لاحقاً.';
+                dhikrOfTheDaySource.textContent = '';
+                dhikrOfTheDayCard.style.backgroundImage = 'none'; // No background image if no dhikr
+                dhikrOfTheDayCard.style.backgroundColor = '#a0aec0'; // Fallback background color
+            }
+        }
+
+        async function shareDhikrAsImage() {
+            // Hide buttons temporarily to capture a clean image
+            const buttonsContainer = dhikrOfTheDayCard.querySelector('.flex');
+            if (buttonsContainer) {
+                buttonsContainer.style.display = 'none';
+            }
+
+            try {
+                const canvas = await html2canvas(dhikrOfTheDayCard, {
+                    useCORS: true,
+                    backgroundColor: null,
+                    scale: 2
+                });
+
+                // Restore buttons visibility
+                if (buttonsContainer) {
+                    buttonsContainer.style.display = 'flex';
+                }
+
+                // Create a temporary link to download the image
+                const image = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.href = image;
+                link.download = `ذكر_اليوم_${getTodayDateString()}.png`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                // Optional: Try to use Web Share API if available (for direct sharing)
+                if (navigator.share) {
+                    try {
+                        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+                        const file = new File([blob], `ذكر_اليوم_${getTodayDateString()}.png`, { type: 'image/png' });
+                        await navigator.share({
+                            files: [file],
+                            title: 'ذكر اليوم من حصن المسلم',
+                            text: `${dhikrOfTheDayTitle.textContent}: ${dhikrOfTheDayText.textContent}`
+                        });
+                        console.log('Dhikr shared successfully using Web Share API!');
+                    } catch (shareError) {
+                        console.warn('Web Share API failed or cancelled:', shareError);
+                        showAlert('تم تنزيل صورة ذكر اليوم. يمكنك مشاركتها يدويًا.');
+                    }
+                } else {
+                    showAlert('تم تنزيل صورة ذكر اليوم. يمكنك مشاركتها يدويًا.');
+                }
+
+            } catch (error) {
+                console.error('Error sharing dhikr as image:', error);
+                showAlert('حدث خطأ أثناء إنشاء الصورة للمشاركة.');
+                // Ensure buttons are restored even on error
+                if (buttonsContainer) {
+                    buttonsContainer.style.display = 'flex';
+                }
+            }
+        }
+
+        function shareDhikrAsText() {
+            const dhikrTitle = dhikrOfTheDayTitle.textContent;
+            const dhikrText = dhikrOfTheDayText.textContent;
+            const dhikrSource = dhikrOfTheDaySource.textContent;
+            const textToShare = `ذكر اليوم: ${dhikrTitle}\n${dhikrText}\n${dhikrSource}\n\nمن تطبيق حصن المسلم.`;
+
+            const textArea = document.createElement('textarea');
+            textArea.value = textToShare;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showAlert('تم نسخ ذكر اليوم إلى الحافظة! يمكنك الآن لصقه ومشاركته.');
+            } catch (err) {
+                    console.error('فشل نسخ النص:', err);
+                    showAlert('فشل نسخ النص.');
+                } finally {
+                    document.body.removeChild(textArea);
+                }
+        }
+
+        // --- Gemini API Integration for Dhikr Explanation ---
+        async function getDhikrExplanation(dhikrTitle, dhikrText) {
+            explanationModal.classList.add('open');
+            explanationText.classList.add('hidden');
+            explanationLoadingSpinner.classList.remove('hidden');
+            explanationContent.classList.remove('justify-center', 'items-center'); // Remove centering for content
+
+            const prompt = `Provide a concise explanation for the following Islamic remembrance (dhikr), including its meaning and any relevant context or benefits. Focus on clarity, accuracy, and brevity. The explanation should be in Arabic.\n\nDhikr Title: ${dhikrTitle}\nDhikr Text: ${dhikrText}`;
+
+            try {
+                // Using gemini-2.0-flash as specified in instructions
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+                // If you are running this *outside* a Canvas environment, you'd need to provide a valid API key here.
+                const apiKey = ""; // Leave as empty string, Canvas will provide it
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Gemini API error:', errorData);
+                    throw new Error(`API error: ${errorData.error.message || response.statusText}`);
+                }
+
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const explanation = result.candidates[0].content.parts[0].text;
+                    explanationText.textContent = explanation;
+                    explanationText.classList.remove('hidden');
+                } else {
+                    explanationText.textContent = 'لم يتمكن الذكاء الاصطناعي من تقديم شرح لهذا الذكر حاليًا (استجابة غير متوقعة).';
+                    explanationText.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Error fetching explanation:', error);
+                explanationText.textContent = 'حدث خطأ أثناء جلب الشرح. يرجى المحاولة مرة أخرى لاحقًا.';
+                explanationText.classList.remove('hidden');
+            } finally {
+                explanationLoadingSpinner.classList.add('hidden');
+            }
+        }
+
+        // Event listeners for explanation modal
+        closeExplanationModalBtn.addEventListener('click', () => {
+            explanationModal.classList.remove('open');
+            explanationText.textContent = ''; // Clear text
+        });
+
+        explanationOkBtn.addEventListener('click', () => {
+            explanationModal.classList.remove('open');
+            explanationText.textContent = ''; // Clear text
+        });
+
+
+        // --- Event Listeners ---
+
+        // Day/Night Toggle
+        function toggleDayNightMode() {
+            document.documentElement.classList.toggle('dark');
+            if (document.documentElement.classList.contains('dark')) {
+                dayNightIcon.classList.remove('fa-moon');
+                dayNightIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                dayNightIcon.classList.remove('fa-sun');
+                dayNightIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+        dayNightToggle.addEventListener('click', toggleDayNightMode);
+
+        // Check for saved theme preference on load
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            dayNightIcon.classList.remove('fa-moon');
+            dayNightIcon.classList.add('fa-sun');
+        } else {
+            document.documentElement.classList.remove('dark');
+            dayNightIcon.classList.remove('fa-sun');
+            dayNightIcon.classList.add('fa-moon');
+        }
+
+        // Main Bookmark Button (opens modal)
+        bookmarkBtn.addEventListener('click', () => {
+            displayBookmarkedDhikrInModal(bookmarkedDhikrFullData);
+            bookmarkModal.classList.add('open');
+        });
+
+        // Close Bookmark Modal
+        closeBookmarkModalBtn.addEventListener('click', () => {
+            bookmarkModal.classList.remove('open');
+        });
+
+        // Open/Close Right Dropdown
+        openDropdownBtn.addEventListener('click', () => {
+            rightDropdown.classList.add('open');
+        });
+        closeDropdownBtn.addEventListener('click', () => {
+            rightDropdown.classList.remove('open');
+        });
+
+        // Search Input
+        searchInput.addEventListener('input', (event) => {
+            currentSearchTerm = event.target.value.trim();
+            applyAllFilters();
+        });
+
+        // Most Searched Buttons functionality
+        mostSearchedButtonsContainer.addEventListener('click', (event) => {
+            const target = event.target;
+            if (target.tagName === 'BUTTON') {
+                currentSearchTerm = target.textContent.trim();
+                searchInput.value = currentSearchTerm; // Update search input with the clicked keyword
+                applyAllFilters();
+            }
+        });
+
+        // Category Filter (delegation)
+        categoryList.addEventListener('click', (event) => {
+            const target = event.target.closest('.category-filter');
+            if (target) {
+                event.preventDefault();
+                // Remove 'active' class from all category filters
+                document.querySelectorAll('.category-filter').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                // Add 'active' class to the clicked category filter
+                target.classList.add('active');
+
+                currentCategoryFilter = target.dataset.category;
+                applyAllFilters();
+                rightDropdown.classList.remove('open'); // Close dropdown after selection
+            }
+        });
+
+        // Source Filter (delegation)
+        sourceList.addEventListener('click', (event) => {
+            const target = event.target.closest('.source-filter');
+            if (target) {
+                event.preventDefault();
+                // Remove 'active' class from all source filters
+                document.querySelectorAll('.source-filter').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                // Add 'active' class to the clicked source filter
+                target.classList.add('active');
+
+                currentSourceFilter = target.dataset.source;
+                applyAllFilters();
+                rightDropdown.classList.remove('open'); // Close dropdown after selection
+            }
+        });
+
+        // Dhikr Card Buttons (delegation)
+        dhikrCardsContainer.addEventListener('click', (event) => {
+            const target = event.target;
+            const dhikrCard = target.closest('.dhikr-card');
+
+            if (!dhikrCard) return;
+
+            const dhikrId = dhikrCard.dataset.dhikrId;
+            const dhikrTitle = dhikrCard.querySelector('h3').textContent.trim();
+            const dhikrTextElement = dhikrCard.querySelector('.dhikr-text');
+            const dhikrText = dhikrTextElement.textContent.trim();
+            const currentUrl = window.location.href;
+
+            // Bookmark a specific dhikr card
+            if (target.closest('.bookmark-card-btn')) {
+                toggleBookmark(dhikrId, dhikrTitle, dhikrText);
+            }
+
+            // Copy button functionality
+            if (target.closest('.copy-btn')) {
+                const textToCopy = `${dhikrText}\n\nالرابط: ${currentUrl}`;
+                const textArea = document.createElement('textarea');
+                textArea.value = textToCopy;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showAlert('تم نسخ النص والرابط إلى الحافظة!');
+                } catch (err) {
+                    console.error('فشل نسخ النص:', err);
+                    showAlert('فشل نسخ النص.');
+                } finally {
+                    document.body.removeChild(textArea);
+                }
+            }
+
+            // Share button functionality (simulated by copying to clipboard)
+            if (target.closest('.share-btn')) {
+                const textToShare = `شارك هذا الذكر: "${dhikrText}"\n\nالرابط: ${currentUrl}`;
+                const textArea = document.createElement('textarea');
+                textArea.value = textToShare;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showAlert('تم نسخ النص والرابط للمشاركة. يمكنك الآن لصقه في أي تطبيق!');
+                } catch (err) {
+                    console.error('فشل المشاركة:', err);
+                    showAlert('فشل نسخ النص للمشاركة.');
+                } finally {
+                    document.body.removeChild(textArea);
+                }
+            }
+
+            // Explain Dhikr button functionality
+            if (target.closest('.explain-dhikr-btn')) {
+                getDhikrExplanation(dhikrTitle, dhikrText);
+            }
+
+            // Decrease font size button functionality
+            if (target.closest('.decrease-font-btn')) {
+                let currentSize = parseFloat(window.getComputedStyle(dhikrTextElement).fontSize);
+                if (currentSize > 12) { // Prevent font from becoming too small
+                    dhikrTextElement.style.fontSize = `${currentSize - 1}px`;
+                }
+            }
+
+            // Increase font size button functionality
+            if (target.closest('.increase-font-btn')) {
+                let currentSize = parseFloat(window.getComputedStyle(dhikrTextElement).fontSize);
+                if (currentSize < 30) { // Prevent font from becoming too large
+                    dhikrTextElement.style.fontSize = `${currentSize + 1}px`;
+                }
+            }
+        });
+
+        // Back to top button functionality
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 200) { // Show button after scrolling 200px
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth' // Smooth scroll animation
+            });
+        });
+
+        // Event Listeners for Dhikr of the Day share buttons
+        shareDhikrImageBtn.addEventListener('click', shareDhikrAsImage);
+        shareDhikrTextBtn.addEventListener('click', shareDhikrAsText);
+
+        // Initial setup calls
+        document.addEventListener('DOMContentLoaded', () => {
+            loadBookmarksFromLocalStorage(); // Load bookmarks when DOM is ready
+            populateCategories();
+            populateSources();
+            renderDhikrOfTheDay();
+            applyAllFilters(); // This will also call renderCurrentPageDhikr
+        });
     </script>
 </body>
 </html>
