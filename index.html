@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>حصن المسلم | أفضل الأذكار والأدعية</title>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-867BEDX0FY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-867BEDX0FY');
+</script>
     <meta name="description" content="تحميل وقراءة كتاب حصن المسلم، أفضل الأذكار والأدعية اليومية والمناسبات المختلفة، بصيغة PDF ومجاناً.">
     <link rel="canonical" href="https://hisnmuslim.netlify.app">
     <link rel="alternate" href="https://hisnmuslim.netlify.app/" hreflang="en">
@@ -132,15 +141,26 @@
             border-radius: 9999px; /* Full rounded */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             cursor: pointer;
-            transition: background-color 0.2s ease, transform 0.2s ease;
+            transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease; /* Added color to transition */
+            background-color: #e2e8f0; /* Light gray for day mode */
+            color: #4a5568; /* Dark gray icon for day mode */
         }
         .floating-btn:hover {
             transform: scale(1.05);
+            background-color: #cbd5e0; /* Slightly darker gray on hover */
         }
         .floating-btn i {
             font-size: 1.125rem; /* text-lg, slightly smaller than text-xl */
         }
 
+        /* Dark mode styles for floating buttons */
+        .dark .floating-btn {
+            background-color: #4a5568; /* Darker gray for night mode */
+            color: #e2e8f0; /* Light icon for night mode */
+        }
+        .dark .floating-btn:hover {
+            background-color: #636b77; /* Slightly darker gray on hover in dark mode */
+        }
 
         /* Container for top-left floating buttons: Day/Night Toggle, Bookmark, and Menu */
         #top-left-controls {
@@ -152,25 +172,6 @@
             z-index: 1000; /* Ensure it stays on top */
         }
 
-        /* Day/Night toggle colors */
-        #day-night-toggle {
-            background-color: #cbd5e0; /* Light gray for day mode toggle */
-            color: #4a5568; /* Dark gray icon */
-        }
-        .dark #day-night-toggle {
-            background-color: #4a5568; /* Dark gray for night mode toggle */
-            color: #e2e8f0; /* Light icon */
-        }
-
-        /* Bookmark button colors */
-        #bookmark-btn {
-            background-color: #a0aec0; /* Medium gray for bookmark */
-            color: #fff;
-        }
-        .dark #bookmark-btn {
-            background-color: #636b77;
-            color: #e2e8f0;
-        }
         /* Bookmark count badge */
         #bookmark-count {
             position: absolute;
@@ -378,7 +379,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Dhikr of the Day Card specific styling for background image */
+        /* Dhikr of the Day Card specific styling for background image AND gradient overlay */
         #dhikr-of-the-day-card {
             background-size: cover;
             background-position: center;
@@ -389,7 +390,12 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            /* New: Pastel gradient background */
+            background-image: linear-gradient(to right, #FFD1DC, #B0E0E6, #D8BFD8); /* Pastel Pink, Powder Blue, Thistle */
         }
+        /* When JavaScript sets the image, it will look like this: */
+        /* background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.6) 100%), url('your-image-url.jpg'); */
+
         #dhikr-of-the-day-card h3,
         #dhikr-of-the-day-card p {
             color: #fff !important; /* Override Tailwind text colors for white text */
@@ -402,21 +408,28 @@
 <body class="p-4 sm:p-6 md:p-8 lg:p-10">
 
     <div id="top-left-controls" class="flex gap-3">
-        <div id="day-night-toggle" class="floating-btn">
+        <div id="day-night-toggle" class="floating-btn" title="الوضع الليلي/النهاري">
             <i class="fas fa-moon" id="day-night-icon"></i>
         </div>
 
-        <div id="bookmark-btn" class="floating-btn relative">
+        <div id="bookmark-btn" class="floating-btn relative" title="الأذكار المفضلة">
             <i class="fas fa-bookmark"></i>
             <span id="bookmark-count" class="hidden">0</span>
         </div>
 
-        <div id="open-dropdown" class="floating-btn">
+        <div id="decrease-all-fonts-btn" class="floating-btn" title="تصغير خط جميع الأذكار">
+            <i class="fas fa-minus"></i>
+        </div>
+        <div id="increase-all-fonts-btn" class="floating-btn" title="تكبير خط جميع الأذكار">
+            <i class="fas fa-plus"></i>
+        </div>
+
+        <div id="open-dropdown" class="floating-btn" title="التصنيفات والمصادر">
             <i class="fas fa-bars"></i>
         </div>
     </div>
 
-    <div id="back-to-top-btn" class="floating-btn">
+    <div id="back-to-top-btn" class="floating-btn" title="العودة للأعلى">
         <i class="fas fa-arrow-up"></i>
     </div>
 
@@ -565,18 +578,8 @@
         const dhikrPerPage = 10;
         let filteredDhikrForPagination = []; // Stores dhikr after category/source/search filters, before pagination
 
-        // Array of nature backgrounds for Dhikr of the Day card
-        const natureBackgrounds = [
-            'https://images.unsplash.com/photo-1502657877623-ecc61596775d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1080&q=80',
-            'https://images.unsplash.com/photo-1475924156734-464f6fe606e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1080&q=80',
-            'https://images.unsplash.com/photo-1547441113-64a09a5a73a3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1080&q=80',
-            'https://images.unsplash.com/photo-1499564177708-410a08e64c1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1080&q=80',
-            'https://images.unsplash.com/photo-1487017159032-550993510950?ixlib=rb-1.2.1&auto=format&fit=crop&w=1080&q=80',
-            'https://images.unsplash.com/photo-1490730449557-61c02ff3d284?ixlib=rb-1.2.1&auto=format&fit=crop&w=1080&q=80',
-            'https://images.unsplash.com/photo-1442999427357-195b62b1a1a7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1080&q=80',
-            'https://images.unsplash.com/photo-1473654728562-b0e6c4391771?ixlib=rb-1.2.1&auto=format&fit=crop&w=1080&q=80'
-        ];
-
+        // Global font size for dhikr cards
+        let baseDhikrFontSize = parseFloat(localStorage.getItem('baseDhikrFontSize')) || 16; // Default to 16px
 
         // Dhikr Data - EMBEDDED DIRECTLY FROM HISN_ALMUSLIM.JSON
         // This array contains all dhikr, including morning and evening ones.
@@ -672,13 +675,13 @@
             { "id": "89", "title": "دعاء عند رؤية شخص يبكي", "text": "اللهم ارحمه", "category": "دعاء عند رؤية شخص يبكي", "source": "مسلم 4/2092" },
             { "id": "90", "title": "دعاء عند رؤية شخص يلبس", "text": "البس جديداً", "category": "دعاء عند رؤية شخص يلبس", "source": "أخرجه أبو داود 4/303" },
             { "id": "91", "title": "دعاء عند رؤية شخص يخلع ثوبه", "text": "بسم الله", "category": "دعاء عند رؤية شخص يخلع ثوبه", "source": "الترمذي 2/505" },
-            { "id": "92", "title": "دعاء عند رؤية شخص يدخل الخلاء", "text": "بسم الله، اللهم إني أعوذ بك من الخبث والخبائث", "category": "دعاء عند رؤية شخص يدخل الخلاء", "source": "البخاري 1/45، ومسلم 1/283" },
-            { "id": "93", "title": "دعاء عند رؤية شخص يخرج من الخلاء", "text": "غفرانك", "category": "دعاء عند رؤية شخص يخرج من الخلاء", "source": "أخرجه أبو داود 1/67، والترمذي 1/7" },
+            { "id": "92", "title": "دعاء عند رؤية شخص يدخل الخلاء", "text": "بسم الله، اللهم إني أعوذ بك من الخبث والخبائث", "category": "دعاء دخول الخلاء", "source": "البخاري 1/45، ومسلم 1/283" },
+            { "id": "93", "title": "دعاء عند رؤية شخص يخرج من الخلاء", "text": "غفرانك", "category": "دعاء الخروج من الخلاء", "source": "أخرجه أبو داود 1/67، والترمذي 1/7" },
             { "id": "94", "title": "دعاء عند رؤية شخص يتوضأ", "text": "بسم الله", "category": "دعاء عند رؤية شخص يتوضأ", "source": "أخرجه أبو داود 1/67، والترمذي 1/7" },
             { "id": "95", "title": "دعاء عند رؤية شخص ينتهي من الوضوء", "text": "أشهد أن لا إله إلا الله وحده لا شريك له", "category": "دعاء عند رؤية شخص ينتهي من الوضوء", "source": "مسلم 1/209" },
             { "id": "96", "title": "دعاء عند رؤية شخص يخرج من المنزل", "text": "بسم الله توكلت على الله", "category": "دعاء عند رؤية شخص يخرج من المنزل", "source": "أخرجه أبو داود 4/325، والترمذي 5/134" },
             { "id": "97", "title": "دعاء عند رؤية شخص يدخل المنزل", "text": "بسم الله ولجنا", "category": "دعاء عند رؤية شخص يدخل المنزل", "source": "أخرجه أبو داود 4/325" },
-            { "id": "98", "title": "دعاء عند رؤية شخص يذهب إلى المسجد", "text": "اللهم اجعل في قلبي نوراً", "category": "دعاء عند رؤية شخص يذهب إلى المسجد", "source": "مسلم 1/526" },
+            { "id": "98", "title": "دعاء عند رؤية شخص يذهب إلى المسجد", "text": "اللهم اجعل في قلبي نوراً، وفي لساني نوراً", "category": "دعاء عند رؤية شخص يذهب إلى المسجد", "source": "مسلم 1/526" },
             { "id": "99", "title": "دعاء عند رؤية شخص يدخل المسجد", "text": "بسم الله والصلاة والسلام على رسول الله", "category": "دعاء عند رؤية شخص يدخل المسجد", "source": "أخرجه أبو داود 1/126" },
             { "id": "100", "title": "دعاء عند رؤية شخص يخرج من المسجد", "text": "بسم الله والصلاة والسلام على رسول الله", "category": "دعاء عند رؤية شخص يخرج من المسجد", "source": "أخرجه أبو داود 1/126" },
             { "id": "101", "title": "دعاء عند رؤية الأذان", "text": "يقول مثل ما يقول المؤذن", "category": "دعاء عند رؤية الأذان", "source": "مسلم 1/288" },
@@ -733,7 +736,7 @@
         const dhikrCardsContainer = document.getElementById('dhikr-cards-container');
         const searchInput = document.getElementById('search-input');
         const bookmarkModal = document.getElementById('bookmark-modal');
-        const closeBookmarkModalBtn = document.getElementById('close-bookmark-modal');
+        const closeBookmarkModalBtn = document = document.getElementById('close-bookmark-modal');
         const bookmarkedDhikrList = document.getElementById('bookmarked-dhikr-list');
         const noBookmarksMessage = document.getElementById('no-bookmarks-message');
         const categoryList = document.getElementById('category-list');
@@ -769,6 +772,10 @@
         const prevPageBtn = document.getElementById('prev-page-btn');
         const nextPageBtn = document.getElementById('next-page-btn');
         const pageInfo = document.getElementById('page-info');
+
+        // New global font size buttons
+        const decreaseAllFontsBtn = document.getElementById('decrease-all-fonts-btn');
+        const increaseAllFontsBtn = document.getElementById('increase-all-fonts-btn');
 
 
         // Function to show custom alert
@@ -914,28 +921,34 @@
 
                 card.innerHTML = `
                     <h3 class="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">${dhikr.title}</h3>
-                    <p class="dhikr-text text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-4">
+                    <p class="dhikr-text text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-4" style="font-size: ${baseDhikrFontSize}px;">
                         ${dhikr.text}
                     </p>
                     <p class="text-sm text-gray-500 dark:text-gray-400 italic mb-4">المصدر: ${dhikr.source || 'غير معروف'}</p>
-                    <div class="flex justify-evenly items-center gap-2">
+                    <div class="flex flex-wrap justify-evenly items-center gap-2">
                         <button class="dhikr-card-btn bookmark-card-btn" title="إضافة/إزالة من المفضلة">
                             <i class="fas fa-bookmark"></i>
                         </button>
                         <button class="dhikr-card-btn copy-btn" title="نسخ النص">
                             <i class="fas fa-copy"></i>
                         </button>
-                        <button class="dhikr-card-btn share-btn" title="مشاركة النص">
-                            <i class="fas fa-share-alt"></i>
+                        <button class="dhikr-card-btn share-whatsapp-btn" title="مشاركة عبر واتساب">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                        <button class="dhikr-card-btn share-facebook-btn" title="مشاركة عبر فيسبوك">
+                            <i class="fab fa-facebook-f"></i>
+                        </button>
+                        <button class="dhikr-card-btn share-telegram-btn" title="مشاركة عبر تيليجرام">
+                            <i class="fab fa-telegram-plane"></i>
+                        </button>
+                        <button class="dhikr-card-btn share-pinterest-btn" title="مشاركة عبر بينتيريست">
+                            <i class="fab fa-pinterest"></i>
+                        </button>
+                        <button class="dhikr-card-btn share-tumblr-btn" title="مشاركة عبر تمبلر">
+                            <i class="fab fa-tumblr"></i>
                         </button>
                         <button class="dhikr-card-btn explain-dhikr-btn" title="شرح الذكر بالذكاء الاصطناعي">
                             <i class="fas fa-magic"></i> ✨
-                        </button>
-                        <button class="dhikr-card-btn decrease-font-btn" title="تصغير الخط">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <button class="dhikr-card-btn increase-font-btn" title="تكبير الخط">
-                            <i class="fas fa-plus"></i>
                         </button>
                     </div>
                 `;
@@ -1091,7 +1104,8 @@
 
             // Use a consistent random index for the day
             let dhikrIndex;
-            let backgroundIndex;
+            // The background will now be a gradient, not a specific image from natureBackgrounds
+            // So we don't need backgroundIndex here for the dhikr of the day card.
 
             if (lastDhikrDay === todayStr && lastDhikrIndex !== null) {
                 dhikrIndex = parseInt(lastDhikrIndex);
@@ -1107,9 +1121,7 @@
             }
 
             selectedDhikr = dhikrData[dhikrIndex];
-            backgroundIndex = dhikrIndex % natureBackgrounds.length; // Use dhikr index for background consistency
-
-            return { dhikr: selectedDhikr, background: natureBackgrounds[backgroundIndex] };
+            return { dhikr: selectedDhikr };
         }
 
         function renderDhikrOfTheDay() {
@@ -1118,15 +1130,17 @@
                 dhikrOfTheDayTitle.textContent = result.dhikr.title;
                 dhikrOfTheDayText.textContent = result.dhikr.text;
                 dhikrOfTheDaySource.textContent = `المصدر: ${result.dhikr.source || 'غير معروف'}`;
-                dhikrOfTheDayCard.style.backgroundImage = `url('${result.background}')`;
+                // CSS now handles the gradient directly, no need to set background-image here
+                // dhikrOfTheDayCard.style.backgroundImage is set in CSS
             } else {
                 dhikrOfTheDayTitle.textContent = 'لا يوجد ذكر لهذا اليوم';
                 dhikrOfTheDayText.textContent = 'يرجى التحقق لاحقاً.';
                 dhikrOfTheDaySource.textContent = '';
-                dhikrOfTheDayCard.style.backgroundImage = 'none'; // No background image if no dhikr
-                dhikrOfTheDayCard.style.backgroundColor = '#a0aec0'; // Fallback background color
+                // Fallback for empty dhikr data, if CSS gradient is not sufficient
+                // dhikrOfTheDayCard.style.backgroundImage = 'linear-gradient(to bottom, #a0aec0, #636b77)';
             }
         }
+
 
         async function shareDhikrAsImage() {
             // Hide buttons temporarily to capture a clean image
@@ -1365,6 +1379,8 @@
                 applyAllFilters();
                 rightDropdown.classList.remove('open'); // Close dropdown after selection
             }
+            // Close dropdown if a filter is applied
+            rightDropdown.classList.remove('open');
         });
 
         // Dhikr Card Buttons (delegation)
@@ -1378,7 +1394,7 @@
             const dhikrTitle = dhikrCard.querySelector('h3').textContent.trim();
             const dhikrTextElement = dhikrCard.querySelector('.dhikr-text');
             const dhikrText = dhikrTextElement.textContent.trim();
-            const currentUrl = window.location.href;
+            const currentUrl = window.location.href; // Get the current URL of the page
 
             // Bookmark a specific dhikr card
             if (target.closest('.bookmark-card-btn')) {
@@ -1387,7 +1403,7 @@
 
             // Copy button functionality
             if (target.closest('.copy-btn')) {
-                const textToCopy = `${dhikrText}\n\nالرابط: ${currentUrl}`;
+                const textToCopy = `${dhikrText}\n\nحصن المسلم: ${currentUrl}`; // Include app URL
                 const textArea = document.createElement('textarea');
                 textArea.value = textToCopy;
                 document.body.appendChild(textArea);
@@ -1403,43 +1419,47 @@
                 }
             }
 
-            // Share button functionality (simulated by copying to clipboard)
-            if (target.closest('.share-btn')) {
-                const textToShare = `شارك هذا الذكر: "${dhikrText}"\n\nالرابط: ${currentUrl}`;
-                const textArea = document.createElement('textarea');
-                textArea.value = textToShare;
-                document.body.appendChild(textArea);
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                    showAlert('تم نسخ النص والرابط للمشاركة. يمكنك الآن لصقه في أي تطبيق!');
-                } catch (err) {
-                    console.error('فشل المشاركة:', err);
-                    showAlert('فشل نسخ النص للمشاركة.');
-                } finally {
-                    document.body.removeChild(textArea);
-                }
+            // Social Share buttons functionality
+            const encodedText = encodeURIComponent(`${dhikrText}\n\nمن تطبيق حصن المسلم: ${currentUrl}`);
+
+            if (target.closest('.share-whatsapp-btn')) {
+                window.open(`https://wa.me/?text=${encodedText}`, '_blank');
+            } else if (target.closest('.share-facebook-btn')) {
+                window.open(`https://www.facebook.com/sharer/sharer.php?quote=${encodedText}&u=${encodeURIComponent(currentUrl)}`, '_blank');
+            } else if (target.closest('.share-telegram-btn')) {
+                window.open(`https://t.me/share/url?url=${encodeURIComponent(currentUrl)}&text=${encodedText}`, '_blank');
+            } else if (target.closest('.share-pinterest-btn')) {
+                // Pinterest usually needs an image. This will share the text as description.
+                window.open(`https://pinterest.com/pin/create/button/?description=${encodedText}&url=${encodeURIComponent(currentUrl)}`, '_blank');
+            } else if (target.closest('.share-tumblr-btn')) {
+                window.open(`https://www.tumblr.com/share/link?url=${encodeURIComponent(currentUrl)}&name=${encodeURIComponent(dhikrTitle)}&description=${encodedText}`, '_blank');
             }
 
             // Explain Dhikr button functionality
             if (target.closest('.explain-dhikr-btn')) {
                 getDhikrExplanation(dhikrTitle, dhikrText);
             }
+        });
 
-            // Decrease font size button functionality
-            if (target.closest('.decrease-font-btn')) {
-                let currentSize = parseFloat(window.getComputedStyle(dhikrTextElement).fontSize);
-                if (currentSize > 12) { // Prevent font from becoming too small
-                    dhikrTextElement.style.fontSize = `${currentSize - 1}px`;
-                }
+        // Global font size adjustment functions
+        function applyGlobalFontSize() {
+            document.querySelectorAll('.dhikr-text').forEach(p => {
+                p.style.fontSize = `${baseDhikrFontSize}px`;
+            });
+            localStorage.setItem('baseDhikrFontSize', baseDhikrFontSize);
+        }
+
+        decreaseAllFontsBtn.addEventListener('click', () => {
+            if (baseDhikrFontSize > 12) { // Minimum font size
+                baseDhikrFontSize -= 1;
+                applyGlobalFontSize();
             }
+        });
 
-            // Increase font size button functionality
-            if (target.closest('.increase-font-btn')) {
-                let currentSize = parseFloat(window.getComputedStyle(dhikrTextElement).fontSize);
-                if (currentSize < 30) { // Prevent font from becoming too large
-                    dhikrTextElement.style.fontSize = `${currentSize + 1}px`;
-                }
+        increaseAllFontsBtn.addEventListener('click', () => {
+            if (baseDhikrFontSize < 30) { // Maximum font size
+                baseDhikrFontSize += 1;
+                applyGlobalFontSize();
             }
         });
 
@@ -1470,6 +1490,7 @@
             populateSources();
             renderDhikrOfTheDay();
             applyAllFilters(); // This will also call renderCurrentPageDhikr
+            applyGlobalFontSize(); // Apply saved font size on load
         });
     </script>
 </body>
