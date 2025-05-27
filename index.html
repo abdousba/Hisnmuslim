@@ -162,14 +162,15 @@
             background-color: #636b77; /* Slightly darker gray on hover in dark mode */
         }
 
-        /* Container for top-left floating buttons: Day/Night Toggle, Bookmark, and Menu */
-        #top-left-controls {
+        /* Container for top-right floating buttons: Day/Night Toggle, Bookmark, and Menu */
+        #top-right-controls {
             position: fixed;
             top: 1rem;
-            left: 1rem; /* Moved to left */
-            display: flex; /* Use flexbox to arrange children side-by-side */
-            gap: 0.75rem; /* Slightly smaller gap */
-            z-index: 1000; /* Ensure it stays on top */
+            right: 1rem;
+            display: flex;
+            flex-direction: row-reverse;
+            gap: 0.75rem;
+            z-index: 1000;
         }
 
         /* Bookmark count badge */
@@ -199,7 +200,7 @@
 
         /* Back to top button - bottom right */
         #back-to-top-btn {
-            position: fixed; /* Added position fixed */
+            position: fixed;
             bottom: 1rem;
             right: 1rem;
             background-color: #6366f1; /* Indigo 500 */
@@ -207,7 +208,7 @@
             opacity: 0; /* Hidden by default */
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
-            z-index: 1000; /* Ensure it stays on top */
+            z-index: 1000;
         }
         #back-to-top-btn.show {
             opacity: 1;
@@ -383,31 +384,22 @@
         #dhikr-of-the-day-card {
             background-size: cover;
             background-position: center;
-            color: #fff; /* Ensure text is white for better contrast on images */
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Add text shadow for readability */
+            /* Removed fixed color and text-shadow, letting body text color apply */
             min-height: 200px; /* Ensure card has some height */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            /* New: Pastel gradient background */
-            background-image: linear-gradient(to right, #FFD1DC, #B0E0E6, #D8BFD8); /* Pastel Pink, Powder Blue, Thistle */
-        }
-        /* When JavaScript sets the image, it will look like this: */
-        /* background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.6) 100%), url('your-image-url.jpg'); */
-
-        #dhikr-of-the-day-card h3,
-        #dhikr-of-the-day-card p {
-            color: #fff !important; /* Override Tailwind text colors for white text */
-        }
-        .dark #dhikr-of-the-day-card {
-            /* No specific dark mode background image, rely on light image with text shadow */
+            /* Removed static pastel gradient, now set by JS */
         }
     </style>
 </head>
 <body class="p-4 sm:p-6 md:p-8 lg:p-10">
 
-    <div id="top-left-controls" class="flex gap-3">
+    <div id="top-right-controls" class="flex gap-3">
+        <div id="home-btn" class="floating-btn" title="الصفحة الرئيسية">
+            <i class="fas fa-home"></i>
+        </div>
         <div id="day-night-toggle" class="floating-btn" title="الوضع الليلي/النهاري">
             <i class="fas fa-moon" id="day-night-icon"></i>
         </div>
@@ -435,11 +427,24 @@
 
     <div id="right-dropdown" class="p-4">
         <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-bold">التصنيفات</h3>
-            <button id="close-dropdown" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+            <h3 class="text-lg font-bold">القائمة</h3> <button id="close-dropdown" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
                 <i class="fas fa-times text-xl"></i>
             </button>
         </div>
+        <ul class="space-y-2 mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
+            <li>
+                <a href="about.html" class="block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    <i class="fas fa-info-circle ml-2"></i> من نحن
+                </a>
+            </li>
+            <li>
+                <a href="contact.html" class="block p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                    <i class="fas fa-envelope ml-2"></i> اتصل بنا
+                </a>
+            </li>
+        </ul>
+
+        <h3 class="text-lg font-bold mb-4">التصنيفات</h3>
         <ul id="category-list" class="space-y-2">
             </ul>
 
@@ -464,11 +469,11 @@
             <div class="flex justify-center gap-4 mt-4">
                 <button id="share-dhikr-image-btn" class="px-4 py-2 rounded-full bg-white text-gray-800 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center gap-2">
                     <i class="fas fa-image"></i>
-                    <span>مشاركة كصورة</span>
+                    <span>مشاركة الصورة</span>
                 </button>
                 <button id="share-dhikr-text-btn" class="px-4 py-2 rounded-full bg-white text-gray-800 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-600 transition flex items-center gap-2">
                     <i class="fas fa-share-alt"></i>
-                    <span>مشاركة كنص</span>
+                    <span>مشاركة النص</span>
                 </button>
             </div>
         </div>
@@ -585,7 +590,7 @@
         // This array contains all dhikr, including morning and evening ones.
         const dhikrData = [
             { "id": "1", "title": "أذكار الاستيقاظ من النوم", "text": "الحمد لله الذي أحيانا بعد ما أماتنا وإليه النشور", "category": "أذكار الاستيقاظ من النوم", "source": "البخاري مع الفتح 11/113، ومسلم 4/2083" },
-            { "id": "2", "title": "أذكار الاستيقاظ من النوم", "text": "لا إله إلا الله وحده لا شريك له، له الملك وله الحمد، وهو على كل شيء قدير، سبحان الله، والحمد لله، ولا إله إلا الله، والله أكبر، ولا حول ولا قوة إلا بالله العلي العظيم، رب اغفر لي", "category": "أذكار الاستيقاظ من النوم", "source": "البخاري مع الفتح 11/113، ومسلم 4/2083" },
+            { "id": "2", "title": "أذكار الاستيقاظ من النوم", "text": "لا إله إلا الله وحده لا شريك له، له الملك وله الحمد، وهو على كل شيء قدير، سبحان الله، والالحمد لله، ولا إله إلا الله، والله أكبر، ولا حول ولا قوة إلا بالله العلي العظيم، رب اغفر لي", "category": "أذكار الاستيقاظ من النوم", "source": "البخاري مع الفتح 11/113، ومسلم 4/2083" },
             { "id": "3", "title": "دعاء لبس الثوب", "text": "الحمد لله الذي كساني هذا (الثوب) ورزقنيه من غير حول مني ولا قوة", "category": "دعاء لبس الثوب", "source": "أخرجه أبو داود 4/302، والترمذي 5/516" },
             { "id": "4", "title": "دعاء لبس الثوب الجديد", "text": "اللهم لك الحمد أنت كسوتنيه، أسألك من خيره وخير ما صنع له، وأعوذ بك من شره وشر ما صنع له", "category": "دعاء لبس الثوب الجديد", "source": "أخرجه أبو داود 4/303، والترمذي 5/517" },
             { "id": "5", "title": "الدعاء لمن لبس ثوباً جديداً", "text": "تُبْلِي وَيُخْلِفُ اللهُ تَعَالَى", "category": "الدعاء لمن لبس ثوباً جديداً", "source": "أخرجه أبو داود 4/303" },
@@ -707,7 +712,7 @@
             { "id": "120", "title": "أذكار الصباح", "text": "لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير. (100 مرة)", "category": "أذكار الصباح", "source": "البخاري 7/168" },
             { "id": "121", "title": "أستغفر الله وأتوب إليه. (100 مرة)", "text": "أستغفر الله وأتوب إليه. (100 مرة)", "category": "أذكار الصباح", "source": "البخاري مع الفتح 11/213" },
             // أذكار المساء
-            { "id": "122", "title": "أذكار المساء", "text": "أمسينا وأمسى الملك لله، والحمد لله، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير، رب أسألك خير ما في هذه الليلة وخير ما بعدها، وأعوذ بك من شر ما في هذه الليلة وشر ما بعدها، رب أعوذ بك من الكسل وسوء الكبر، رب أعوذ بك من عذاب في النار وعذاب في القبر.", "category": "أذكار المساء", "source": "مسلم 4/2088" },
+            { "id": "122", "title": "أذكار المساء", "text": "أمسينا وأمسى الملك لله، والالحمد لله، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير، رب أسألك خير ما في هذه الليلة وخير ما بعدها، وأعوذ بك من شر ما في هذه الليلة وشر ما بعدها، رب أعوذ بك من الكسل وسوء الكبر، رب أعوذ بك من عذاب في النار وعذاب في القبر.", "category": "أذكار المساء", "source": "مسلم 4/2088" },
             { "id": "123", "title": "أذكار المساء", "text": "اللهم بك أمسينا، وبك أصبحنا، وبك نحيا، وبك نموت، وإليك المصير.", "category": "أذكار المساء", "source": "الترمذي 5/466" },
             { "id": "124", "title": "أذكار المساء", "text": "اللهم أنت ربي لا إله إلا أنت، خلقتني وأنا عبدك، وأنا على عهدك ووعدك ما استطعت، أعوذ بك من شر ما صنعت، أبوء لك بنعمتك علي، وأبوء بذنبي فاغفر لي فإنه لا يغفر الذنوب إلا أنت.", "category": "أذكار المساء", "source": "البخاري 7/150" },
             { "id": "125", "title": "أذكار المساء", "text": "اللهم إني أمسيت أشهدك وأشهد حملة عرشك، وملائكتك وجميع خلقك، أنك أنت الله لا إله إلا أنت وحدك لا شريك لك، وأن محمداً عبدك ورسولك. (4 مرات)", "category": "أذكار المساء", "source": "أبو داود 4/317" },
@@ -736,7 +741,7 @@
         const dhikrCardsContainer = document.getElementById('dhikr-cards-container');
         const searchInput = document.getElementById('search-input');
         const bookmarkModal = document.getElementById('bookmark-modal');
-        const closeBookmarkModalBtn = document = document.getElementById('close-bookmark-modal');
+        const closeBookmarkModalBtn = document.getElementById('close-bookmark-modal');
         const bookmarkedDhikrList = document.getElementById('bookmarked-dhikr-list');
         const noBookmarksMessage = document.getElementById('no-bookmarks-message');
         const categoryList = document.getElementById('category-list');
@@ -776,6 +781,9 @@
         // New global font size buttons
         const decreaseAllFontsBtn = document.getElementById('decrease-all-fonts-btn');
         const increaseAllFontsBtn = document.getElementById('increase-all-fonts-btn');
+
+        // New Home button
+        const homeBtn = document.getElementById('home-btn');
 
 
         // Function to show custom alert
@@ -1094,6 +1102,21 @@
             return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
         }
 
+        // Function to generate a random pastel color in HSL format
+        function getRandomPastelColor() {
+            const h = Math.floor(Math.random() * 360); // Hue (0-360)
+            const s = Math.floor(Math.random() * 30) + 60; // Saturation (60-90% for pastel)
+            const l = Math.floor(Math.random() * 10) + 75; // Lightness (75-85% for pastel)
+            return `hsl(${h}, ${s}%, ${l}%)`;
+        }
+
+        // Function to apply a random horizontal pastel gradient to the Dhikr of the Day card
+        function applyRandomPastelGradient() {
+            const color1 = getRandomPastelColor();
+            const color2 = getRandomPastelColor();
+            dhikrOfTheDayCard.style.backgroundImage = `linear-gradient(to right, ${color1}, ${color2})`;
+        }
+
         function selectDhikrOfTheDay() {
             if (dhikrData.length === 0) return null; // Ensure data is loaded
 
@@ -1104,8 +1127,6 @@
 
             // Use a consistent random index for the day
             let dhikrIndex;
-            // The background will now be a gradient, not a specific image from natureBackgrounds
-            // So we don't need backgroundIndex here for the dhikr of the day card.
 
             if (lastDhikrDay === todayStr && lastDhikrIndex !== null) {
                 dhikrIndex = parseInt(lastDhikrIndex);
@@ -1130,14 +1151,12 @@
                 dhikrOfTheDayTitle.textContent = result.dhikr.title;
                 dhikrOfTheDayText.textContent = result.dhikr.text;
                 dhikrOfTheDaySource.textContent = `المصدر: ${result.dhikr.source || 'غير معروف'}`;
-                // CSS now handles the gradient directly, no need to set background-image here
-                // dhikrOfTheDayCard.style.backgroundImage is set in CSS
+                applyRandomPastelGradient(); // Apply the random gradient
             } else {
                 dhikrOfTheDayTitle.textContent = 'لا يوجد ذكر لهذا اليوم';
                 dhikrOfTheDayText.textContent = 'يرجى التحقق لاحقاً.';
                 dhikrOfTheDaySource.textContent = '';
-                // Fallback for empty dhikr data, if CSS gradient is not sufficient
-                // dhikrOfTheDayCard.style.backgroundImage = 'linear-gradient(to bottom, #a0aec0, #636b77)';
+                dhikrOfTheDayCard.style.backgroundImage = 'linear-gradient(to right, #ccc, #eee)'; // Fallback gradient
             }
         }
 
@@ -1199,26 +1218,56 @@
             }
         }
 
-        function shareDhikrAsText() {
-            const dhikrTitle = dhikrOfTheDayTitle.textContent;
-            const dhikrText = dhikrOfTheDayText.textContent;
-            const dhikrSource = dhikrOfTheDaySource.textContent;
-            const textToShare = `ذكر اليوم: ${dhikrTitle}\n${dhikrText}\n${dhikrSource}\n\nمن تطبيق حصن المسلم.`;
-
+        // Helper function for copying text to clipboard
+        function copyTextToClipboard(text, successMessage) {
             const textArea = document.createElement('textarea');
-            textArea.value = textToShare;
+            textArea.value = text;
             document.body.appendChild(textArea);
             textArea.select();
             try {
                 document.execCommand('copy');
-                showAlert('تم نسخ ذكر اليوم إلى الحافظة! يمكنك الآن لصقه ومشاركته.');
+                showAlert(successMessage);
             } catch (err) {
-                    console.error('فشل نسخ النص:', err);
-                    showAlert('فشل نسخ النص.');
-                } finally {
-                    document.body.removeChild(textArea);
-                }
+                console.error('فشل نسخ النص:', err);
+                showAlert('فشل نسخ النص.');
+            } finally {
+                document.body.removeChild(textArea);
+            }
         }
+
+        // Updated function to share Dhikr text using Web Share API or fallback to copy
+        async function shareDhikrAsText() {
+            const dhikrTitle = dhikrOfTheDayTitle.textContent;
+            const dhikrText = dhikrOfTheDayText.textContent;
+            const dhikrSource = dhikrOfTheDaySource.textContent;
+            const currentUrl = window.location.href; // Get current URL here
+
+            const textToShare = `ذكر اليوم: ${dhikrTitle}\n${dhikrText}\n${dhikrSource}\n\nمن تطبيق حصن المسلم: ${currentUrl}`;
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: dhikrTitle, // Title for the share dialog
+                        text: textToShare, // The main text content
+                        url: currentUrl // The URL to share (optional, but good practice)
+                    });
+                    console.log('Dhikr text shared successfully using Web Share API!');
+                } catch (error) {
+                    if (error.name === 'AbortError') {
+                        console.log('Web Share API cancelled by user.');
+                        // User cancelled, no need for an alert
+                    } else {
+                        console.error('Error sharing dhikr text via Web Share API:', error);
+                        // Fallback to copy if share fails for other reasons
+                        copyTextToClipboard(textToShare, 'فشل مشاركة النص عبر نافذة المشاركة. تم نسخ الذكر إلى الحافظة.');
+                    }
+                }
+            } else {
+                // Fallback for browsers that do not support Web Share API
+                copyTextToClipboard(textToShare, 'تم نسخ ذكر اليوم إلى الحافظة! يمكنك الآن لصقه ومشاركته.');
+            }
+        }
+
 
         // --- Gemini API Integration for Dhikr Explanation ---
         async function getDhikrExplanation(dhikrTitle, dhikrText) {
@@ -1404,22 +1453,10 @@
             // Copy button functionality
             if (target.closest('.copy-btn')) {
                 const textToCopy = `${dhikrText}\n\nحصن المسلم: ${currentUrl}`; // Include app URL
-                const textArea = document.createElement('textarea');
-                textArea.value = textToCopy;
-                document.body.appendChild(textArea);
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                    showAlert('تم نسخ النص والرابط إلى الحافظة!');
-                } catch (err) {
-                    console.error('فشل نسخ النص:', err);
-                    showAlert('فشل نسخ النص.');
-                } finally {
-                    document.body.removeChild(textArea);
-                }
+                copyTextToClipboard(textToCopy, 'تم نسخ النص والرابط إلى الحافظة!');
             }
 
-            // Social Share buttons functionality
+            // Social Share buttons functionality (for individual cards)
             const encodedText = encodeURIComponent(`${dhikrText}\n\nمن تطبيق حصن المسلم: ${currentUrl}`);
 
             if (target.closest('.share-whatsapp-btn')) {
@@ -1479,6 +1516,11 @@
             });
         });
 
+        // Home button functionality
+        homeBtn.addEventListener('click', () => {
+            window.location.href = 'index.html'; // Adjust if index.html is in a different path
+        });
+
         // Event Listeners for Dhikr of the Day share buttons
         shareDhikrImageBtn.addEventListener('click', shareDhikrAsImage);
         shareDhikrTextBtn.addEventListener('click', shareDhikrAsText);
@@ -1488,7 +1530,7 @@
             loadBookmarksFromLocalStorage(); // Load bookmarks when DOM is ready
             populateCategories();
             populateSources();
-            renderDhikrOfTheDay();
+            renderDhikrOfTheDay(); // This will now apply the random gradient
             applyAllFilters(); // This will also call renderCurrentPageDhikr
             applyGlobalFontSize(); // Apply saved font size on load
         });
