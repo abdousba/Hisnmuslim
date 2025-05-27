@@ -3,195 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حصن المسلم | اتصل بنا</title>
-    <meta name="description" content="تواصل مع فريق تطبيق حصن المسلم لإرسال استفساراتك أو اقتراحاتك.">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Amiri', serif;
-            direction: rtl;
-            text-align: right;
-            background-color: #f8f8f8; /* Very light gray background for day mode */
-            color: #333; /* Dark text for day mode */
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        /* Dark mode styles - Ensure these match your main index.html for consistency */
-        .dark body {
-            background-color: #1a202c; /* Dark background for night mode */
-            color: #e2e8f0; /* Light text for night mode */
-        }
-        .dark .bg-white {
-            background-color: #2d3748;
-        }
-        .dark .text-gray-800 {
-            color: #e2e8f0;
-        }
-        .dark .border-gray-200 {
-            border-color: #4a5568;
-        }
-        .dark .shadow-lg {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
-        }
-        .dark .text-gray-600 {
-            color: #cbd5e0;
-        }
-        .dark .placeholder-gray-500::placeholder {
-            color: #a0aec0;
-        }
-        .dark .focus\:ring-blue-500:focus {
-            --tw-ring-color: #63b3ed;
-        }
-
-        .floating-btn {
-            width: 2.5rem; /* Smaller size */
-            height: 2.5rem; /* Smaller size */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 9999px; /* Full rounded */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease; /* Added color to transition */
-            background-color: #e2e8f0; /* Light gray for day mode */
-            color: #4a5568; /* Dark gray icon for day mode */
-        }
-        .floating-btn:hover {
-            transform: scale(1.05);
-            background-color: #cbd5e0; /* Slightly darker gray on hover */
-        }
-        .floating-btn i {
-            font-size: 1.125rem; /* text-lg, slightly smaller than text-xl */
-        }
-
-        /* Dark mode styles for floating buttons */
-        .dark .floating-btn {
-            background-color: #4a5568; /* Darker gray for night mode */
-            color: #e2e8f0; /* Light icon for night mode */
-        }
-        .dark .floating-btn:hover {
-            background-color: #636b77; /* Slightly darker gray on hover in dark mode */
-        }
-
-        #top-right-controls {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            display: flex;
-            flex-direction: row-reverse;
-            gap: 0.75rem;
-            z-index: 1000;
-        }
-    </style>
+    <title>تواصل معنا - حصن المسلم</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="p-4 sm:p-6 md:p-8 lg:p-10">
-
-    <div id="top-right-controls">
-        <div id="home-btn" class="floating-btn" title="الصفحة الرئيسية">
-            <i class="fas fa-home"></i>
+<body>
+    <header>
+        <div class="container">
+            <h1>تواصل معنا</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="about.html">عن حصن المسلم</a></li>
+                    <li><a href="contact.html">تواصل معنا</a></li>
+                </ul>
+            </nav>
         </div>
-        <div id="day-night-toggle" class="floating-btn" title="الوضع الليلي/النهاري">
-            <i class="fas fa-moon" id="day-night-icon"></i>
-        </div>
-    </div>
-
-    <header class="text-center mb-8 mt-20">
-        <h1 class="text-4xl font-bold text-gray-800 dark:text-gray-200 border-2 border-gray-400 dark:border-gray-600 p-2 rounded-lg inline-block">اتصل بنا</h1>
-        <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">نحن هنا لمساعدتك والإجابة على استفساراتك</p>
     </header>
 
-    <main class="max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
-        <section class="mb-6 text-center">
-            <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
-                إذا كان لديك أي أسئلة، اقتراحات، أو واجهت مشكلة، فلا تتردد في التواصل معنا. سنكون سعداء بمساعدتك.
-            </p>
-        </section>
-
-        <section>
-            <form action="#" method="POST" class="space-y-6">
-                <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">اسمك الكامل</label>
-                    <input type="text" id="name" name="name" required
-                           class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400">
+    <main class="container">
+        <section class="contact-form">
+            <h2>أرسل لنا رسالة</h2>
+            <form action="mailto:boubchirabdelilah@gmail.com" method="post" enctype="text/plain">
+                <div class="form-group">
+                    <label for="name">اسمك:</label>
+                    <input type="text" id="name" name="الاسم" required>
                 </div>
-
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">بريدك الإلكتروني</label>
-                    <input type="email" id="email" name="email" required
-                           class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400">
+                <div class="form-group">
+                    <label for="email">بريدك الإلكتروني:</label>
+                    <input type="email" id="email" name="البريد_الإلكتروني" required>
                 </div>
-
-                <div>
-                    <label for="subject" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">الموضوع</label>
-                    <input type="text" id="subject" name="subject"
-                           class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400">
+                <div class="form-group">
+                    <label for="subject">الموضوع:</label>
+                    <input type="text" id="subject" name="الموضوع" required>
                 </div>
-
-                <div>
-                    <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">رسالتك</label>
-                    <textarea id="message" name="message" rows="5" required
-                              class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"></textarea>
+                <div class="form-group">
+                    <label for="message">رسالتك:</label>
+                    <textarea id="message" name="الرسالة" rows="5" required></textarea>
                 </div>
-
-                <div>
-                    <button type="submit"
-                            class="w-full px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800 transition">
-                        إرسال الرسالة
-                    </button>
-                </div>
+                <button type="submit" class="btn">إرسال الرسالة</button>
             </form>
-        </section>
-
-        <section class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 text-center">
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">أو تواصل معنا عبر:</h2>
-            <div class="flex justify-center gap-6 text-2xl">
-                <a href="boubchirabdelilah@gmail.com" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200 transition" title="البريد الإلكتروني">
-                    <i class="fas fa-envelope"></i>
-                </a>
-                </div>
         </section>
     </main>
 
-    <footer class="text-center mt-10 text-gray-500 dark:text-gray-400 text-sm">
-        <p>&copy; 2025 حصن المسلم. جميع الحقوق محفوظة.</p>
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 حصن المسلم. جميع الحقوق محفوظة.</p>
+        </div>
     </footer>
-
-    <script>
-        // Day/Night Toggle (Copied from index.html for consistency)
-        const dayNightToggle = document.getElementById('day-night-toggle');
-        const dayNightIcon = document.getElementById('day-night-icon');
-
-        function toggleDayNightMode() {
-            document.documentElement.classList.toggle('dark');
-            if (document.documentElement.classList.contains('dark')) {
-                dayNightIcon.classList.remove('fa-moon');
-                dayNightIcon.classList.add('fa-sun');
-                localStorage.setItem('theme', 'dark');
-            } else {
-                dayNightIcon.classList.remove('fa-sun');
-                dayNightIcon.classList.add('fa-moon');
-                localStorage.setItem('theme', 'light');
-            }
-        }
-        dayNightToggle.addEventListener('click', toggleDayNightMode);
-
-        // Check for saved theme preference on load
-        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-            dayNightIcon.classList.remove('fa-moon');
-            dayNightIcon.classList.add('fa-sun');
-        } else {
-            document.documentElement.classList.remove('dark');
-            dayNightIcon.classList.remove('fa-sun');
-            dayNightIcon.classList.add('fa-moon');
-        }
-
-        // Home button functionality
-        document.getElementById('home-btn').addEventListener('click', () => {
-            window.location.href = 'index.html'; // Adjust if index.html is in a different path
-        });
-    </script>
 </body>
 </html>
